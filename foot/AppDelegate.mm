@@ -7,16 +7,28 @@
 //
 
 #import "AppDelegate.h"
-
+#import "MainTabBarController.h"
 @interface AppDelegate ()
-
+{
+    BMKMapManager *_mapManager;
+}
 @end
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    _mapManager = [[BMKMapManager alloc]init];
+    BOOL ret = [_mapManager start:@"zpBFNy0kFlGOZ1UrUTcI1oyNRcFqrGCV" generalDelegate:self];
+    if (!ret) {
+        NSLog(@"百度地图失败");
+    }else{
+        NSLog(@"百度地图成功");
+    }
+    
+    //    LoginViewController *loginController=[[LoginViewController alloc]init];
+    MainTabBarController *loginController=[[MainTabBarController alloc]init];
+    self.window.rootViewController=loginController;
     return YES;
 }
 

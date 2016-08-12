@@ -1,0 +1,62 @@
+PODS:
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
+    - AFNetworking/NSURLSession
+  - BaiduMapKit (3.0.0)
+  - DXPopover (0.1.1)
+  - EGOCache (2.1.3)
+  - EGOImageLoading (0.0.1):
+    - EGOCache
+  - Masonry (1.0.1)
+  - MBProgressHUD (1.0.0)
+  - NJKWebViewProgress (0.2.3):
+    - NJKWebViewProgress/Core (= 0.2.3)
+    - NJKWebViewProgress/ProgressView (= 0.2.3)
+  - NJKWebViewProgress/Core (0.2.3)
+  - NJKWebViewProgress/ProgressView (0.2.3)
+  - SDAutoLayout (2.1.4)
+  - SDCycleScrollView (1.65):
+    - SDWebImage (~> 3.7)
+  - SDWebImage (3.8.1):
+    - SDWebImage/Core (= 3.8.1)
+  - SDWebImage/Core (3.8.1)
+
+DEPENDENCIES:
+  - AFNetworking
+  - BaiduMapKit
+  - DXPopover
+  - EGOImageLoading
+  - Masonry
+  - MBProgressHUD
+  - NJKWebViewProgress
+  - SDAutoLayout
+  - SDCycleScrollView
+
+SPEC CHECKSUMS:
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  BaiduMapKit: de2a726d5296d6b2dc0e974b683af73153608dcd
+  DXPopover: 13e6bbd1a0da4e62b2190de51f43a94850769e0f
+  EGOCache: f0295dbe041156acabd39021354ad1045ee49e72
+  EGOImageLoading: 99d7c4a9fb5a192ab37979b63ea03efc7097fe8e
+  Masonry: a1a931a0d08870ed8ae415a2ea5ea68ebcac77df
+  MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
+  NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
+  SDAutoLayout: 1b2926b193a63287f473dae426ed07861e21e271
+  SDCycleScrollView: f72904c77698a7f93a41bcbbc2d78b073bf7326c
+  SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
+
+PODFILE CHECKSUM: 0b65873a924af10d4d083f7804c9fc40ec9df03b
+
+COCOAPODS: 1.0.1
