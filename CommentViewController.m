@@ -53,7 +53,7 @@
     self.navigationItem.rightBarButtonItem = [self rightButton];
     
     contenView.sd_layout
-    .topSpaceToView(self.view,(kScreenWidth-20)/5+30)
+    .topSpaceToView(self.view,(kScreenWidth-20)/5+20)
     .widthIs(viewWidth)
     .heightIs(kScreenHeight/3);
     
@@ -78,19 +78,16 @@
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont systemFontOfSize:14];
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
-    
     return item;
 }
 
 - (void)submitBtnPress
 {
-    
-    
-    
+    [MBProgressHUD showError:@"没服务器"];
 }
 
 -(void)createBtn{
-    star = [[TQStarRatingView alloc]initWithFrame:CGRectMake(10, 20, kScreenWidth-20, (kScreenWidth-20)/5) numberOfStar:5];
+    star = [[TQStarRatingView alloc]initWithFrame:CGRectMake(10, 10, kScreenWidth-20, (kScreenWidth-20)/5) numberOfStar:5];
     [star setScore:0.5 withAnimation:NO];
     [self.view addSubview:star];
 }
@@ -99,9 +96,6 @@
     
     NSLog(@"star == %f",score);
 }
-
-
-
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if(range.location > 100){

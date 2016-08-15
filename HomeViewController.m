@@ -324,18 +324,13 @@
 //左按钮
 - (UIBarButtonItem *)cityButton
 {
-    UIImage *image = [UIImage imageNamed:@"mapW.png"];
-    CGRect buttonFrame = CGRectMake(0, 0,80, 35);
+     CGRect buttonFrame = CGRectMake(20, 0,60, 35);
     cityBtn = [[UIButton alloc] initWithFrame:buttonFrame];
     [cityBtn addTarget:self action:@selector(cityView) forControlEvents:UIControlEventTouchUpInside];
     [cityBtn setBackgroundColor:[UIColor clearColor]];
     [cityBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [cityBtn setImage:image forState:UIControlStateNormal];
     [cityBtn setTitle:@"扬州市" forState:UIControlStateNormal];
-    cityBtn.titleLabel.textAlignment = 1;
     cityBtn.showsTouchWhenHighlighted = YES;
-    [cityBtn setContentEdgeInsets:UIEdgeInsetsMake(0, -75, 0, 0)];
-    cityBtn.imageEdgeInsets = UIEdgeInsetsMake(0,viewWidth/3,0,0);
     cityBtn.titleLabel.font = [UIFont boldSystemFontOfSize:13];//title字体大小
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:cityBtn];
     return item;

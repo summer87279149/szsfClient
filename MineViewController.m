@@ -5,6 +5,7 @@
 //  Created by Admin on 16/4/13.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
+#import "CZViewController.h"
 #import "MyOrderViewController.h"
 #import "MineViewController.h"
 #import "RechargeViewController.h"
@@ -310,7 +311,7 @@
 {
     if([[m_mineArr objectAtIndex:indexPath.row] isEqualToString:@"充值"])
     {
-        RechargeViewController *rechargeCtr = [[RechargeViewController alloc]init];
+        CZViewController *rechargeCtr = [[CZViewController alloc]init];
         rechargeCtr.title = @"充值";
         [self.navigationController pushViewController:rechargeCtr animated:YES];
     }

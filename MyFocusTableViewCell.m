@@ -61,6 +61,10 @@
 
         
         
+        //测试数据
+        self.techName.text = @"郭德纲";
+        self.skill.text = @"跌打损伤 精神不振 大脑偏瘫  10年经验";
+        self.serviceTimes.text = @"2200次";
     }
     return self;
 }
