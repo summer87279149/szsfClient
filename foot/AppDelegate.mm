@@ -5,9 +5,11 @@
 //  Created by Admin on 16/8/9.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
-
+#define UmengAppkey   @"57ad49a9e0f55a3351003470"
 #import "AppDelegate.h"
 #import "MainTabBarController.h"
+#import "UMSocial.h"
+#import "UMSocialWechatHandler.h"
 @interface AppDelegate ()
 {
     BMKMapManager *_mapManager;
@@ -18,7 +20,13 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [UMSocialData setAppKey:UmengAppkey];
+    
+    [UMSocialWechatHandler setWXAppId:@"wxd930ea5d5a258f4f" appSecret:@"db426a9829e4b49a0dcac7b4162da6b6" url:@"http://www.umeng.com/social"];
+    [UMSocialConfig hiddenNotInstallPlatforms:@[UMShareToQQ, UMShareToQzone, UMShareToWechatSession, UMShareToWechatTimeline]];
+    
     _mapManager = [[BMKMapManager alloc]init];
+    
     BOOL ret = [_mapManager start:@"zpBFNy0kFlGOZ1UrUTcI1oyNRcFqrGCV" generalDelegate:self];
     if (!ret) {
         NSLog(@"百度地图失败");
@@ -31,7 +39,14 @@
     self.window.rootViewController=loginController;
     return YES;
 }
-
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    BOOL result = [UMSocialSnsService handleOpenURL:url];
+    if (result == FALSE) {
+        //调用其他SDK，例如支付宝SDK等
+    }
+    return result;
+}
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

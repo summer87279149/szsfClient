@@ -159,17 +159,15 @@
         self.distance.text = @"1.2km";
         self.project.text = @"项目：足疗、推拿、spa";
         self.belongTo.text = @"技师所属:亮点网络足疗";
-        
-        
-        
-        
-        
+    
     }
     
     return self;
 }
 -(void)cellBtnClicked{
-    [_delegate cellOrderBtnClicked];
+    
+    [self.delegate cellOrderBtnClicked];
+    
 }
 -(void)focusBtnClicked{
     if ([self.focusButton.titleLabel.text isEqualToString:@"+关注"]) {

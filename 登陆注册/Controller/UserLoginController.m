@@ -74,6 +74,10 @@
     
     UIBarButtonItem *registerBar = [[UIBarButtonItem alloc] initWithCustomView:registerBtn];
     
+    
+    
+    
+    
     self.navigationItem.rightBarButtonItem = registerBar;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];

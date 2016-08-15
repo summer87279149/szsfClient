@@ -9,6 +9,7 @@
 #import "ToMyHomeTableViewCell.h"
 #import "DXPopover.h"
 #import "TableViewCell.h"
+#import "TechViewController.h"
 @interface ToMyHomeViewController ()<UITableViewDelegate,UITableViewDataSource,ToMyHomeTableViewCellDelegate>
 {
     UITableView *popoverTableView;
@@ -156,6 +157,7 @@
     if(cell==nil){
         cell=[[ToMyHomeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.delegate =self;
         
     }
         return cell;
@@ -257,14 +259,13 @@
     
 }
 
-
-
 #pragma mark ======ToMyHomeTableViewCellDelegate=======
 -(void)cellOrderBtnClicked{
     /**
      *  预约按钮点击事件
      */
-    
+    TechViewController * tech = [[TechViewController alloc]init];
+    [self.navigationController pushViewController:tech animated:YES];
 }
 
 

@@ -25,6 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.title = @"技师";
     BGImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"homeVCBackgroundImage"]];
     BGImage.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     [self.view addSubview:BGImage];

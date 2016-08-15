@@ -13,6 +13,7 @@
                 <outlet property="passwordText" destination="EXU-gk-tjf" id="NjT-Fu-FaN"/>
                 <outlet property="passwordTwo" destination="df4-yQ-J8A" id="rkW-iO-WsS"/>
                 <outlet property="phoneNumText" destination="hbm-ac-Zuh" id="yWd-g4-qWW"/>
+                <outlet property="testNumBtn" destination="dBc-Dh-5JX" id="DP5-GM-Ckr"/>
                 <outlet property="testNumText" destination="xon-ZA-u5J" id="Ph3-A5-4zs"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -72,7 +73,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hy8-x2-LTy">
                             <rect key="frame" x="0.0" y="50" width="600" height="49"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dBc-Dh-5JX">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dBc-Dh-5JX">
                                     <rect key="frame" x="495" y="2" width="100" height="45"/>
                                     <color key="backgroundColor" red="0.23137254900000001" green="0.16078431369999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
@@ -86,6 +87,9 @@
                                             <integer key="value" value="5"/>
                                         </userDefinedRuntimeAttribute>
                                     </userDefinedRuntimeAttributes>
+                                    <connections>
+                                        <action selector="testNumBtnClicked:" destination="-1" eventType="touchUpInside" id="RWf-9g-7XL"/>
+                                    </connections>
                                 </button>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="短信效验码：" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="xon-ZA-u5J">
                                     <rect key="frame" x="10" y="0.0" width="485" height="49"/>

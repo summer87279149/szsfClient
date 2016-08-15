@@ -8,6 +8,7 @@
 
 #import "ToShopViewController.h"
 #import "ShopTableViewCell.h"
+#import "ShopDetailVC.h"
 
 
 static NSString *CellIdentifier1 = @"cellidentifer1";
@@ -52,6 +53,11 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
+    
+  
+    
     UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"homeVCBackgroundImage"]];
     
     
@@ -137,7 +143,7 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
     shopArr =  [[NSMutableArray alloc]initWithCapacity:0];
     headImgArr = [[NSMutableArray alloc]initWithCapacity:0];
     
-    toShopTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 120, viewWidth, viewHeight-115-120) style:UITableViewStylePlain];
+    toShopTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 120*k_scale, viewWidth, viewHeight-64-49-120*k_scale) style:UITableViewStylePlain];
     //    toShopTable.backgroundColor = [UIColor redColor];
     toShopTable.backgroundView = imageView;
     //    m_mineTtabView.style = UITableViewStylePlain;
@@ -147,7 +153,7 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
     
     
     dataArr = [[NSMutableArray alloc]initWithCapacity:0];
-    toShopTable.frame = CGRectMake(0, 160, viewWidth, viewHeight-160);
+    toShopTable.frame = CGRectMake(0, 150, viewWidth, viewHeight-64-49-120*k_scale);
     selectType = @"店铺";
     [toShopTable reloadData];
 //    [self setupRefresh];
@@ -243,13 +249,13 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  return [shopArr count];
+  return 5;
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-        return 110;
+        return 90;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -265,7 +271,6 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
     if ([shopArr count] > indexPath.row) {
         [cell getDataModel:[shopArr objectAtIndex:indexPath.section]];
     }
-    //            [cell getDataModel:[shopArr objectAtIndex:indexPath.row]];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -275,9 +280,8 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
 {
     
 //        ShopMode *mode = [shopArr objectAtIndex:indexPath.row];
-//        ShopDetailViewController *shopDetailCtr = [[ShopDetailViewController alloc]init];
-//        shopDetailCtr.title = mode.shopName;
-//        [self.navigationController pushViewController:shopDetailCtr animated:YES];
+        ShopDetailVC *shopDetailCtr = [[ShopDetailVC alloc]init];
+        [self.navigationController pushViewController:shopDetailCtr animated:YES];
     
 }
 - (void)didSelectCellRowFirstDo:(BOOL)firstDoInsert nextDo:(BOOL)nextDoInsert

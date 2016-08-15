@@ -18,6 +18,7 @@
                 <outlet property="midView" destination="RAO-ig-DwA" id="phV-BB-1ci"/>
                 <outlet property="moreCommentButton" destination="Wdi-8m-pZ9" id="BtQ-ij-h5d"/>
                 <outlet property="name" destination="Unz-ko-Wkt" id="kPt-vL-FYH"/>
+                <outlet property="phontBtn" destination="maj-y0-OHy" id="tbE-d4-eq5"/>
                 <outlet property="saled" destination="1eA-Wp-4WG" id="OZW-cp-68b"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -157,6 +158,16 @@
                                 <constraint firstAttribute="height" constant="20" id="Wbb-7P-ITP"/>
                             </constraints>
                         </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="maj-y0-OHy">
+                            <rect key="frame" x="240" y="13" width="50" height="50"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="maj-y0-OHy" secondAttribute="height" multiplier="1:1" id="HtK-oJ-B3r"/>
+                                <constraint firstAttribute="width" constant="50" id="iYX-Qf-Pwj"/>
+                            </constraints>
+                            <connections>
+                                <action selector="phoneBtnClicked:" destination="-1" eventType="touchUpInside" id="2iO-3r-Kfv"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <constraints>
                         <constraint firstItem="Lwp-u7-Vsk" firstAttribute="centerY" secondItem="RAO-ig-DwA" secondAttribute="centerY" multiplier="1.4" id="0qe-k2-aO1"/>
@@ -166,7 +177,9 @@
                         <constraint firstAttribute="trailing" secondItem="1eA-Wp-4WG" secondAttribute="trailing" id="8JO-yf-Njz"/>
                         <constraint firstItem="Unz-ko-Wkt" firstAttribute="leading" secondItem="RAO-ig-DwA" secondAttribute="leading" constant="10" id="8Tu-Mq-74V"/>
                         <constraint firstAttribute="trailing" secondItem="dDY-HR-5lW" secondAttribute="trailing" constant="20" id="9qS-t8-U6B"/>
+                        <constraint firstItem="maj-y0-OHy" firstAttribute="centerY" secondItem="RAO-ig-DwA" secondAttribute="centerY" multiplier="0.5" id="A32-et-0ob"/>
                         <constraint firstItem="Q1E-cI-bCa" firstAttribute="leading" secondItem="RAO-ig-DwA" secondAttribute="leading" constant="10" id="AuN-PU-7Rd"/>
+                        <constraint firstItem="maj-y0-OHy" firstAttribute="centerX" secondItem="RAO-ig-DwA" secondAttribute="centerX" multiplier="1.7" id="BST-eS-5In"/>
                         <constraint firstItem="Oin-vi-gM5" firstAttribute="leading" secondItem="Q1E-cI-bCa" secondAttribute="trailing" constant="8" id="Cre-XV-4WO"/>
                         <constraint firstItem="Q1E-cI-bCa" firstAttribute="top" secondItem="Lwp-u7-Vsk" secondAttribute="bottom" constant="16" id="HUp-gw-Iv8"/>
                         <constraint firstAttribute="trailing" secondItem="Unz-ko-Wkt" secondAttribute="trailing" constant="15" id="HvQ-2n-Xbh"/>

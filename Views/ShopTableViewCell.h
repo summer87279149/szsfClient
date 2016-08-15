@@ -16,9 +16,7 @@
 @end
 
 @interface ShopTableViewCell : UITableViewCell
-{
-   __weak id<ShopTableViewCellDelegate>shopCel_delegate;
-}
+
 
 @property(nonatomic,weak)id<ShopTableViewCellDelegate>shopCel_delegate;
 

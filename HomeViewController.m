@@ -15,7 +15,9 @@
 #import "AddressViewController.h"
 #import "MainNavViewController.h"
 #import "NSTimer+XTCategory.h"
-@interface HomeViewController ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,WYScrollViewNetDelegate,UITextViewDelegate>
+#import "UMSocial.h"
+
+@interface HomeViewController ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,WYScrollViewNetDelegate,UITextViewDelegate,UMSocialUIDelegate>
 {
     UISearchBar *m_searchBa;
     WYScrollView *WYNetScrollView;              //滚动图片控件
@@ -160,12 +162,30 @@
     
     return item;
 }
-
-
+#pragma mark =====================================
+//分享
 -(void)shareBtnClicekd{
  
+    [UMSocialData defaultData].extConfig.title = @"息息脚";
+    [UMSocialData defaultData].extConfig.wechatSessionData.url = @"http://baidu.com";
+    [UMSocialData defaultData].extConfig.wechatTimelineData.url = @"http://baidu.com";
+    [UMSocialSnsService presentSnsIconSheetView:self
+                                         appKey:@"507fcab25270157b37000010"
+                                      shareText:@"欢迎使用息息脚"
+                                     shareImage:[UIImage imageNamed:@"120"]
+                                shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
+                                       delegate:self];
     
-    
+}
+//实现回调方法：
+-(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
+{
+    //根据`responseCode`得到发送结果,如果分享成功
+    if(response.responseCode == UMSResponseCodeSuccess)
+    {
+        //得到分享到的微博平台名
+        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
+    }
 }
 #pragma  mark ========滚动文字显示========
 - (void)resetText {

@@ -45,8 +45,8 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        
-        self.imageView = [[EGOImageView alloc]initWithPlaceholderImage:[UIImage imageNamed:@"smallDefualt.png"]];;
+        self.backgroundColor = [UIColor clearColor];
+        self.imageView = [[EGOImageView alloc]initWithPlaceholderImage:[UIImage imageNamed:@"ToShopCellBG"]];;
         imageView.backgroundColor = [UIColor clearColor];
         [self addSubview:imageView];
         
@@ -88,14 +88,7 @@
         nearLbl.textAlignment = 2;
         [self addSubview:nearLbl];
         
-        arrowBtn = [[UIButton alloc]init];
-        [arrowBtn setBackgroundColor:[UIColor clearColor]];
-//        [arrowBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        arrowBtn.titleLabel.textAlignment = 1;
-        [arrowBtn setImage:[UIImage imageNamed:@"arrowL"] forState:UIControlStateNormal];
-        [arrowBtn addTarget:self action:@selector(arrowBtnPress) forControlEvents:UIControlEventTouchUpInside];
-//        [arrowBtn setTitle:@"预约" forState:UIControlStateNormal];
-        [self addSubview:arrowBtn];
+   
         
         rView = [[LHRatingView alloc]initWithFrame:CGRectMake(125, 25, 100, 25)];
         rView.backgroundColor = [UIColor clearColor];
@@ -139,22 +132,12 @@
         .widthIs(40)
         .heightIs(30);
 
-        self.arrowBtn.sd_layout
-        .centerXEqualToView(self)
-        .bottomSpaceToView(self,0)
-        .widthIs(30)
-        .heightIs(20);
         
         nearLbl.sd_layout
         .bottomSpaceToView(self,0)
         .rightSpaceToView(self,10)
         .widthIs(80)
         .heightIs(20);
-        
-        
-//        UIImageView *lineImg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 109, self.frame.size.width, 1)];
-//        lineImg.backgroundColor = [UIColor lightGrayColor];
-//        [self addSubview:lineImg];
     }
     return self;
 }
@@ -176,13 +159,7 @@
     rView.score = [mode.shopScore floatValue];
 }
 
- - (void)arrowBtnPress
-{
-    if (self.shopCel_delegate && [self.shopCel_delegate respondsToSelector:@selector(sendIndexPath:)]) {
-        [self.shopCel_delegate sendIndexPath:index];
-    }
-     NSLog(@"index == %ld",(long)index.row);
-}
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

@@ -9,12 +9,19 @@
 #import "ShopDetailVC.h"
 #import "MyCollectionViewCell.h"
 #import "ServiceViewController.h"
+#import "XWScanImage.h"
+#import "HZPhotoGroup.h"
+#import "HZPhotoItem.h"
+
 @interface ShopDetailVC ()<UICollectionViewDelegate,UICollectionViewDataSource>
 @property (weak, nonatomic) IBOutlet UIImageView *mainPhoto;
 @property (weak, nonatomic) IBOutlet UIView *midView;
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (nonatomic,retain)NSMutableArray *array;
+//电话按钮
+@property (weak, nonatomic) IBOutlet UIButton *phontBtn;
+
 @end
 
 @implementation ShopDetailVC
@@ -22,15 +29,38 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.navigationItem.title = @"商家";
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
    self.collectionView.backgroundColor = [UIColor clearColor];
    [self.collectionView registerClass:[MyCollectionViewCell class] forCellWithReuseIdentifier:@"CELL"];
-//    [self.collectionView registerNib:[UINib nibWithNibName:@"ServiceCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"CELL"];
-    
+
+    //mainPhotp add
+    [self mainPhotoAddGesture];
+}
+-(void)mainPhotoAddGesture{
+    UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(scanBigImageClick1:)];
+    [self.mainPhoto addGestureRecognizer:gesture];
+    //让UIImageView和它的父类开启用户交互属性
+    [self.mainPhoto setUserInteractionEnabled:YES];
+}
+// - 浏览大图点击事件
+-(void)scanBigImageClick1:(UITapGestureRecognizer *)tap{
+    NSLog(@"点击图片");
+    UIImageView *clickedImageView = (UIImageView *)tap.view;
+    [XWScanImage scanBigImageWithImageView:clickedImageView];
 }
 //更多评论按钮点击事件
 - (IBAction)moreCommentButtonClicked:(UIButton *)sender {
+    
+    
+}
+//电话按钮点击事件
+- (IBAction)phoneBtnClicked:(UIButton *)sender {
+    NSString *phoneNum = @"4006767235";// 电话号码
+    NSURL *phoneURL = [NSURL URLWithString:[NSString stringWithFormat:@"tel:%@",phoneNum]];
+    UIWebView *phoneCallWebView = [[UIWebView alloc] initWithFrame:CGRectZero];   [phoneCallWebView loadRequest:[NSURLRequest requestWithURL:phoneURL]];
+    [self.view addSubview:phoneCallWebView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -79,7 +109,7 @@
     return YES;
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"我点击了%ld图片！！！",indexPath.item + 1);
+    NSLog(@"我点击了%d图片！！！",indexPath.item + 1);
     ServiceViewController *service = [[ServiceViewController alloc]init];
     [self.navigationController pushViewController:service animated:YES];
 }

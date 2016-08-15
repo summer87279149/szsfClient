@@ -73,20 +73,40 @@
     Btn1.name.text = @"购物车:";
     Btn1.imageview.image =[UIImage imageNamed:@"购物车"];
     [bottomView addSubview:Btn1];
+    [Btn1 addTarget:self action:@selector(OrderCarBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     Btn1.sd_layout.widthIs(kScreenWidth/3).topEqualToView(bottomView).bottomEqualToView(bottomView).leftSpaceToView(bottomView,0);
     
     Btn2 = [[bottonBtn alloc]init];
     Btn2.name.text = @"未完成:";
     [bottomView addSubview:Btn2];
+    [Btn2 addTarget:self action:@selector(Uncomplish) forControlEvents:UIControlEventTouchUpInside];
     Btn2.imageview.image = [UIImage imageNamed:@"单子"];
     Btn2.sd_layout.widthIs(kScreenWidth/3).topEqualToView(bottomView).bottomEqualToView(bottomView).leftSpaceToView(bottomView,kScreenWidth/3);
     
     Btn3 = [[bottonBtn alloc]init];
     Btn3.name.text = @"已完成:";
     [bottomView addSubview:Btn3];
+    [Btn3 addTarget:self action:@selector(complish) forControlEvents:UIControlEventTouchUpInside];
    Btn3.imageview.image = [UIImage imageNamed:@"单子"];
     Btn3.sd_layout.widthIs(kScreenWidth/3).topEqualToView(bottomView).bottomEqualToView(bottomView).leftSpaceToView(bottomView,kScreenWidth/3*2);    
 }
+
+
+//购物车
+-(void)OrderCarBtnClicked{
+    
+}
+
+//未完成
+-(void)Uncomplish{
+    
+}
+
+//已完成
+-(void)complish{
+    
+}
+
 
 #pragma mark =============UICollection delegate dataSource========
 
@@ -113,7 +133,7 @@
     return YES;
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"我点击了%ld图片！！！",indexPath.item + 1);
+    [MBProgressHUD showError:@"界面未制作"];
     
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{

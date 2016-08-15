@@ -5,12 +5,12 @@
 //  Created by Admin on 16/4/13.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
-
+#import "MyOrderViewController.h"
 #import "MineViewController.h"
 #import "RechargeViewController.h"
 #import "SettingViewController.h"
 #import "FeedbackViewController.h"
-
+#import "MyFocusViewController.h"
 @interface MineViewController ()<UITableViewDelegate,UITableViewDataSource,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
     UITableView *m_mineTtabView;
@@ -326,10 +326,17 @@
         setCtr.title = @"设置";
         [self.navigationController pushViewController:setCtr animated:YES];
     }
-    else
+    else if([[m_mineArr objectAtIndex:indexPath.row] isEqualToString:@"我的关注"])
     {
-        
+        MyFocusViewController *fucu = [[MyFocusViewController alloc]init];
+        [self.navigationController pushViewController:fucu animated:YES];
     }
+    else if([[m_mineArr objectAtIndex:indexPath.row] isEqualToString:@"我的订单"])
+    {
+        MyOrderViewController *orderVC = [[MyOrderViewController alloc]init];
+        [self.navigationController pushViewController:orderVC animated:YES];
+    }
+
 }
 
 

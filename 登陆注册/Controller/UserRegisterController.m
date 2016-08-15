@@ -82,7 +82,78 @@
 
 // 发送验证码
 - (IBAction)pushTestNumClick:(UIButton *)sender {
+    
+    BOOL res = [UserTool isValidateMobile:self.phoneNumText.text];
+    
+    if (res) { // 手机号码格式正确
+        //    业务逻辑
+        [self.pushTestNumBtn setTitle:@"正在发送" forState:UIControlStateNormal];
+        self.pushTestNumBtn.enabled = NO;
+        [self codeCountDown];
+//        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//        
+//        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+//        
+//        HttpBeanBase *listBean = [self bean5];
+//        
+//        [manager POST:listBean.funcName parameters:[listBean createParameters] success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//            NSString *msg = [responseObject objectForKey:@"message"];
+//            [MBProgressHUD showSuccess:msg];
+//            [self codeCountDown];
+//            
+//        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//            [btn setTitle:@"重新发送" forState:UIControlStateNormal];
+//            btn.enabled = YES;
+//            [MBProgressHUD showError:@"请检查网络"];
+//        }];
+        
+    }else { // 手机号码格式错误
+        
+        [UserTool alertViewDisplayTitle:nil andMessage:@"请输入正确手机号" andDisplayValue:1.];
+        
+    }
+    
+    
+        
+    
 }
+//GCD定时器
+- (void)codeCountDown
+{
+    __block int timeout=30; //倒计时时间
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_source_t _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,queue);
+    dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),1.0*NSEC_PER_SEC, 0); //每秒执行
+    dispatch_source_set_event_handler(_timer, ^{
+        if(timeout<=0){ //倒计时结束，关闭
+            dispatch_source_cancel(_timer);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //设置界面的按钮显示 根据需求设置
+                [self.pushTestNumBtn setTitle:@"重新发送" forState:UIControlStateNormal];
+                self.pushTestNumBtn.enabled = YES;
+            });
+        }else{
+            //            int minutes = timeout / 60;
+            int seconds = timeout % 60;
+            NSString *strTime = [NSString stringWithFormat:@"%.2d", seconds];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.pushTestNumBtn setTitle:[NSString stringWithFormat:@"%@秒",strTime] forState:UIControlStateNormal];
+                self.pushTestNumBtn.enabled = NO;
+                
+            });
+            timeout--;
+            
+        }
+    });
+    dispatch_resume(_timer);
+}
+
+
+
+
+
+
+
 
 // 显示密码
 - (IBAction)showPasswordClick:(UIButton *)sender {
@@ -132,6 +203,7 @@
         [UserTool alertViewDisplayTitle:nil andMessage:@"请输入正确手机号" andDisplayValue:1.];
     
     }
+    
 
 }
 

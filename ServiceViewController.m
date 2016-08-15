@@ -10,7 +10,8 @@
 #import "WYScrollView.h"
 #import "Masonry.h"
 #import "TechViewController.h"
-@interface ServiceViewController ()<UIScrollViewDelegate,WYScrollViewNetDelegate,WYScrollViewLocalDelegate>
+#import "OrderViewController.h"
+@interface ServiceViewController ()<UIScrollViewDelegate,WYScrollViewNetDelegate>
 {
     WYScrollView *WYNetScrollView;
     NSMutableArray *NetImageArray;
@@ -40,6 +41,9 @@
     self.scrollview.showsVerticalScrollIndicator = NO;
     self.scrollview.backgroundColor = [UIColor clearColor];
     
+    
+    self.navigationItem.title = @"项目";
+//    self.navigationController.navigationItem.title  =@"项目";
     [self setscrollview];
     [self setprojectview];
     [self setcommentsView];
@@ -88,16 +92,24 @@
 -(void)setscrollview{
     /** 设置网络scrollView的Frame及所需图片*/
     WYNetScrollView = [[WYScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200) WithNetImages:arr];
-//    WYNetScrollView = [[WYScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200) WithLocalImages:arr];
     /** 设置滚动延时*/
     WYNetScrollView.AutoScrollDelay = 3;
     /** 设置占位图*/
     WYNetScrollView.placeholderImage = [UIImage imageNamed:@"placeholder"];;
     /** 获取网络图片的index*/
     WYNetScrollView.netDelagate = self;
-    WYNetScrollView.localDelagate = self;
     /** 添加到当前View上*/
     [self.scrollview addSubview:WYNetScrollView];
+    
+}
+#pragma mark============== WYScrollViewNetDelegate ===============
+/** 获取网络图片的index*/
+-(void)didSelectedNetImageAtIndex:(NSInteger)index
+{
+    [MBProgressHUD showSuccess:@"无服务器"];
+    //    CarouselMode *mode = [dataArr objectAtIndex:index];
+    //    NSString *urlStr = mode.url;
+    //    NSLog(@"点中网络图片的详情地址:%@",urlStr);
     
 }
 -(void)setcommentsView{
@@ -230,10 +242,15 @@
 }
 -(void)createBottomOrder{
     orderBtn = [[UIButton alloc]init];
+    [orderBtn addTarget:self action:@selector(orderBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [orderBtn setBackgroundImage:[UIImage imageNamed:@"BottomOrder"] forState:UIControlStateNormal];
     [orderBtn setTitle:@"预约" forState:UIControlStateNormal];
     orderBtn.frame = CGRectMake(0, kScreenHeight-48*k_scaleHeight-64, kScreenWidth, 48*k_scaleHeight);
     [self.view addSubview:orderBtn];
+}
+-(void)orderBtnClicked{
+    OrderViewController *yuyue = [[OrderViewController alloc]init];
+    [self.navigationController pushViewController:yuyue animated:YES];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
