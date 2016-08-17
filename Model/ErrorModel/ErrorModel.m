@@ -12,8 +12,7 @@
 #define kErrorMessage           @"errorMessage"
 
 @implementation ErrorModel
-@synthesize m_errorCode;
-@synthesize m_errorMessage;
+
 
 - (void)dealloc
 {

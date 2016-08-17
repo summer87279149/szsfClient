@@ -10,14 +10,11 @@
 #import "BasicModel.h"
 //轮播模型
 @interface CarouselMode : BasicModel
-{
-    NSString *imageUrl;
-    NSString *imageName;
-    NSString *imageID;
-    NSString *url;
-}
+
 @property(nonatomic,strong)NSString *imageUrl;
 @property(nonatomic,strong)NSString *imageName;
 @property(nonatomic,strong)NSString *imageID;
 @property(nonatomic,strong)NSString *url;
+//商家id
+@property(nonatomic,strong)NSString *shopID;
 @end

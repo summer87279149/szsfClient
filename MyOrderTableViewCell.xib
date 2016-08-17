@@ -24,7 +24,7 @@
                         <color key="textColor" red="0.23137254900000001" green="0.16078431369999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="待付款" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R6P-dA-AK0">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已完成" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R6P-dA-AK0">
                         <rect key="frame" x="327" y="5" width="45" height="18"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="0.23137254900000001" green="0.16078431369999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -76,22 +76,32 @@
                             <action selector="btnClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ppO-7S-gS6"/>
                         </connections>
                     </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="订单号:1234567890" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mxy-Xc-Wor">
+                        <rect key="frame" x="10" y="131" width="309" height="29"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.23137254900000001" green="0.16078431369999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="Mxy-Xc-Wor" firstAttribute="top" secondItem="yG2-In-Gfb" secondAttribute="bottom" constant="1" id="2iQ-Np-zJZ"/>
                     <constraint firstItem="Yuh-zw-Vju" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Agu-Nk-gZg"/>
                     <constraint firstItem="R6P-dA-AK0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="E4f-98-fUj"/>
                     <constraint firstItem="3gb-Ns-gPh" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Eh8-LY-JKf"/>
                     <constraint firstItem="yG2-In-Gfb" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="IlR-0p-feL"/>
                     <constraint firstAttribute="trailing" secondItem="yG2-In-Gfb" secondAttribute="trailing" constant="10" id="Jpw-gr-j1N"/>
+                    <constraint firstItem="dOM-oW-xa3" firstAttribute="leading" secondItem="Mxy-Xc-Wor" secondAttribute="trailing" constant="1" id="Lhu-FV-ovj"/>
                     <constraint firstAttribute="bottom" secondItem="Gfi-XD-ifr" secondAttribute="bottom" id="MhV-AC-OUW"/>
                     <constraint firstItem="yG2-In-Gfb" firstAttribute="top" secondItem="k7F-F2-dGg" secondAttribute="bottom" constant="8" id="Qv5-Kj-QgY"/>
                     <constraint firstItem="Gfi-XD-ifr" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="SNa-Ya-xxC"/>
                     <constraint firstItem="dOM-oW-xa3" firstAttribute="top" secondItem="yG2-In-Gfb" secondAttribute="bottom" constant="5" id="UKZ-xQ-h4O"/>
                     <constraint firstItem="Gfi-XD-ifr" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="XHR-Hn-w2q"/>
+                    <constraint firstItem="Mxy-Xc-Wor" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Xcp-f1-VGf"/>
                     <constraint firstItem="k7F-F2-dGg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="ZDg-J9-lpf"/>
                     <constraint firstAttribute="trailing" secondItem="Gfi-XD-ifr" secondAttribute="trailing" id="ZE0-HY-Mkm"/>
                     <constraint firstAttribute="trailing" secondItem="R6P-dA-AK0" secondAttribute="trailing" constant="10" id="cDR-kw-p6a"/>
                     <constraint firstItem="Yuh-zw-Vju" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="evS-Wr-6HV"/>
+                    <constraint firstAttribute="bottom" secondItem="Mxy-Xc-Wor" secondAttribute="bottom" constant="1" id="gDL-KG-I30"/>
                     <constraint firstAttribute="bottom" secondItem="dOM-oW-xa3" secondAttribute="bottom" constant="5" id="l7a-8f-spE"/>
                     <constraint firstItem="k7F-F2-dGg" firstAttribute="top" secondItem="3gb-Ns-gPh" secondAttribute="bottom" constant="5" id="luD-nk-PGt"/>
                     <constraint firstAttribute="trailing" secondItem="3gb-Ns-gPh" secondAttribute="trailing" constant="10" id="oX3-zw-0Rb"/>

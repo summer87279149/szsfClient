@@ -11,6 +11,7 @@
 #import "Masonry.h"
 #import "TechViewController.h"
 #import "OrderViewController.h"
+#import "TechCommentVController.h"
 @interface ServiceViewController ()<UIScrollViewDelegate,WYScrollViewNetDelegate>
 {
     WYScrollView *WYNetScrollView;
@@ -125,10 +126,21 @@
     [button setTitleColor:COLOR forState:UIControlStateNormal];
     [self.commentView addSubview:button];
     button.sd_layout.widthIs(50).heightIs(30).rightSpaceToView(self.commentView,20).yIs(10);
+    [button addTarget:self action:@selector(moreBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     button.backgroundColor = [UIColor clearColor];
     [button setTitle:@"更多 >" forState:UIControlStateNormal];
     
 }
+
+-(void)moreBtnClicked:(UIButton *)button{
+    
+    TechCommentVController *techComment = [[TechCommentVController alloc]init];
+    [self.navigationController pushViewController:techComment animated:YES];
+    
+}
+
+
+
 -(void)techViewClicked{
     TechViewController *techVC = [[TechViewController alloc]init];
     [self.navigationController pushViewController:techVC animated:YES];

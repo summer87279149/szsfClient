@@ -50,7 +50,7 @@
         [self addSubview:nameLbl];
         
         infoLbl = [[UILabel alloc]init];
-        infoLbl.text = @"提供足疗、按摩、SPA等多种养生服务";
+        infoLbl.text = @"";
         infoLbl.textAlignment = NSTextAlignmentRight;
         infoLbl.textColor = [UIColor blackColor];
         infoLbl.font = [UIFont systemFontOfSize:14];
@@ -139,7 +139,7 @@
 {
     if ([typeStr isEqualToString:@"名店推荐"]) {
         nameLbl.text = @"虹桥养生堂江平路店";
-        infoLbl.text = @"提供足疗、按摩、SPA等多种养生服务";
+        infoLbl.text = @"";
         consumptionLbl.text = @"人均消费：70元";
         nearbyLbl.text = @"1.5km";
 //        numberLbl.text = @"已有375人选择";

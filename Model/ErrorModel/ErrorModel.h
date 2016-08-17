@@ -9,10 +9,7 @@
 #import "BasicModel.h"
 
 @interface ErrorModel : BasicModel
-{
-    NSString *m_errorCode;          // 错误码
-    NSString *m_errorMessage;       // 错误信息
-}
+
 
 @property (nonatomic, retain) NSString *m_errorCode;          // 错误码
 @property (nonatomic, retain) NSString *m_errorMessage;       // 错误信息

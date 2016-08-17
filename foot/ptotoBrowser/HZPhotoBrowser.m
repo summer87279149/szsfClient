@@ -266,7 +266,7 @@
     
     CGRect rect = [self.sourceImagesContainerView convertRect:sourceView.frame toView:self];
    
-    NSLog(@"%@",NSStringFromCGRect(rect));
+//    NSLog(@"%@",NSStringFromCGRect(rect));
     
     UIImageView *tempView = [[UIImageView alloc] init];
     tempView.frame = rect;

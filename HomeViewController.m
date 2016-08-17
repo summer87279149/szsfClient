@@ -35,6 +35,7 @@
     UIButton *cityBtn;
     NSTimer *timer;
     UITextView *midText;
+     NSString *currentCity;//当前城市;
 }
 @property(nonatomic,strong)UISearchBar *m_searchBa;
 @property(nonatomic,strong)UITableView *homeTable;
@@ -45,7 +46,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+//    [jingWeiDu getCity:^(NSString *addressString) {
+        #pragma warining 模拟器上这里报错 ，先注释掉
+////        currentCity = addressString;
+//
+//        NSDictionary *dict = [NSDictionary dictionaryWithObject:currentCity forKey:@"city"];
+//        [[NSNotificationCenter defaultCenter]postNotificationName:@"chooseCity" object:nil userInfo:dict];
+//    }];
+
+    
     backgroundImage = [UIImage imageNamed:@"homeVCBackgroundImage"];
     backgroundImageView = [[UIImageView alloc]initWithImage:backgroundImage];
     backgroundImageView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
@@ -364,8 +374,6 @@
     return 0.01;
 }
 
-
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -415,7 +423,9 @@
 -(void)didSelectedNetImageAtIndex:(NSInteger)index
 {
     [m_searchBa resignFirstResponder];
-    [MBProgressHUD showSuccess:@"无服务器"];
+    ShopDetailVC *push = [[ShopDetailVC alloc]init];
+    push.title = @"商家";
+    [self.navigationController pushViewController:push animated:YES];
     //    CarouselMode *mode = [dataArr objectAtIndex:index];
     //    NSString *urlStr = mode.url;
     //    NSLog(@"点中网络图片的详情地址:%@",urlStr);

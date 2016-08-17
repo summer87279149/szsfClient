@@ -32,6 +32,8 @@
     BOOL HasMore;       //是否有更多
     DXPopover *popover;
     UIImageView *imageBrown;
+    NSString *Lat;//经度
+    NSString *Lon;//纬度;
 }
 @end
 
@@ -42,7 +44,7 @@
     [self createHeaderView];
     [self createTableView];
 }
-//
+#pragma mark 创建UI
 -(void)createHeaderView{
     distanceArr = [[NSMutableArray alloc]initWithCapacity:0];
     projectArr = [[NSMutableArray alloc]initWithCapacity:0];
@@ -124,6 +126,7 @@
     tableview.rowHeight = UITableViewAutomaticDimension;
     
 }
+#pragma mark tableDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (tableView == popoverTableView) {
         return 10;
@@ -168,7 +171,7 @@
         [popover dismiss];
     }
 }
-
+#pragma mark 按钮点击
 - (void)selectPress:(UIButton *)sender
 {
     UIButton *btn = sender;
@@ -200,27 +203,9 @@
         CGPointMake(CGRectGetMidX(twoBtn.frame), CGRectGetMaxY(imageBrown.frame));
         [popover showAtPoint:startPoint popoverPostion:DXPopoverPositionDown withContentView:popoverTableView inView:self.view];
         
-//        NSLog(@"项目排序");
-//        isMost = !isMost;
-//        if (isMost) {
-//            isRecent = 0;
-//            isLowest = 0;
-//            [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//            [btn setImage:[UIImage imageNamed:@"up.png"] forState:UIControlStateNormal];
-//            most = @"1";
-//            floor = @"";
-//            [self setupRefresh];
-//        }
-//        else
-//        {
-//            isMost = 0;
-//            [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//            [btn setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
-//        }
-//        [oneBtn setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
-//        [oneBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
 }
+#pragma mark 下拉刷新
 - (void)setupRefresh
 {
     // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
@@ -232,6 +217,9 @@
     [tableview addFooterWithTarget:self action:@selector(footerRereshing)];
 }
 -(void)headerRereshing{
+    Lat = [jingWeiDu getLattitude];
+    Lon = [jingWeiDu getLongitude];
+    NSLog(@"当前坐标 %@,%@",Lat,Lon);
     //把数组全部清空，重新请求数据
     [distanceArr removeAllObjects];
     [projectArr removeAllObjects];

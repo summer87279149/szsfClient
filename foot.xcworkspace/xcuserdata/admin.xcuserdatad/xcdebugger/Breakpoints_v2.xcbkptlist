@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ToMyHomeViewController.m"
-            timestampString = "492677273.154066"
+            timestampString = "493031147.243481"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
             landmarkName = "-selectPress:"
             landmarkType = "5">
          </BreakpointContent>
@@ -38,17 +38,27 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Model/MapModel/ProjectModel/ProjectModel.h"
-            timestampString = "492837784.554002"
+            filePath = "Model/MapModel/ProjectModel/ProjectModel.m"
+            timestampString = "492954034.979128"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
-            landmarkName = "@interface ProjectModel"
-            landmarkType = "2">
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "-setValue:forUndefinedKey:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            scope = "0"
+            stopOnStyle = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

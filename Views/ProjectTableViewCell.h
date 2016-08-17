@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ProjectModel.h"
+#import "ProjectModal.h"
 
 @protocol ProjectTableViewCellDelegate <NSObject>
 
@@ -23,5 +23,5 @@
 @property(nonatomic,weak)id<ProjectTableViewCellDelegate>proCel_delegate;
 
 - (void)getData:(NSIndexPath *)path;
-- (void)getDataModel:(ProjectModel *)mode;
+- (void)getDataModel:(ProjectModal *)mode;
 @end

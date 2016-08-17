@@ -77,8 +77,8 @@
                             <color key="textColor" red="0.23137254900000001" green="0.16078431369999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="是非得失放到沙发电视放到沙发上的发生地放到沙发上的粉丝地方的发生地发生发生的粉丝地方" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PJI-y7-DPp">
-                            <rect key="frame" x="10" y="31" width="258" height="29"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="江苏省扬州市创意设计院312eqew" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PJI-y7-DPp">
+                            <rect key="frame" x="10" y="24" width="218" height="43"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="rTv-mp-D2s"/>
                             </constraints>
@@ -115,8 +115,8 @@
                                 <constraint firstAttribute="height" constant="1" id="ekT-5L-d7b"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9NL-rV-uJA">
-                            <rect key="frame" x="269" y="0.0" width="1" height="89"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9NL-rV-uJA">
+                            <rect key="frame" x="229" y="18" width="1" height="71"/>
                             <color key="backgroundColor" red="0.23137254900000001" green="0.16078431369999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="1" id="01J-dW-PQw"/>
@@ -265,7 +265,7 @@
                     <exclude reference="2Vg-i0-ySX"/>
                 </mask>
             </variation>
-            <point key="canvasLocation" x="470" y="383"/>
+            <point key="canvasLocation" x="501" y="381"/>
         </view>
     </objects>
     <resources>

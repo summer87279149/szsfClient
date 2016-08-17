@@ -22,7 +22,6 @@
 
 
 @implementation TechnicianMode
-@synthesize name,type,age,score,shopName,technicianID,orderqty,headimgurl,sex,distance;
 
 - (void)parseFromDictionary:(NSDictionary *)dic
 {

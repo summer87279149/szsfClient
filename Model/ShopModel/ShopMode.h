@@ -8,32 +8,41 @@
 
 #import <Foundation/Foundation.h>
 #import "BasicModel.h"
+
 //商店模型
 @interface ShopMode : BasicModel
-{
-    NSString *shopAddress;
-    NSString *shopID;
-    NSString *shopImagesURL;
-    NSString *shopInfo;
-    NSString *latitude;
-    NSString *longitude;
-    NSString *shopOrderqty;         //订单数量
-    NSString *shopName;
-    NSString *shopPhone;
-    NSString *shopFloorprice;
-    NSString *shopDistance;
-    NSString *shopScore;
-}
-@property(nonatomic,strong)NSString *shopAddress;
+
+
+//商店id
 @property(nonatomic,strong)NSString *shopID;
+
+//图片
 @property(nonatomic,strong)NSString *shopImagesURL;
-@property(nonatomic,strong)NSString *shopInfo;
-@property(nonatomic,strong)NSString *latitude;
-@property(nonatomic,strong)NSString *longitude;
-@property(nonatomic,strong)NSString *shopOrderqty;
+
+//店名
 @property(nonatomic,strong)NSString *shopName;
+
+//地址
+@property(nonatomic,strong)NSString *shopAddress;
+
+//商店经度
+@property(nonatomic,strong)NSString *latitude;
+
+//商店纬度
+@property(nonatomic,strong)NSString *longitude;
+
+//商家电话
 @property(nonatomic,strong)NSString *shopPhone;
-@property(nonatomic,strong)NSString *shopFloorprice;
-@property(nonatomic,strong)NSString *shopDistance;
-@property(nonatomic,strong)NSString *shopScore;
+
+//已售
+@property(nonatomic,strong)NSString *shopOrderqty;
+
+//用户评价数量
+@property(nonatomic,strong)NSString *commentsNumber;
+
+//好评率
+@property(nonatomic,strong)NSString *goodCommentRare;
+
+
+
 @end

@@ -5,6 +5,7 @@
 //  Created by Admin on 16/8/8.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
+#import "TechCommentVController.h"
 #import "ServiceViewController.h"
 #import "TechViewController.h"
 #import "UILabel+XTinit.h"
@@ -48,7 +49,7 @@
     [self.view addSubview:tableview];
 }
 -(void)creatTopView{
-    topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 201*k_scaleHeight+20+108*k_scaleHeight)];
+    topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 201*k_scaleHeight)];
     topView.backgroundColor =[UIColor clearColor];
 //    [scrollView addSubview:topView];
     //头像
@@ -148,27 +149,28 @@
     [button setTitleColor:COLOR forState:UIControlStateNormal];
     [topView addSubview:button];
     button.sd_layout.widthIs(50).heightIs(30).rightSpaceToView(topView,20).topEqualToView(self.comments);
+    [button addTarget:self action:@selector(moreBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     button.backgroundColor = [UIColor clearColor];
     [button showsTouchWhenHighlighted];
     [button setTitle:@"更多 >" forState:UIControlStateNormal];
     
   
     
-    
-    threeCommentsTableview = [[UITableView alloc]init];
-    [topView addSubview:threeCommentsTableview];
-    threeCommentsTableview.delegate =self;
-    threeCommentsTableview.backgroundColor = [UIColor clearColor];
-    threeCommentsTableview.dataSource = self;
-    threeCommentsTableview.separatorColor = [UIColor clearColor];
-    threeCommentsTableview.sd_layout.topSpaceToView(self.comments,2).widthIs(kScreenWidth-20).xIs(10).heightIs(108*k_scaleHeight);
-    threeCommentsTableview.scrollEnabled = NO;
+//    
+//    threeCommentsTableview = [[UITableView alloc]init];
+//    [topView addSubview:threeCommentsTableview];
+//    threeCommentsTableview.delegate =self;
+//    threeCommentsTableview.backgroundColor = [UIColor clearColor];
+//    threeCommentsTableview.dataSource = self;
+//    threeCommentsTableview.separatorColor = [UIColor clearColor];
+//    threeCommentsTableview.sd_layout.topSpaceToView(self.comments,2).widthIs(kScreenWidth-20).xIs(10).heightIs(108*k_scaleHeight);
+//    threeCommentsTableview.scrollEnabled = NO;
     
     UILabel *hisService = [UILabel sharedWithFont:17 andColor:[UIColor getColor:@"A0974D"] andAnligment:left andBackgroundColor:nil];
     hisService.text = @"TA的服务项目";
     hisService.textColor = [UIColor getColor:@"A0974D"];
     [topView addSubview:hisService];
-    hisService.sd_layout.widthIs(kScreenWidth-20).topSpaceToView(threeCommentsTableview,1*k_scaleHeight).xIs(10).heightIs(20*k_scaleHeight);
+    hisService.sd_layout.widthIs(kScreenWidth-20).topSpaceToView(button,1*k_scaleHeight).xIs(10).heightIs(20*k_scaleHeight);
     
 }
 
@@ -187,33 +189,37 @@
         [self.focusButton setTitle:@"+关注" forState:UIControlStateNormal];
     }
 }
+-(void)moreBtnClicked:(UIButton *)button{
+    TechCommentVController *VC = [[TechCommentVController alloc]init];
+    [self.navigationController pushViewController:VC animated:YES];
+}
 #pragma mark ＝＝＝＝＝＝＝tableView DataSource＝＝＝＝＝＝＝＝
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (tableView == threeCommentsTableview) {
-        return 36*k_scaleHeight;
-    }
+//    if (tableView == threeCommentsTableview) {
+//        return 36*k_scaleHeight;
+//    }
     return 120;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (tableView == threeCommentsTableview) {
-        return 3;
-    }
+//    if (tableView == threeCommentsTableview) {
+//        return 3;
+//    }
     return 5;
 }
 
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (tableView == threeCommentsTableview) {
-        static NSString *ID=@"threeCell";
-        ThreeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-        if(cell==nil){
-            cell=[[ThreeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
-            cell.userInteractionEnabled = NO;
-        }
-        return cell;
-    }else{
+//    if (tableView == threeCommentsTableview) {
+//        static NSString *ID=@"threeCell";
+//        ThreeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+//        if(cell==nil){
+//            cell=[[ThreeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
+//            cell.userInteractionEnabled = NO;
+//        }
+//        return cell;
+//    }else{
     static NSString *ID=@"cell";
     myTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if(cell==nil){
@@ -221,7 +227,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
     return cell;
-        }
+//        }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

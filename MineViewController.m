@@ -5,6 +5,7 @@
 //  Created by Admin on 16/4/13.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
+#import "UserCenterViewController.h"
 #import "CZViewController.h"
 #import "MyOrderViewController.h"
 #import "MineViewController.h"
@@ -65,19 +66,10 @@
     topimageView.contentMode = UIViewContentModeScaleAspectFit;
     [headerView addSubview:topimageView];
     
-    
-    
-    
-    
-    
-    
     UIButton *headBtn = [[UIButton alloc]init];
-    
     headBtn.backgroundColor = [UIColor clearColor];
     [headBtn addTarget:self action:@selector(changeImage) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:headBtn];
-    
-    
     
     UILabel *nameLbel = [[UILabel alloc]init];
     nameLbel.backgroundColor = [UIColor clearColor];
@@ -85,7 +77,6 @@
     nameLbel.text = @"18121708147";
     nameLbel.textAlignment = 1;
     [headerView addSubview:nameLbel];
-    
     
     UIView *priceView = [[UIView alloc]init];
     priceView.backgroundColor = [UIColor clearColor];
@@ -100,7 +91,6 @@
     [priceView addSubview:priceLbl];
     
     UILabel *priceNumLbl = [[UILabel alloc]init];
-    
     priceNumLbl.backgroundColor = [UIColor clearColor];
     priceNumLbl.textColor = [UIColor getColor:@"3b2935"];
     priceNumLbl.text = @"0元";
@@ -175,10 +165,6 @@
     .heightIs(30)
     .widthIs(80);
     
-    
-    
-    
-    
     lineView.sd_layout
     .leftSpaceToView(priceView,viewWidth/2)
     .centerYEqualToView(priceLbl)
@@ -194,8 +180,6 @@
     .topSpaceToView(lineView,1)
     .heightIs(1)
     .widthIs(kScreenWidth);
-    
-    
     
     priceNumLbl.sd_layout
     .rightSpaceToView(lineView,10)
@@ -215,17 +199,14 @@
     .heightIs(30)
     .widthIs(90);
     
-    
 }
+
 -(void)changeImage{
     
     UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"选择照片" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"现在拍一张照片",@"从相册中选一张照片", nil];
     UIViewController *rootVC = [self imc_viewController];
     [sheet showInView:rootVC.view];
-    
-    
 }
-
 
 
 - (UIBarButtonItem *)phoneButton
@@ -337,24 +318,20 @@
         MyOrderViewController *orderVC = [[MyOrderViewController alloc]init];
         [self.navigationController pushViewController:orderVC animated:YES];
     }
+    else if([[m_mineArr objectAtIndex:indexPath.row] isEqualToString:@"个人信息"])
+    {
+        UserCenterViewController *orderVC = [[UserCenterViewController alloc]init];
+        [self.navigationController pushViewController:orderVC animated:YES];
+    }
 
 }
 
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
+
 #pragma mark - UIActionsheet Delegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
@@ -398,7 +375,9 @@
 }
 
 #pragma mark - 图片选择控制器的代理
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    
     [picker dismissViewControllerAnimated:YES completion:nil];
     self.avatarImage.image = [UIImage imageWithData:UIImageJPEGRepresentation(info[UIImagePickerControllerEditedImage], 0.5)];
     self.avatarImageData = UIImageJPEGRepresentation(info[UIImagePickerControllerEditedImage], 0.2);

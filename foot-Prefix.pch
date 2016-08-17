@@ -10,6 +10,7 @@
 #define foot_Prefix_pch
 
 // Include any system framework and library headers here that should be included in all compilation units.
+#define jingWeiDu    [CCLocationManager shareLocation]
 #define k_scale kScreenWidth/320.0
 #define k_scaleHeight kScreenHeight/480.0
 #define viewHeight  self.view.frame.size.height
@@ -55,6 +56,7 @@
 #import "UIColor+extend.h"
 #import "UILabel+XTinit.h"
 #import "UIView+lineView.h"
+#import "CCLocationManager.h"
 //#import "CommonDeal.h"
 //#import "AppContextManager.h"
 //#import "AFNetworkService.h"

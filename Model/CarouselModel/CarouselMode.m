@@ -11,13 +11,14 @@
 #define XXJImageName                            @"name"
 #define XXJImageID                              @"id"
 #define XXJURL                                  @"url"
-
+#define XXJShopID                               @"shopID"
 
 @implementation CarouselMode
-@synthesize imageUrl,imageName,imageID,url;
 
 - (void)parseFromDictionary:(NSDictionary *)dic
 {
+    
+    
     if ([dic objectForKey:XXJImageUrl] == nil ||
         [dic objectForKey:XXJImageUrl] == [NSNull null])
     {
@@ -27,6 +28,9 @@
     {
         self.imageUrl = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJImageUrl]];
     }
+    
+    
+    
     
     if ([dic objectForKey:XXJImageName] == nil ||
         [dic objectForKey:XXJImageName] == [NSNull null])
@@ -38,6 +42,10 @@
         self.imageName = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJImageName]];
     }
     
+    
+    
+    
+    
     if ([dic objectForKey:XXJImageID] == nil ||
         [dic objectForKey:XXJImageID] == [NSNull null])
     {
@@ -48,8 +56,25 @@
         self.imageID = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJImageID]];
     }
     
+    
+    
+    
+    
     if ([dic objectForKey:XXJURL] == nil ||
         [dic objectForKey:XXJURL] == [NSNull null])
+    {
+        self.url = @"";
+    }
+    else
+    {
+        self.url = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJURL]];
+    }
+    
+    
+    
+    
+    if ([dic objectForKey:XXJShopID] == nil ||
+        [dic objectForKey:XXJShopID] == [NSNull null])
     {
         self.url = @"";
     }

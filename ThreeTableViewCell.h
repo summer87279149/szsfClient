@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "TQStarRatingView.h"
 @interface ThreeTableViewCell : UITableViewCell
 //名字
 @property(nonatomic,strong) UILabel *name;
@@ -19,4 +19,7 @@
 
 // 时间
 @property(nonatomic,strong) UILabel *time;
+
+//星星评价
+@property(nonatomic,strong)TQStarRatingView *star;
 @end

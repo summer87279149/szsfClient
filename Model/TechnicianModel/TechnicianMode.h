@@ -8,20 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "BasicModel.h"
+
 //技师模型
 @interface TechnicianMode : BasicModel
-{
-    NSString *name;
-    NSString *type;
-    NSString *age;
-    NSString *sex;
-    NSString *score;
-    NSString *shopName;
-    NSString *technicianID;
-    NSString *orderqty;
-    NSString *headimgurl;
-    NSString *distance;
-}
+
 @property(nonatomic,strong)NSString *name;
 @property(nonatomic,strong)NSString *type;
 @property(nonatomic,strong)NSString *age;

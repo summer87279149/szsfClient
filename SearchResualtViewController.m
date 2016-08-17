@@ -354,7 +354,7 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
     [searchResualtTable beginUpdates];
     if (firstDoInsert)
     {
-        NSLog(@"11index === %ld",(long)selectIndex.section);
+//        NSLog(@"11index === %ld",(long)selectIndex.section);
         [searchResualtTable insertRowsAtIndexPaths:rowToInsert withRowAnimation:UITableViewRowAnimationTop];
     }
     else

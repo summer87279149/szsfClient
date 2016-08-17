@@ -45,7 +45,9 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
     UIImageView *imageView2;
     UIImageView *imageView3;
     
-    
+    NSString *Lat;//经度
+    NSString *Lon;//纬度;
+   
 }
 @end
 
@@ -53,20 +55,11 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
-    
-  
-    
     UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"homeVCBackgroundImage"]];
-    
-    
     self.view.backgroundColor = [UIColor clearColor];
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
         self.edgesForExtendedLayout=UIRectEdgeNone;
-        
     }
-    
     most = @"";
     floor = @"";
     projectPage = 1;
@@ -78,7 +71,7 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
     self.navigationController.navigationBar.titleTextAttributes = dict;
     self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
     // Do any additional setup after loading the view.
-    imageView0= [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"homeVCBackgroundImage"]];
+    imageView0 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"homeVCBackgroundImage"]];
     imageView1 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"进店"]];
     imageView2 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"客忙"]];
     imageView3 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"价优"]];
@@ -160,10 +153,6 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
 
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 - (void)selectPress:(id)sender
 {
@@ -318,6 +307,8 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
 }
 - (void)getgoShopRequest
 {
+    
+    
 }
 #pragma mark - AFNetworkServiceDelegate
 - (void)finishedLoadingView
@@ -326,6 +317,7 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
     //    isOpen = NO;
     //
 }
+#pragma mark 下拉刷新
 - (void)setupRefresh
 {
     // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
@@ -355,9 +347,10 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
 }
 
 
-#pragma mark 开始进入刷新状态
 - (void)headerRereshing
 {
+    Lat = [jingWeiDu getLattitude];
+    Lon = [jingWeiDu getLongitude];
     [shopArr removeAllObjects];
     [dataArr removeAllObjects];
     projectPage = 1;
@@ -381,7 +374,7 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
 - (void)sendReserveTag:(NSIndexPath *)pathIndex
 {
     
-    NSLog(@"btnTag == %ld",(long)pathIndex);
+//    NSLog(@"btnTag == %ld",(long)pathIndex);
 }
 
 #pragma mark============== MoreTableViewCellDelegate ===============
@@ -406,5 +399,9 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
     NSLog(@"点中网络图片的下标是:%ld",(long)index);
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 @end

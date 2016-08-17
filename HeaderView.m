@@ -37,7 +37,7 @@
 }
 
 -(void)didSelectedNetImageAtIndex:(NSInteger)index{
-    NSLog(@"点击了第%d图片",index);
+    NSLog(@"点击了第%ld图片",(long)index);
 }
 
 @end

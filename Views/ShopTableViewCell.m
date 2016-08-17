@@ -51,17 +51,18 @@
         [self addSubview:imageView];
         
         self.titleLbl = [[UILabel alloc]init];
-        titleLbl.text = @"扬子江路门市店";
+        titleLbl.text = @"扬子江路门市店扬子江路门市店扬子江路门市店扬子江路门市店";
         titleLbl.font = [UIFont boldSystemFontOfSize:14];
         titleLbl.backgroundColor = [UIColor clearColor];
         [self addSubview:titleLbl];
         
         self.descriptionLbl =  [[UILabel alloc]init];
-        descriptionLbl.text = @"店铺描述。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。";
+        descriptionLbl.text = @"店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。";
         descriptionLbl.backgroundColor = [UIColor clearColor];
         descriptionLbl.textColor = COLOR;
-        descriptionLbl.font = [UIFont boldSystemFontOfSize:12];
-        descriptionLbl.numberOfLines = 1;
+        descriptionLbl.font = [UIFont boldSystemFontOfSize:10];
+        descriptionLbl.numberOfLines = 0;
+        descriptionLbl.lineBreakMode = NSLineBreakByCharWrapping;
         [self addSubview:descriptionLbl];
         
         self.starLbl =  [[UILabel alloc]init];
@@ -73,7 +74,7 @@
         [self addSubview:starLbl];
         
         self.priceLbl = [[UILabel alloc]init];
-        priceLbl.text = @"￥99";
+        priceLbl.text = @"均价:￥99";
         priceLbl.backgroundColor = [UIColor clearColor];
         priceLbl.textColor = COLOR;
         priceLbl.textAlignment = 2;
@@ -118,7 +119,7 @@
         .topSpaceToView(titleLbl,5)
         .leftSpaceToView(imageView,5)
         .rightSpaceToView(self,10)
-        .heightIs(20);
+        .heightIs(25);
         
         
         rView.sd_layout
@@ -127,7 +128,7 @@
         .heightIs(30);
         
         starLbl.sd_layout
-        .topSpaceToView(descriptionLbl,5)
+        .topSpaceToView(descriptionLbl,2)
         .leftSpaceToView(rView,15)
         .widthIs(40)
         .heightIs(30);
@@ -150,13 +151,7 @@
 
 - (void)getDataModel:(ShopMode *)mode
 {
-    titleLbl.text = mode.shopName;
-    [imageView setImageURL:[NSURL URLWithString:mode.shopImagesURL]];
-    descriptionLbl.text = mode.shopInfo;
-    starLbl.text = [NSString stringWithFormat:@"%@分",mode.shopScore];
-    priceLbl.text = [NSString stringWithFormat:@"￥%@",mode.shopFloorprice];
-    nearLbl.text = [NSString stringWithFormat:@"%@km",mode.shopDistance];
-    rView.score = [mode.shopScore floatValue];
+  
 }
 
 

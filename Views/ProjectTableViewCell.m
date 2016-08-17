@@ -122,14 +122,14 @@
     if (self.proCel_delegate && [self.proCel_delegate respondsToSelector:@selector(sendReserveTag:)]) {
         [self.proCel_delegate sendReserveTag:index];
     }
-    NSLog(@"index == %ld",(long)index.row);
+//    NSLog(@"index == %ld",(long)index.row);
 }
 
-- (void)getDataModel:(ProjectModel *)mode
+- (void)getDataModel:(ProjectModal *)mode
 {
     titleLbl.text = mode.projectName;
-    [imageView setImageURL:[NSURL URLWithString:mode.imageURL]];
-    descriptionLbl.text = mode.services;
+    
+  
     priceLbl.text = [NSString stringWithFormat:@"￥%@起",mode.price];
 }
 

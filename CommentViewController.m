@@ -14,6 +14,7 @@
     UITextView *textview;
     UIView *contenView;
     UILabel *wordCount;
+    UILabel *projectName;
 }
 @end
 
@@ -25,6 +26,17 @@
     [self createBtn];
     [self createTextView];
 
+}
+-(void)createBtn{
+    
+    projectName = [UILabel sharedWithFont:14 andColor:COLOR andAnligment:center andBackgroundColor:nil];
+    projectName.frame = CGRectMake(10, 10, kScreenWidth-20, 20);
+    projectName.text = @"清水足浴";
+    [self.view addSubview:projectName];
+    
+    star = [[TQStarRatingView alloc]initWithFrame:CGRectMake(10, 30, kScreenWidth-20, (kScreenWidth-20)/5) numberOfStar:5];
+    [star setScore:0.5 withAnimation:NO];
+    [self.view addSubview:star];
 }
 -(void)createTextView{
     
@@ -53,7 +65,7 @@
     self.navigationItem.rightBarButtonItem = [self rightButton];
     
     contenView.sd_layout
-    .topSpaceToView(self.view,(kScreenWidth-20)/5+20)
+    .topSpaceToView(self.view,(kScreenWidth-20)/5+40)
     .widthIs(viewWidth)
     .heightIs(kScreenHeight/3);
     
@@ -86,15 +98,11 @@
     [MBProgressHUD showError:@"没服务器"];
 }
 
--(void)createBtn{
-    star = [[TQStarRatingView alloc]initWithFrame:CGRectMake(10, 10, kScreenWidth-20, (kScreenWidth-20)/5) numberOfStar:5];
-    [star setScore:0.5 withAnimation:NO];
-    [self.view addSubview:star];
-}
+
 #pragma mark starDelegate
 -(void)starRatingView:(TQStarRatingView *)view score:(float)score{
     
-    NSLog(@"star == %f",score);
+//    NSLog(@"star == %f",score);
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
@@ -106,7 +114,7 @@
         
         return NO;
     }else{
-        NSLog(@"%lu",(unsigned long)textview.text.length);
+//        NSLog(@"%lu",(unsigned long)textview.text.length);
         return YES;
     }
 }
