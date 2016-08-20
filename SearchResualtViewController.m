@@ -280,10 +280,7 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
                 cell.backgroundColor = [UIColor clearColor];
             }
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            //数据源
-            //            if ([headImgArr count] > 0) {
-//            [cell getDataArr:headImgArr];
-            //            }
+    
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell;
             
@@ -298,12 +295,8 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
                 cell.shopCel_delegate = self;
                 cell.backgroundColor = [UIColor clearColor];
             }
-            [cell getData:indexPath];
-            //数据源
-//            if ([shopArr count] > indexPath.row) {
-//                [cell getDataModel:[shopArr objectAtIndex:indexPath.section]];
-//            }
-            //            [cell getDataModel:[shopArr objectAtIndex:indexPath.row]];
+         
+            
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell;
         }

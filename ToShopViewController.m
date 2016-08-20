@@ -9,7 +9,7 @@
 #import "ToShopViewController.h"
 #import "ShopTableViewCell.h"
 #import "ShopDetailVC.h"
-
+#import "ToShopCellModel.h"
 
 static NSString *CellIdentifier1 = @"cellidentifer1";
 @interface ToShopViewController ()<UITableViewDelegate,UITableViewDataSource,ShopTableViewCellDelegate>
@@ -256,12 +256,7 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
                                         reuseIdentifier:CellIdentifier1];
         cell.shopCel_delegate = self;
     }
-    [cell getData:indexPath];
-    if ([shopArr count] > indexPath.row) {
-        [cell getDataModel:[shopArr objectAtIndex:indexPath.section]];
-    }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return cell;
+        return cell;
 }
 
 
@@ -381,13 +376,7 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
 //展开的技师头像按钮
 - (void)sendBtnTag:(NSInteger)btnTag
 {
-    //    [toShopTable reloadData];
-    //    TechnicianMode mode = [headImgArr];
-//    TechnicianDetailViewController *tecDetailCtr = [[TechnicianDetailViewController alloc]init];
-//    tecDetailCtr.technicianID = [[headImgArr objectAtIndex:btnTag] valueForKey:@"id"];
-//    tecDetailCtr.title = [[headImgArr objectAtIndex:btnTag] valueForKey:@"name"];
-//    [self.navigationController pushViewController:tecDetailCtr animated:YES];
-//    NSLog(@"btnTag == %ld",(long)btnTag);
+
 }
 
 #pragma mark============== WYScrollViewNetDelegate ===============
@@ -399,9 +388,26 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
     NSLog(@"点中网络图片的下标是:%ld",(long)index);
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

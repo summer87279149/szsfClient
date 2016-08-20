@@ -5,6 +5,8 @@
 //  Created by Admin on 16/8/5.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
+#import "ShopMode.h"
+#import "ShopCellModel.h"
 #import "UserLoginController.h"
 #import "ShopDetailVC.h"
 #import "MyCollectionViewCell.h"

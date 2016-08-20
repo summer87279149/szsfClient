@@ -50,4 +50,19 @@
     }
     return self;
 }
+-(void)setShopCellModel:(ShopCellModel *)shopCellModel{
+    
+    _shopCellModel = shopCellModel;
+    
+    [self.image sd_setImageWithURL:URLWITHSTRING(shopCellModel.image)];
+    
+    self.name.text = shopCellModel.name;
+    
+    self.time.text = shopCellModel.time;
+    
+    self.chooseNumber.text = shopCellModel.chooseNumber;
+    
+    self.price.text = shopCellModel.price;
+    
+}
 @end

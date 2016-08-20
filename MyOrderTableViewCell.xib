@@ -114,10 +114,11 @@
                 <outlet property="counts" destination="ycG-Jj-91j" id="9Ny-EL-MII"/>
                 <outlet property="image" destination="k7F-F2-dGg" id="zu0-fr-Bmf"/>
                 <outlet property="name" destination="Yuh-zw-Vju" id="Ha4-9T-M0X"/>
+                <outlet property="orderNnumber" destination="Mxy-Xc-Wor" id="CW0-vS-J6q"/>
                 <outlet property="price" destination="M71-x3-qUR" id="kYq-Uk-IWX"/>
                 <outlet property="status" destination="R6P-dA-AK0" id="Z4F-OM-99O"/>
             </connections>
-            <point key="canvasLocation" x="403" y="428"/>
+            <point key="canvasLocation" x="384" y="424"/>
         </tableViewCell>
     </objects>
     <resources>

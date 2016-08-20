@@ -16,7 +16,7 @@
 #import "MainNavViewController.h"
 #import "NSTimer+XTCategory.h"
 #import "UMSocial.h"
-
+#import "HomeCellModel.h"
 @interface HomeViewController ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,WYScrollViewNetDelegate,UITextViewDelegate,UMSocialUIDelegate>
 {
     UISearchBar *m_searchBa;
@@ -180,12 +180,11 @@
     [UMSocialData defaultData].extConfig.wechatSessionData.url = @"http://baidu.com";
     [UMSocialData defaultData].extConfig.wechatTimelineData.url = @"http://baidu.com";
     [UMSocialSnsService presentSnsIconSheetView:self
-                                         appKey:@"507fcab25270157b37000010"
+                                         appKey:UmengAppkey
                                       shareText:@"欢迎使用息息脚"
                                      shareImage:[UIImage imageNamed:@"120"]
                                 shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
                                        delegate:self];
-    
 }
 //实现回调方法：
 -(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
@@ -203,9 +202,7 @@
     timer = nil;
     __weak typeof(self)weakSelf = self;
     timer = [NSTimer eocScheduledTimerWithTimeInterval:0.06 block:^{
-        
         [weakSelf performSelector:@selector(onTick:) withObject:nil afterDelay:0];
-        
     } repeats:YES];
     
 }
@@ -309,7 +306,6 @@
 {
     [self loadiewFinished];
 }
-#pragma mark -
 #pragma mark MJRefresh
 
 
@@ -347,57 +343,44 @@
 }
 
 
-- (void)cityView
-{
-    
+- (void)cityView{
     AddressViewController *addressVC = [[AddressViewController alloc]init];
     MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:addressVC];
     [self presentViewController:naVC animated:YES completion:nil];
-
 }
 
 #pragma mark - UItableView delegate
 //设置表头
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 330;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     [self createNetScrollView];
     return headerView;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 0.01;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if ([selectType isEqualToString:@"名店推荐"]) {
         return 2;
     }
-    else
-    {
+    else{
         return 1;
     }
-    
-    
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 280;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *tableCell = @"SettingCell";
     HomeTableViewCell *cell = (HomeTableViewCell *)[tableView dequeueReusableCellWithIdentifier:tableCell];
     if (cell == nil)
@@ -406,7 +389,7 @@
                                         reuseIdentifier:tableCell];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell sendType:selectType];
+    
     return cell;
 }
 
@@ -420,8 +403,7 @@
 
 #pragma mark============== WYScrollViewNetDelegate ===============
 /** 获取网络图片的index*/
--(void)didSelectedNetImageAtIndex:(NSInteger)index
-{
+-(void)didSelectedNetImageAtIndex:(NSInteger)index{
     [m_searchBa resignFirstResponder];
     ShopDetailVC *push = [[ShopDetailVC alloc]init];
     push.title = @"商家";
@@ -429,24 +411,19 @@
     //    CarouselMode *mode = [dataArr objectAtIndex:index];
     //    NSString *urlStr = mode.url;
     //    NSLog(@"点中网络图片的详情地址:%@",urlStr);
-    
 }
 
 #pragma mark - UISearchBarDelegate
 
-- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
-{
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
     return YES;
 }
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     [searchBar resignFirstResponder];
     
     SearchResualtViewController *resualtCtr = [[SearchResualtViewController alloc]init];
     [self.navigationController pushViewController:resualtCtr animated:YES];
-    
-    
     //    [searchBar endEditing:YES];
     //搜索结果接口（逻辑变了，之后接口传参要改变）
     //    AFNetworkService *jsonService = [[AFNetworkService alloc] init];

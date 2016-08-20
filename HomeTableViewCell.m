@@ -8,10 +8,11 @@
 
 #import "HomeTableViewCell.h"
 #import "EGOImageView.h"
-
+#import "UIImageView+WebCache.h"
+#import "HomeCellModel.h"
 @interface HomeTableViewCell()
 {
-    EGOImageView *imgView;
+    UIImageView *imgView;
     UILabel *nameLbl;              //项目名称
     UILabel *infoLbl;              //描述
     UILabel *consumptionLbl;       //消费或店名
@@ -36,8 +37,8 @@
 //        backgroundImageView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
         [self addSubview:backgroundImageView];
         // Initialization code
-        imgView = [[EGOImageView alloc]initWithPlaceholderImage:[UIImage imageNamed:@"placeholder"]];
-        imgView.backgroundColor = [UIColor getColor:@"4DB748"];
+        imgView = [[UIImageView alloc]init];
+        imgView.backgroundColor = [UIColor clearColor];
         [self addSubview:imgView];
         
         nameLbl = [[UILabel alloc]init];
@@ -135,6 +136,45 @@
     return self;
 }
 
+-(void)setHomeCellModel:(HomeCellModel *)homeCellModel{
+    _homeCellModel = homeCellModel;
+    
+    [imgView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",homeCellModel.image]]];
+    nearbyLbl.text = homeCellModel.distance;
+     nameLbl.text = homeCellModel.name;
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#pragma mark 旧代码 没删
 - (void)sendType:(NSString *)typeStr
 {
     if ([typeStr isEqualToString:@"名店推荐"]) {

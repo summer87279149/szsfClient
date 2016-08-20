@@ -69,7 +69,17 @@
     return self;
 }
 
-
+-(void)setMyFocusCellModel:(MyFocusCellModel *)myFocusCellModel{
+    
+    [self.portrait sd_setImageWithURL:URLWITHSTRING(myFocusCellModel.portrait)];
+    
+    self.techName.text = myFocusCellModel.techName;
+    if ([myFocusCellModel.AuthenticationImage intValue]==0) {
+        self.AuthenticationImage.hidden = YES;
+    }
+    self.skill.text = myFocusCellModel.skill;
+    self.serviceTimes.text = myFocusCellModel.serviceTimes;
+}
 
 
 

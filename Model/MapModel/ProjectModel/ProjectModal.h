@@ -10,7 +10,7 @@
 #import "BasicModel.h"
 #import "TechnicianMode.h"
 @interface ProjectModal : BasicModel
-//服务模型
+//项目模型
 
 //项目ID
 @property(nonatomic,strong)NSString *projectID;

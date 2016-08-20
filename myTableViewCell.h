@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "TechCellModel.h"
 @interface myTableViewCell : UITableViewCell
 //左边图片
 @property(nonatomic,strong) UIImageView* imageview;
@@ -24,4 +24,6 @@
 
 //预约按钮
 @property(nonatomic,strong) UIButton *button;
+
+@property(nonatomic,strong) TechCellModel*techCellModel;
 @end

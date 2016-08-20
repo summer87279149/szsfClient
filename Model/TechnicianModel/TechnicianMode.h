@@ -11,15 +11,28 @@
 
 //技师模型
 @interface TechnicianMode : BasicModel
-
-@property(nonatomic,strong)NSString *name;
-@property(nonatomic,strong)NSString *type;
-@property(nonatomic,strong)NSString *age;
-@property(nonatomic,strong)NSString *score;
-@property(nonatomic,strong)NSString *shopName;
+//技师ID
 @property(nonatomic,strong)NSString *technicianID;
-@property(nonatomic,strong)NSString *orderqty;
+//技师名字
+@property(nonatomic,strong)NSString *name;
+//头像
 @property(nonatomic,strong)NSString *headimgurl;
-@property(nonatomic,strong)NSString *sex;
-@property(nonatomic,strong)NSString *distance;
+//是否有名师认证图标
+@property(nonatomic,copy) NSString *AuthenticationImage;
+//技能
+@property(nonatomic,copy) NSString *skill;
+//服务次数
+@property(nonatomic,copy) NSString *serviceTimes;
+//是否关注
+@property(nonatomic,copy) NSString *isFocus;
+//技师介绍
+@property(nonatomic,strong)NSString *techIntroduction;
+//用户评价数量
+@property(nonatomic,strong)NSString *commentsNumber;
+//好评率
+@property(nonatomic,strong)NSString *goodCommentRare;
+
+
+
+
 @end

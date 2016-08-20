@@ -62,4 +62,11 @@
     }
     return self;
 }
+-(void)setCollectionViewCellModel:(CollectionViewCellModel *)collectionViewCellModel{
+    _collectionViewCellModel = collectionViewCellModel;
+    [self.image sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",collectionViewCellModel.imageUrl]]];
+    self.name.text = collectionViewCellModel.name;
+    self.price.text = collectionViewCellModel.price;
+    self.contentSize.text = collectionViewCellModel.contentSize;
+}
 @end

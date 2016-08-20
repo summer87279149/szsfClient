@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+#import "ToMyHomeCellModel.h"
 @protocol ToMyHomeTableViewCellDelegate <NSObject>
 @required
 -(void)cellOrderBtnClicked;
@@ -40,5 +41,7 @@
 //cell 高度
 @property (nonatomic,assign) CGFloat HEIGHT;
 
+//model
+@property (nonatomic,strong)ToMyHomeCellModel *toMyHomeCellModel;
 @property(nonatomic,weak) id <ToMyHomeTableViewCellDelegate> delegate;
 @end

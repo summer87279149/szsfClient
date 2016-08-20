@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MyOrderCellModel.h"
 @protocol MyOrderTableViewCellDelegate <NSObject>
 @required
 //已取消
@@ -32,6 +33,11 @@
 
 //按钮
 @property (weak, nonatomic) IBOutlet UIButton *button;
+//订单号
+@property (weak, nonatomic) IBOutlet UILabel *orderNnumber;
+
+
+@property (nonatomic,strong)MyOrderCellModel *myOrderCellModel;
 @property (nonatomic,weak)id <MyOrderTableViewCellDelegate> delegate;
 
 @end

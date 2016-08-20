@@ -5,9 +5,10 @@
 //  Created by Admin on 16/8/15.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
-
+#import "TechnicianMode.h"
 #import "TechCommentVController.h"
 #import "ThreeTableViewCell.h"
+#import "CommentCellModel.h"
 @interface TechCommentVController ()<UITableViewDelegate,UITableViewDataSource>
 {
     UITableView *tableview;
@@ -25,9 +26,6 @@
     tableview.backgroundColor = [UIColor clearColor];
     tableview.separatorColor = COLOR;
     [self.view addSubview: tableview];
-
-
-
 }
 
 
@@ -71,12 +69,10 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 /*
 #pragma mark - Navigation
-
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].

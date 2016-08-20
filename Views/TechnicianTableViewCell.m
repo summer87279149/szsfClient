@@ -187,30 +187,30 @@
 {
     [imageView setImageURL:[NSURL URLWithString:mode.headimgurl]];
     nameLbl.text = mode.name;
-    typeLbl.text = mode.type;
-    ageLbl.text = mode.age;
-    shopLbl.text = mode.shopName;
-    ordersLbl.text = [NSString stringWithFormat:@"接单：%@单",mode.orderqty];
-    nearLbl.text = [NSString stringWithFormat:@"%@km",mode.distance];
-    rView.score = [mode.score floatValue];
+//    typeLbl.text = mode.type;
+//    ageLbl.text = mode.age;
+//    shopLbl.text = mode.shopName;
+//    ordersLbl.text = [NSString stringWithFormat:@"接单：%@单",mode.orderqty];
+//    nearLbl.text = [NSString stringWithFormat:@"%@km",mode.distance];
+//    rView.score = [mode.score floatValue];
 
      NSDictionary *attributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:13],};
     CGSize textSize = [typeLbl.text boundingRectWithSize:CGSizeMake(100, 100) options:NSStringDrawingTruncatesLastVisibleLine attributes:attributes context:nil].size;
     
     
-    if ([mode.sex isEqualToString:@"男"]) {
-         sexImg.image = [UIImage imageNamed:@"man"];
-        ageLbl.layer.backgroundColor = [UIColor colorWithRed:1/255.0 green:183/255.0 blue:238/255.0 alpha:1].CGColor;
-        ageLbl.layer.borderColor = [UIColor colorWithRed:1/255.0 green:183/255.0 blue:238/255.0 alpha:1].CGColor;
-    }
-    else
-    {
-        sexImg.image = [UIImage imageNamed:@"woman"];
-        ageLbl.layer.backgroundColor = [UIColor colorWithRed:250/255.0 green:84/255.0 blue:227/255.0 alpha:1].CGColor;
-        ageLbl.layer.borderColor = [UIColor colorWithRed:250/255.0 green:84/255.0 blue:227/255.0 alpha:1].CGColor;
-    }
-    
-    shopLbl.text = mode.shopName;
+//    if ([mode.sex isEqualToString:@"男"]) {
+//         sexImg.image = [UIImage imageNamed:@"man"];
+//        ageLbl.layer.backgroundColor = [UIColor colorWithRed:1/255.0 green:183/255.0 blue:238/255.0 alpha:1].CGColor;
+//        ageLbl.layer.borderColor = [UIColor colorWithRed:1/255.0 green:183/255.0 blue:238/255.0 alpha:1].CGColor;
+//    }
+//    else
+//    {
+//        sexImg.image = [UIImage imageNamed:@"woman"];
+//        ageLbl.layer.backgroundColor = [UIColor colorWithRed:250/255.0 green:84/255.0 blue:227/255.0 alpha:1].CGColor;
+//        ageLbl.layer.borderColor = [UIColor colorWithRed:250/255.0 green:84/255.0 blue:227/255.0 alpha:1].CGColor;
+//    }
+//    
+//    shopLbl.text = mode.shopName;
 
     self.typeLbl.sd_layout
     .topSpaceToView(nameLbl,10)

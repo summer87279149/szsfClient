@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ToMyHomeCellModel.h"
 @interface ToMyHomeViewController : UIViewController
 
 @end

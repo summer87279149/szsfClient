@@ -23,6 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"我的订单";
+    
     HaHaHaAddBackGroundImage
     
     _segView=[[XFSegmentView alloc]initWithFrame:Frame(0, 0, kScreenWidth, 30)];
@@ -77,6 +78,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     static NSString *CellIdentifier = @"OrderCell";
     BOOL nibsRegistered = NO;
     if (!nibsRegistered) {

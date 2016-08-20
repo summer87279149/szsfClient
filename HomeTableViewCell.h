@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "HomeCellModel.h"
 @interface HomeTableViewCell : UITableViewCell
-
+@property (strong,nonatomic)HomeCellModel *homeCellModel;
 - (void)sendType:(NSString *)typeStr;
 @end

@@ -27,7 +27,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor whiteColor];
     UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"homeVCBackgroundImage"]];
@@ -38,7 +37,7 @@
     self.navigationItem.rightBarButtonItem = [self phoneButton];
     
     m_mineTtabView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 0, 0) style:UITableViewStyleGrouped];
-    //    m_mineTtabView.style = UITableViewStylePlain;
+    //m_mineTtabView.style = UITableViewStylePlain;
     m_mineTtabView.dataSource = self;
     m_mineTtabView.delegate = self;
     m_mineTtabView.backgroundView = imageView;

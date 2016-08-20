@@ -33,4 +33,15 @@
     
 }
 
+-(void)setMyOrderCellModel:(MyOrderCellModel *)myOrderCellModel{
+    _myOrderCellModel = myOrderCellModel;
+                
+    self.name.text = myOrderCellModel.name;
+    self.status.text = myOrderCellModel.status;
+    self.counts.text = [NSString stringWithFormat:@"数量:%@",myOrderCellModel.counts];
+
+    self.price.text = [NSString stringWithFormat:@"总价:¥%@",myOrderCellModel.price];
+    [self.image sd_setImageWithURL:URLWITHSTRING(myOrderCellModel.imageUrl)];
+    self.orderNnumber.text = myOrderCellModel.orderNnumber;
+}
 @end

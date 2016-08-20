@@ -121,15 +121,7 @@
     //10
     
     
-    if ([dic objectForKey:XXJtechModal] == nil ||
-        [dic objectForKey:XXJtechModal] == [NSNull null])
-    {
-        self.techModal = nil;
-    }
-    else
-    {
-        self.techModal = [dic objectForKey:XXJtechModal];
-    }
+  
 
     
     //11

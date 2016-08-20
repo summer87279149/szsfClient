@@ -75,5 +75,14 @@
     }
     return self;
 }
-
+-(void)setCommentCellModel:(CommentCellModel *)commentCellModel{
+    
+    _commentCellModel = commentCellModel;
+    self.name.text = commentCellModel.name;
+    self.comments.text = commentCellModel.commentContent;
+    self.project.text = commentCellModel.serviceName;
+    self.time.text = commentCellModel.time;
+    [self.star setScore:commentCellModel.grade withAnimation:NO];
+    
+}
 @end

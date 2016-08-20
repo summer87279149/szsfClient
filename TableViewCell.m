@@ -41,4 +41,9 @@
     }
     return self;
 }
+-(void)setTabelCellModel:(TabelCellModel *)tabelCellModel{
+    _tabelCellModel = tabelCellModel;
+    _name.text = tabelCellModel.name;
+    _distance.text = tabelCellModel.distance;
+}
 @end

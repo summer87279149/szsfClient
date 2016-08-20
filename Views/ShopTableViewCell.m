@@ -11,25 +11,6 @@
 #import "EGOImageView.h"
 
 @interface ShopTableViewCell()
-{
-    EGOImageView *imageView;
-    UILabel *titleLbl;
-    UILabel *descriptionLbl;
-    UILabel *priceLbl;
-    UIButton *arrowBtn;
-    UILabel *starLbl;
-    UILabel *nearLbl;
-    LHRatingView *rView;
-    NSIndexPath *index;
-}
-@property(nonatomic,strong)UIImageView *imageView;
-@property(nonatomic,strong)UILabel *titleLbl;
-@property(nonatomic,strong)UILabel *descriptionLbl;
-@property(nonatomic,strong)UILabel *priceLbl;
-@property(nonatomic,strong)UIButton *arrowBtn;
-@property(nonatomic,strong)UILabel *starLbl;
-@property(nonatomic,strong)UILabel *nearLbl;
-@property(nonatomic,strong)LHRatingView *rView;
 @end
 
 @implementation ShopTableViewCell
@@ -46,7 +27,7 @@
     if (self) {
         // Initialization code
         self.backgroundColor = [UIColor clearColor];
-        self.imageView = [[EGOImageView alloc]initWithPlaceholderImage:[UIImage imageNamed:@"ToShopCellBG"]];;
+        self.imageView = [[UIImageView alloc]init];;
         imageView.backgroundColor = [UIColor clearColor];
         [self addSubview:imageView];
         
@@ -142,17 +123,18 @@
     }
     return self;
 }
-
-- (void)getData:(NSIndexPath *)path
-{
-    index = path;
-
+-(void)setToShopCellModel:(ToShopCellModel *)toShopCellModel{
+    _toShopCellModel = toShopCellModel;
+    [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",toShopCellModel.imageUrl]]];
+    titleLbl.text = toShopCellModel.name;
+    descriptionLbl.text = toShopCellModel.descrip;
+    priceLbl.text = [NSString stringWithFormat:@"均价¥:%@",toShopCellModel.price];
+    rView.score = toShopCellModel.star;
+    starLbl.text = [NSString stringWithFormat:@"%f分",toShopCellModel.star];
+    nearLbl.text = toShopCellModel.near;
 }
 
-- (void)getDataModel:(ShopMode *)mode
-{
-  
-}
+
 
 
 

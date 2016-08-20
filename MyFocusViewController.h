@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "MyFocusCellModel.h"
 @interface MyFocusViewController : UIViewController
 
 @end

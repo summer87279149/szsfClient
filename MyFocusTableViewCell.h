@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "MyFocusCellModel.h"
 @interface MyFocusTableViewCell : UITableViewCell
 //显示技师头像、姓名等的View
 @property(nonatomic,strong) UIView *techView;
@@ -22,4 +22,6 @@
 //服务次数
 @property (strong, nonatomic) UILabel *serviceTimes;
 
+
+@property(nonatomic,strong) MyFocusCellModel *myFocusCellModel;
 @end

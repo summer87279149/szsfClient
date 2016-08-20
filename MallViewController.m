@@ -5,7 +5,7 @@
 //  Created by Admin on 16/8/9.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
-
+#import "CarViewController.h"
 #import "MallViewController.h"
 #import "WYScrollView.h"
 #import "CollectionViewCell.h"
@@ -94,7 +94,9 @@
 
 //购物车
 -(void)OrderCarBtnClicked{
-    
+    CarViewController *CarVC = [[CarViewController alloc]init];
+    [self.navigationController pushViewController:CarVC animated:YES];
+
 }
 
 //未完成

@@ -164,6 +164,27 @@
     
     return self;
 }
+
+-(void)setToMyHomeCellModel:(ToMyHomeCellModel *)toMyHomeCellModel{
+    _toMyHomeCellModel = toMyHomeCellModel;
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",toMyHomeCellModel.imageviewUrl]]];
+    self.name.text = toMyHomeCellModel.name;
+    self.grade.text = toMyHomeCellModel.grade;
+    self.orderNumber.text = toMyHomeCellModel.orderNumber;
+    self.distance.text = toMyHomeCellModel.distance;
+    self.text.text = toMyHomeCellModel.text;
+    self.project.text = toMyHomeCellModel.project;
+    self.belongTo.text = toMyHomeCellModel.belongTo;
+}
+
+
+
+
+
+
+
+
+#pragma mark ========delegate=====
 -(void)cellBtnClicked{
     
     [self.delegate cellOrderBtnClicked];

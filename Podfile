@@ -11,6 +11,5 @@ pod 'MBProgressHUD'
 pod 'EGOImageLoading'
 pod 'NJKWebViewProgress'
 pod 'DXPopover'
-pod 'UMengSocialCOM'
 end
 

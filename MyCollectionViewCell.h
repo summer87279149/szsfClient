@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ShopCellModel.h"
 @interface MyCollectionViewCell : UICollectionViewCell
 
 @property(nonatomic,strong) UIImageView *image;
@@ -19,4 +19,6 @@
 @property(nonatomic,strong) UILabel *chooseNumber;
 
 @property(nonatomic,strong) UILabel *time;
+
+@property(nonatomic,strong) ShopCellModel *shopCellModel;
 @end

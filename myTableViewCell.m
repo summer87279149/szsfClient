@@ -86,6 +86,16 @@
     }
     return self;
 }
-
+-(void)setTechCellModel:(TechCellModel *)techCellModel{
+    
+    [self.imageview sd_setImageWithURL:URLWITHSTRING(techCellModel.imageviewUrl)];
+    self.name.text=techCellModel.name;
+    self.shiyi.text = techCellModel.shiyi;
+    self.time.text = techCellModel.time;
+    self.price.text = techCellModel.price;
+    
+    
+    
+}
 
 @end

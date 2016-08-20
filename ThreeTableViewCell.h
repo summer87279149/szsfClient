@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TQStarRatingView.h"
+#import "CommentCellModel.h"
 @interface ThreeTableViewCell : UITableViewCell
 //名字
 @property(nonatomic,strong) UILabel *name;
@@ -22,4 +23,6 @@
 
 //星星评价
 @property(nonatomic,strong)TQStarRatingView *star;
+
+@property(nonatomic,strong)CommentCellModel *commentCellModel;
 @end

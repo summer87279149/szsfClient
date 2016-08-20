@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "CollectionViewCellModel.h"
 @interface CollectionViewCell : UICollectionViewCell
 @property(nonatomic,strong) UIImageView *image;
 
@@ -19,5 +19,5 @@
 
 @property(nonatomic,strong) UILabel *huiyuanjia;
 
-
+@property(nonatomic,strong) CollectionViewCellModel *collectionViewCellModel;
 @end

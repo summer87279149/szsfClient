@@ -7,14 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "TabelCellModel.h"
 @interface TableViewCell : UITableViewCell
 //项目名字
 @property(nonatomic,strong)UILabel *name;
 
-//距离
+//附近多少人可约
 @property(nonatomic,strong)UILabel *distance;
 //
-
+@property(nonatomic,strong)TabelCellModel *tabelCellModel;
 //
 @end
