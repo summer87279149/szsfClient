@@ -35,7 +35,7 @@
     UIButton *cityBtn;
     NSTimer *timer;
     UITextView *midText;
-     NSString *currentCity;//当前城市;
+    NSString *currentCity;//当前城市;
 }
 @property(nonatomic,strong)UISearchBar *m_searchBa;
 @property(nonatomic,strong)UITableView *homeTable;

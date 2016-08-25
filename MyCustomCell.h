@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GoodsInfoModel.h"
-
+//购物车cell
 //添加代理，用于按钮加减的实现
 @protocol MyCustomCellDelegate <NSObject>
 

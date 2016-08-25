@@ -22,10 +22,22 @@
 
 
 #define URLWITHSTRING(STRING)       [NSURL URLWithString:[NSString stringWithFormat:@"%@",STRING]]
+#define ArrayNonNull(array)         array != nil && ![array isKindOfClass:[NSNull class]] && array.count != 0
 
 
-
-
+#define isPrintLog  1   // 仅当  isPrintLog 值是1的时候才输出日志
+#ifndef LogInfo
+#   define LogInfo(format, ...)         \
+{                                   \
+if(isPrintLog == 1)             \
+{                               \
+NSLog((@"%@:%d " format),   \
+[[[NSString stringWithUTF8String:__FILE__] componentsSeparatedByString:@"/"] lastObject],\
+__LINE__,               \
+## __VA_ARGS__);        \
+}                               \
+}
+#endif
 
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 #define kTopBarHeight       20

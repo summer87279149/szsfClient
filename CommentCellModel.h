@@ -18,6 +18,6 @@
 //评价内容
 @property(nonatomic,copy) NSString *commentContent;
 //评分
-@property(nonatomic,copy) float grade;
+@property(nonatomic,assign) float grade;
 
 @end

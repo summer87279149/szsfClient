@@ -54,8 +54,8 @@
         //            [MBProgressHUD showError:@"请检查网络"];
         //        }];
         
-    }else { // 手机号码格式错误
-        
+    }else {
+        // 手机号码格式错误
         [UserTool alertViewDisplayTitle:nil andMessage:@"请输入正确手机号" andDisplayValue:1.];
         
     }

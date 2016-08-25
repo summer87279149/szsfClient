@@ -429,12 +429,7 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
 // 点击预约按钮事件
 - (void)sendReserveTag:(NSIndexPath *)pathIndex
 {
-////    ProjectModel *proMode = [projectArr objectAtIndex:pathIndex.row];
-//    TechnicianListViewController *tecListCtr = [[TechnicianListViewController alloc]init];
-////    tecListCtr.projectID = proMode.projectID;
-////    tecListCtr.title = proMode.projectName;
-//    [self.navigationController pushViewController:tecListCtr animated:YES];
-//    
+  
     NSLog(@"tag:%ld",(long)pathIndex.row);
 }
 

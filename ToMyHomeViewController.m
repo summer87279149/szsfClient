@@ -10,6 +10,7 @@
 #import "DXPopover.h"
 #import "TableViewCell.h"
 #import "TechViewController.h"
+#import "ToMyHomeCellModel.h"
 @interface ToMyHomeViewController ()<UITableViewDelegate,UITableViewDataSource,ToMyHomeTableViewCellDelegate>
 {
     UITableView *popoverTableView;
@@ -26,8 +27,8 @@
     NSString *floor;            //价格最低
     NSString *selectType;
     UITableView *tableview;
-    NSMutableArray *distanceArr;     //技师数组距离排序
-    NSMutableArray *projectArr;     //数组项目排序
+    NSMutableArray *distanceArr;     //都用这个数组
+
     int Page;           //页码
     BOOL HasMore;       //是否有更多
     DXPopover *popover;
@@ -46,8 +47,8 @@
 }
 #pragma mark 创建UI
 -(void)createHeaderView{
-    distanceArr = [[NSMutableArray alloc]initWithCapacity:0];
-    projectArr = [[NSMutableArray alloc]initWithCapacity:0];
+    distanceArr = [[NSMutableArray alloc]initWithCapacity:10];
+//    projectArr = [[NSMutableArray alloc]initWithCapacity:0];
     
     BGImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"homeVCBackgroundImage"]];
     [self.view addSubview:BGImage];
@@ -222,7 +223,6 @@
     NSLog(@"当前坐标 %@,%@",Lat,Lon);
     //把数组全部清空，重新请求数据
     [distanceArr removeAllObjects];
-    [projectArr removeAllObjects];
     Page = 1;
     HasMore = NO;
 
@@ -256,7 +256,32 @@
     [self.navigationController pushViewController:tech animated:YES];
 }
 
-
+-(void)focusBtnClick:(UITableViewCell *)cell{
+    NSIndexPath *index = [tableview indexPathForCell:cell];
+    if (ArrayNonNull(distanceArr) && distanceArr.count >= index.row+1) {
+        ToMyHomeCellModel *model = distanceArr[index.row];
+        /**
+         *  写关注
+         *
+         *
+         */
+        
+    }
+    
+}
+-(void)cancelFocusBtnClick:(UITableViewCell *)cell {
+    NSIndexPath *index = [tableview indexPathForCell:cell];
+    if (ArrayNonNull(distanceArr) && distanceArr.count >= index.row+1) {
+        ToMyHomeCellModel *model = distanceArr[index.row];
+        /**
+         *  写取消关注
+         *
+         *
+         */
+    }
+    
+    
+}
 
 
 - (void)didReceiveMemoryWarning {

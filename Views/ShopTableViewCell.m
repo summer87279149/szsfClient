@@ -27,7 +27,7 @@
     if (self) {
         // Initialization code
         self.backgroundColor = [UIColor clearColor];
-        self.imageView = [[UIImageView alloc]init];;
+        self.imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ToShopCellBG"]];
         imageView.backgroundColor = [UIColor clearColor];
         [self addSubview:imageView];
         

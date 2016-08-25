@@ -9,7 +9,7 @@
 #import "CarViewController.h"
 #import "MyCustomCell.h"
 #import "GoodsInfoModel.h"
-
+#import "BuyViewController.h"
 
 @interface CarViewController ()<UITableViewDataSource,UITableViewDelegate,MyCustomCellDelegate>
 {
@@ -60,11 +60,12 @@
     _MyTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-64) style:UITableViewStylePlain];
     _MyTableView.dataSource = self;
     _MyTableView.delegate = self;
-    
+    _MyTableView.showsVerticalScrollIndicator = NO;
     //给表格添加一个尾部视图
 
     _MyTableView.tableFooterView = [self creatFootView];
-//    _MyTableView.backgroundColor = [UIColor clearColor];
+    _MyTableView.backgroundColor = [UIColor clearColor];
+  
     [self.view addSubview:_MyTableView];
 }
 
@@ -107,6 +108,7 @@
     [settlementBtn setTitle:@"去结算" forState:UIControlStateNormal];
     [settlementBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     settlementBtn.frame = CGRectMake(10, 80, self.view.frame.size.width - 20, 30);
+    [settlementBtn addTarget:self action:@selector(goToPay) forControlEvents:UIControlEventTouchUpInside];
     settlementBtn.backgroundColor = COLOR;
     settlementBtn.layer.cornerRadius = 3;
     [footView addSubview:settlementBtn];
@@ -114,7 +116,10 @@
     
     return footView;
 }
-
+-(void)goToPay{
+    BuyViewController *buy = [[BuyViewController alloc]init];
+    [self.navigationController pushViewController:buy animated:YES];
+}
 //返回单元格个数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

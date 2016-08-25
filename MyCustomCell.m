@@ -17,10 +17,15 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
     {
+        UIImageView *imageView= [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"height130"]];
+        imageView.frame = CGRectMake(0, 0, kScreenWidth,120);
+        [self addSubview:imageView];
+        
+        
         //布局界面
         UIView * bgView = [[UIView alloc]initWithFrame:CGRectMake(5, 5, WIDTH-10, 95)];
         bgView.backgroundColor = [UIColor clearColor];
-        
+    
         //添加商品图片
         _goodsImgV = [[UIImageView alloc]initWithFrame:CGRectMake(5, 10, 80, 80)];
         _goodsImgV.backgroundColor = [UIColor greenColor];
@@ -58,7 +63,7 @@
         //减按钮
         _deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _deleteBtn.frame = CGRectMake(180, 65, 30, 30);
-        _deleteBtn.layer.cornerRadius = 3;
+        _deleteBtn.layer.cornerRadius = 5;
         [_deleteBtn setImage:[UIImage imageNamed:@"按钮-.png"] forState:UIControlStateNormal];
         [_deleteBtn addTarget:self action:@selector(deleteBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         _deleteBtn.tag = 11;
@@ -74,7 +79,7 @@
         //加按钮
         _addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _addBtn.frame = CGRectMake(260, 65, 30, 30);
-        _addBtn.layer.cornerRadius = 3;
+        _addBtn.layer.cornerRadius = 5;
         [_addBtn setImage:[UIImage imageNamed:@"按钮+.png"] forState:UIControlStateNormal];
         [_addBtn addTarget:self action:@selector(addBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         _addBtn.tag = 12;
@@ -84,7 +89,7 @@
         _isSelectImg = [[UIImageView alloc]initWithFrame:CGRectMake(WIDTH - 50, 10, 30, 30)];
         [bgView addSubview:_isSelectImg];
         
-//        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor clearColor];
         [self addSubview:bgView];
     }
     return self;

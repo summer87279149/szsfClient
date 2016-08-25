@@ -12,7 +12,8 @@
 @protocol ToMyHomeTableViewCellDelegate <NSObject>
 @required
 -(void)cellOrderBtnClicked;
-
+-(void)focusBtnClick:(UITableViewCell *)cell ;//andTitle:(NSString *)title;
+-(void)cancelFocusBtnClick:(UITableViewCell *)cell ;
 @end
 @interface ToMyHomeTableViewCell : UITableViewCell
 //头像

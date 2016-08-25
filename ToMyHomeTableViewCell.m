@@ -195,13 +195,13 @@
         /**
          *  delegate关注
          */
+        [self.delegate focusBtnClick:self];
         [self.focusButton setTitle:@"已关注" forState:UIControlStateNormal];
         
     }else{
-        /**
-         *  delegate取消关注
-         */
+        [self.delegate cancelFocusBtnClick:self];
         [self.focusButton setTitle:@"+关注" forState:UIControlStateNormal];
     }
 }
+
 @end

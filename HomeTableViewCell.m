@@ -37,7 +37,7 @@
 //        backgroundImageView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
         [self addSubview:backgroundImageView];
         // Initialization code
-        imgView = [[UIImageView alloc]init];
+        imgView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"placeholder"]];
         imgView.backgroundColor = [UIColor clearColor];
         [self addSubview:imgView];
         

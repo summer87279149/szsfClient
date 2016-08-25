@@ -82,6 +82,8 @@
 		841EE0A41D642D0400BC4C53 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 841EE0A31D642D0400BC4C53 /* CoreTelephony.framework */; };
 		841EE0A61D642D0900BC4C53 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 841EE0A51D642D0900BC4C53 /* libstdc++.tbd */; };
 		841EE0A81D642D1200BC4C53 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 841EE0A71D642D1200BC4C53 /* libz.tbd */; };
+		841F28151D6A819600F7661C /* GoodSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 841F28141D6A819600F7661C /* GoodSViewController.m */; };
+		841F28181D6A917300F7661C /* BuyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 841F28171D6A917300F7661C /* BuyViewController.m */; };
 		843013D61D65495F0003453F /* HomeCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 843013D51D65495F0003453F /* HomeCellModel.m */; };
 		843013DB1D6554F50003453F /* ToShopCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 843013DA1D6554F50003453F /* ToShopCellModel.m */; };
 		843013E21D655C780003453F /* ToMyHomeCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 843013E11D655C780003453F /* ToMyHomeCellModel.m */; };
@@ -93,6 +95,8 @@
 		843029361D62FE0F0001B4C3 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 843029351D62FE0F0001B4C3 /* CoreLocation.framework */; };
 		843029401D6306F30001B4C3 /* CCLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8430293D1D6306F30001B4C3 /* CCLocationManager.m */; };
 		843029411D6306F30001B4C3 /* CLLocation+YCLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8430293F1D6306F30001B4C3 /* CLLocation+YCLocation.m */; };
+		843832041D6825A500DA1D34 /* UnCompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 843832031D6825A500DA1D34 /* UnCompleteViewController.m */; };
+		843832081D6827D900DA1D34 /* CompleteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 843832071D6827D900DA1D34 /* CompleteViewController.m */; };
 		846029E61D65A62E00E139C3 /* img6.png in Resources */ = {isa = PBXBuildFile; fileRef = 846029E01D65A62E00E139C3 /* img6.png */; };
 		846029E71D65A62E00E139C3 /* 复选框-未选中.png in Resources */ = {isa = PBXBuildFile; fileRef = 846029E11D65A62E00E139C3 /* 复选框-未选中.png */; };
 		846029E81D65A62E00E139C3 /* 复选框-选中.png in Resources */ = {isa = PBXBuildFile; fileRef = 846029E21D65A62E00E139C3 /* 复选框-选中.png */; };
@@ -180,6 +184,11 @@
 		8487A9C91D5B0F7400F0E889 /* bottonBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 8487A9C81D5B0F7400F0E889 /* bottonBtn.m */; };
 		8487A9CB1D5B1F5C00F0E889 /* address.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8487A9CA1D5B1F5C00F0E889 /* address.plist */; };
 		8487A9CF1D5B1F8600F0E889 /* AddressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8487A9CE1D5B1F8600F0E889 /* AddressViewController.m */; };
+		84D6E62B1D6D92E90069ABFC /* jpush-ios-2.1.8.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D6E6291D6D92E90069ABFC /* jpush-ios-2.1.8.a */; };
+		84D6E62D1D6D93270069ABFC /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D6E62C1D6D93270069ABFC /* CFNetwork.framework */; };
+		84D6E62F1D6D932C0069ABFC /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D6E62E1D6D932C0069ABFC /* CoreFoundation.framework */; };
+		84D6E6311D6D93440069ABFC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D6E6301D6D93440069ABFC /* Foundation.framework */; };
+		84D6E6331D6D93490069ABFC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D6E6321D6D93490069ABFC /* UIKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -325,6 +334,10 @@
 		841EE0A31D642D0400BC4C53 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		841EE0A51D642D0900BC4C53 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		841EE0A71D642D1200BC4C53 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		841F28131D6A819600F7661C /* GoodSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodSViewController.h; sourceTree = "<group>"; };
+		841F28141D6A819600F7661C /* GoodSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodSViewController.m; sourceTree = "<group>"; };
+		841F28161D6A917300F7661C /* BuyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyViewController.h; sourceTree = "<group>"; };
+		841F28171D6A917300F7661C /* BuyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyViewController.m; sourceTree = "<group>"; };
 		843013D41D65495F0003453F /* HomeCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeCellModel.h; sourceTree = "<group>"; };
 		843013D51D65495F0003453F /* HomeCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeCellModel.m; sourceTree = "<group>"; };
 		843013D91D6554F50003453F /* ToShopCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToShopCellModel.h; sourceTree = "<group>"; };
@@ -346,6 +359,10 @@
 		8430293D1D6306F30001B4C3 /* CCLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCLocationManager.m; sourceTree = "<group>"; };
 		8430293E1D6306F30001B4C3 /* CLLocation+YCLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CLLocation+YCLocation.h"; sourceTree = "<group>"; };
 		8430293F1D6306F30001B4C3 /* CLLocation+YCLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CLLocation+YCLocation.m"; sourceTree = "<group>"; };
+		843832021D6825A500DA1D34 /* UnCompleteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnCompleteViewController.h; sourceTree = "<group>"; };
+		843832031D6825A500DA1D34 /* UnCompleteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnCompleteViewController.m; sourceTree = "<group>"; };
+		843832061D6827D900DA1D34 /* CompleteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompleteViewController.h; sourceTree = "<group>"; };
+		843832071D6827D900DA1D34 /* CompleteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompleteViewController.m; sourceTree = "<group>"; };
 		846029E01D65A62E00E139C3 /* img6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = img6.png; sourceTree = "<group>"; };
 		846029E11D65A62E00E139C3 /* 复选框-未选中.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "复选框-未选中.png"; sourceTree = "<group>"; };
 		846029E21D65A62E00E139C3 /* 复选框-选中.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "复选框-选中.png"; sourceTree = "<group>"; };
@@ -494,6 +511,12 @@
 		8487A9CA1D5B1F5C00F0E889 /* address.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = address.plist; sourceTree = "<group>"; };
 		8487A9CD1D5B1F8600F0E889 /* AddressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressViewController.h; sourceTree = "<group>"; };
 		8487A9CE1D5B1F8600F0E889 /* AddressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressViewController.m; sourceTree = "<group>"; };
+		84D6E6291D6D92E90069ABFC /* jpush-ios-2.1.8.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "jpush-ios-2.1.8.a"; sourceTree = "<group>"; };
+		84D6E62A1D6D92E90069ABFC /* JPUSHService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPUSHService.h; sourceTree = "<group>"; };
+		84D6E62C1D6D93270069ABFC /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		84D6E62E1D6D932C0069ABFC /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		84D6E6301D6D93440069ABFC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		84D6E6321D6D93490069ABFC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B4981582495B82B998A76B15 /* Pods_foot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_foot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B7EA16029F6E6154CE57F8BA /* Pods-foot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-foot.release.xcconfig"; path = "Pods/Target Support Files/Pods-foot/Pods-foot.release.xcconfig"; sourceTree = "<group>"; };
 		CB70F6E065ABCD404729201F /* Pods-foot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-foot.debug.xcconfig"; path = "Pods/Target Support Files/Pods-foot/Pods-foot.debug.xcconfig"; sourceTree = "<group>"; };
@@ -505,17 +528,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				841EE0A81D642D1200BC4C53 /* libz.tbd in Frameworks */,
-				841EE0A61D642D0900BC4C53 /* libstdc++.tbd in Frameworks */,
-				841EE0A41D642D0400BC4C53 /* CoreTelephony.framework in Frameworks */,
-				841EE0A21D642CFF00BC4C53 /* libsqlite3.tbd in Frameworks */,
-				841EE0A01D642CF900BC4C53 /* CoreGraphics.framework in Frameworks */,
-				841EE09E1D642CF100BC4C53 /* libiconv.tbd in Frameworks */,
-				841EE09C1D642C9000BC4C53 /* SystemConfiguration.framework in Frameworks */,
 				841EE09A1D642C0A00BC4C53 /* Security.framework in Frameworks */,
+				84D6E6331D6D93490069ABFC /* UIKit.framework in Frameworks */,
+				84D6E6311D6D93440069ABFC /* Foundation.framework in Frameworks */,
+				841EE0A01D642CF900BC4C53 /* CoreGraphics.framework in Frameworks */,
+				841EE09C1D642C9000BC4C53 /* SystemConfiguration.framework in Frameworks */,
+				841EE0A41D642D0400BC4C53 /* CoreTelephony.framework in Frameworks */,
+				84D6E62F1D6D932C0069ABFC /* CoreFoundation.framework in Frameworks */,
+				84D6E62D1D6D93270069ABFC /* CFNetwork.framework in Frameworks */,
+				841EE0A61D642D0900BC4C53 /* libstdc++.tbd in Frameworks */,
+				841EE0A21D642CFF00BC4C53 /* libsqlite3.tbd in Frameworks */,
+				841EE09E1D642CF100BC4C53 /* libiconv.tbd in Frameworks */,
 				843029361D62FE0F0001B4C3 /* CoreLocation.framework in Frameworks */,
 				841EE0961D642B5600BC4C53 /* libSocialWechat.a in Frameworks */,
 				841EE0971D642B5600BC4C53 /* libWeChatSDK.a in Frameworks */,
 				24AE7FE4A52DCB0C724D434D /* Pods_foot.framework in Frameworks */,
+				84D6E62B1D6D92E90069ABFC /* jpush-ios-2.1.8.a in Frameworks */,
 				841EE08C1D642B5600BC4C53 /* libUMSocial_Sdk_5.2.1.a in Frameworks */,
 				8402082B1D59D2B0003B7B80 /* Reveal.framework in Frameworks */,
 			);
@@ -983,6 +1011,14 @@
 				846029F61D65A6F300E139C3 /* CarViewController.m */,
 				8402075D1D598094003B7B80 /* MallViewController.h */,
 				8402075E1D598094003B7B80 /* MallViewController.m */,
+				843832021D6825A500DA1D34 /* UnCompleteViewController.h */,
+				843832031D6825A500DA1D34 /* UnCompleteViewController.m */,
+				843832061D6827D900DA1D34 /* CompleteViewController.h */,
+				843832071D6827D900DA1D34 /* CompleteViewController.m */,
+				841F28131D6A819600F7661C /* GoodSViewController.h */,
+				841F28141D6A819600F7661C /* GoodSViewController.m */,
+				841F28161D6A917300F7661C /* BuyViewController.h */,
+				841F28171D6A917300F7661C /* BuyViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -1091,13 +1127,6 @@
 				8430293F1D6306F30001B4C3 /* CLLocation+YCLocation.m */,
 			);
 			path = CCLocation;
-			sourceTree = "<group>";
-		};
-		843831BC1D67E60E00DA1D34 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "New Group";
 			sourceTree = "<group>";
 		};
 		846029DF1D65A62E00E139C3 /* 购物车 */ = {
@@ -1296,6 +1325,8 @@
 		8460A4CE1D597D1000D79721 /* foot */ = {
 			isa = PBXGroup;
 			children = (
+				84D6E6291D6D92E90069ABFC /* jpush-ios-2.1.8.a */,
+				84D6E62A1D6D92E90069ABFC /* JPUSHService.h */,
 				846029DF1D65A62E00E139C3 /* 购物车 */,
 				841EE0671D642B5600BC4C53 /* UMSocial_Sdk_5.2.1 */,
 				841EE0821D642B5600BC4C53 /* UMSocial_Sdk_Extra_Frameworks */,
@@ -1513,7 +1544,6 @@
 			children = (
 				847446B51D61F1C50087C291 /* TechCommentVController.h */,
 				847446B61D61F1C50087C291 /* TechCommentVController.m */,
-				843831BC1D67E60E00DA1D34 /* New Group */,
 			);
 			name = "技师评价";
 			sourceTree = "<group>";
@@ -1530,6 +1560,10 @@
 		A7131C42918B711A2030E852 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84D6E6321D6D93490069ABFC /* UIKit.framework */,
+				84D6E6301D6D93440069ABFC /* Foundation.framework */,
+				84D6E62E1D6D932C0069ABFC /* CoreFoundation.framework */,
+				84D6E62C1D6D93270069ABFC /* CFNetwork.framework */,
 				841EE0A71D642D1200BC4C53 /* libz.tbd */,
 				841EE0A51D642D0900BC4C53 /* libstdc++.tbd */,
 				841EE0A31D642D0400BC4C53 /* CoreTelephony.framework */,
@@ -1745,6 +1779,7 @@
 				846035451D5DC455007F5995 /* XWScanImage.m in Sources */,
 				840208201D59AFFC003B7B80 /* TechnicianTableViewCell.m in Sources */,
 				8460356F1D5DCE68007F5995 /* HZPhotoBrowser.m in Sources */,
+				841F28181D6A917300F7661C /* BuyViewController.m in Sources */,
 				8402080B1D59AD00003B7B80 /* ShopMode.m in Sources */,
 				8469973A1D5AD25B00579C90 /* TableViewCell.m in Sources */,
 				840208291D59C453003B7B80 /* ToMyHomeTableViewCell.m in Sources */,
@@ -1783,6 +1818,7 @@
 				843013F41D6563ED0003453F /* MyFocusCellModel.m in Sources */,
 				840207B81D59A382003B7B80 /* RechargeViewController.m in Sources */,
 				843013EE1D6561AB0003453F /* CollectionViewCellModel.m in Sources */,
+				843832081D6827D900DA1D34 /* CompleteViewController.m in Sources */,
 				8460A5691D597E7E00D79721 /* SBJsonUTF8Stream.m in Sources */,
 				847446AA1D61C3770087C291 /* CZViewController.m in Sources */,
 				8487A9C91D5B0F7400F0E889 /* bottonBtn.m in Sources */,
@@ -1792,6 +1828,7 @@
 				8402081D1D59AFFC003B7B80 /* MoreTableViewCell.m in Sources */,
 				840207B91D59A382003B7B80 /* RechargeTimeTableViewCell.m in Sources */,
 				8460A5661D597E7E00D79721 /* SBJsonStreamWriterAccumulator.m in Sources */,
+				841F28151D6A819600F7661C /* GoodSViewController.m in Sources */,
 				846035331D5D565C007F5995 /* UserTool.m in Sources */,
 				846035731D5DCE68007F5995 /* HZWaitingView.m in Sources */,
 				8460A5601D597E7E00D79721 /* SBJsonParser.m in Sources */,
@@ -1811,6 +1848,7 @@
 				84602A031D65B35F00E139C3 /* TechCellModel.m in Sources */,
 				846029F11D65A65E00E139C3 /* MyCustomCell.m in Sources */,
 				847446721D6194BA0087C291 /* MyFocusTableViewCell.m in Sources */,
+				843832041D6825A500DA1D34 /* UnCompleteViewController.m in Sources */,
 				843013FD1D65683F0003453F /* MyOrderCellModel.m in Sources */,
 				840208251D59B3C3003B7B80 /* ToMyHomeViewController.m in Sources */,
 				847446611D616B9A0087C291 /* PayCell.m in Sources */,
@@ -1965,12 +2003,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/foot-Prefix.pch";
 				INFOPLIST_FILE = foot/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/foot/WYScrollView/UMSocial_Sdk_5.2.1",
 					"$(PROJECT_DIR)/foot/WYScrollView/UMSocial_Sdk_Extra_Frameworks/Wechat",
+					"$(PROJECT_DIR)/foot",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -2050,12 +2089,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/foot-Prefix.pch";
 				INFOPLIST_FILE = foot/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/foot/WYScrollView/UMSocial_Sdk_5.2.1",
 					"$(PROJECT_DIR)/foot/WYScrollView/UMSocial_Sdk_Extra_Frameworks/Wechat",
+					"$(PROJECT_DIR)/foot",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",

@@ -5,6 +5,9 @@
 //  Created by Admin on 16/8/9.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
+#import "CompleteViewController.h"
+#import "GoodSViewController.h"
+#import "UnCompleteViewController.h"
 #import "CarViewController.h"
 #import "MallViewController.h"
 #import "WYScrollView.h"
@@ -54,6 +57,7 @@
     [self.collectionView registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:@"CELL"];
     [self.collectionView registerClass:[header class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeadView"];
     [self.view addSubview:self.collectionView];
+    self.collectionView.showsVerticalScrollIndicator = NO;
     
 }
 -(void)createHeaderView{
@@ -96,17 +100,18 @@
 -(void)OrderCarBtnClicked{
     CarViewController *CarVC = [[CarViewController alloc]init];
     [self.navigationController pushViewController:CarVC animated:YES];
-
 }
 
 //未完成
 -(void)Uncomplish{
-    
+    UnCompleteViewController *UnComplete = [[UnCompleteViewController alloc]init];
+    [self.navigationController pushViewController:UnComplete animated:YES];
 }
 
 //已完成
 -(void)complish{
-    
+    CompleteViewController *complete = [[CompleteViewController alloc]init];
+    [self.navigationController pushViewController:complete animated:YES];
 }
 
 
@@ -135,7 +140,9 @@
     return YES;
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    [MBProgressHUD showError:@"界面未制作"];
+    GoodSViewController *goods = [[GoodSViewController alloc]init];
+    [self.navigationController pushViewController:goods animated:YES];
+//    [MBProgressHUD showError:@"界面未制作"];
     
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
