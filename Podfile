@@ -11,5 +11,6 @@ pod 'MBProgressHUD'
 pod 'EGOImageLoading'
 pod 'NJKWebViewProgress'
 pod 'DXPopover'
+pod 'SDCycleScrollView'
 end
 

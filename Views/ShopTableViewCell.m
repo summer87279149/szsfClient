@@ -32,13 +32,13 @@
         [self addSubview:imageView];
         
         self.titleLbl = [[UILabel alloc]init];
-        titleLbl.text = @"扬子江路门市店扬子江路门市店扬子江路门市店扬子江路门市店";
+        titleLbl.text = @"";
         titleLbl.font = [UIFont boldSystemFontOfSize:14];
         titleLbl.backgroundColor = [UIColor clearColor];
         [self addSubview:titleLbl];
         
         self.descriptionLbl =  [[UILabel alloc]init];
-        descriptionLbl.text = @"店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述店铺描述。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。";
+        descriptionLbl.text = @"";
         descriptionLbl.backgroundColor = [UIColor clearColor];
         descriptionLbl.textColor = COLOR;
         descriptionLbl.font = [UIFont boldSystemFontOfSize:10];
@@ -47,7 +47,7 @@
         [self addSubview:descriptionLbl];
         
         self.starLbl =  [[UILabel alloc]init];
-        starLbl.text = @"4.5分";
+        starLbl.text = @"";
         starLbl.backgroundColor = [UIColor clearColor];
         starLbl.textColor = COLOR;
         starLbl.font = [UIFont boldSystemFontOfSize:12];
@@ -55,7 +55,7 @@
         [self addSubview:starLbl];
         
         self.priceLbl = [[UILabel alloc]init];
-        priceLbl.text = @"均价:￥99";
+        priceLbl.text = @"";
         priceLbl.backgroundColor = [UIColor clearColor];
         priceLbl.textColor = COLOR;
         priceLbl.textAlignment = 2;
@@ -63,7 +63,7 @@
         [self addSubview:priceLbl];
         
         self.nearLbl =  [[UILabel alloc]init];
-        nearLbl.text = @"1.5km";
+        nearLbl.text = @"";
         nearLbl.backgroundColor = [UIColor clearColor];
         nearLbl.textColor = COLOR;
         nearLbl.font = [UIFont boldSystemFontOfSize:12];
@@ -130,7 +130,7 @@
     descriptionLbl.text = toShopCellModel.descrip;
     priceLbl.text = [NSString stringWithFormat:@"均价¥:%@",toShopCellModel.price];
     rView.score = toShopCellModel.star;
-    starLbl.text = [NSString stringWithFormat:@"%f分",toShopCellModel.star];
+    starLbl.text = [NSString stringWithFormat:@"%.1f分",toShopCellModel.star];
     nearLbl.text = toShopCellModel.near;
 }
 

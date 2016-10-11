@@ -5,7 +5,8 @@
 //  Created by Admin on 16/4/22.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
-
+#import "MainNavViewController.h"
+#import "UserLoginController.h"
 #import "SettingViewController.h"
 //#import "AFHTTPClient.h"
 @interface SettingViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIAlertViewDelegate>
@@ -82,7 +83,12 @@
         case 0: //取消退出登录
             break;
         case 1: //确定退出登录，写退出登入代码
-            
+        {
+            [[YCUserModel shareManager] logOut];
+            UserLoginController *login =[[UserLoginController alloc]init];
+            MainNavViewController *nav = [[MainNavViewController alloc]initWithRootViewController:login];
+            [self presentViewController:nav animated:YES completion:nil];
+        }
             break;
     }
 }

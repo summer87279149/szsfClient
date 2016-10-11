@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface TechCommentVController : UIViewController
-
+//用来网络请求的参数字典
+@property(nonatomic,copy)NSDictionary *para;
 @end

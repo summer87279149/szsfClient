@@ -10,6 +10,8 @@
 #define foot_Prefix_pch
 
 // Include any system framework and library headers here that should be included in all compilation units.
+#define CITYCODE     @"cityCode"
+#define CITYNAME     @"cityName"
 #define UmengAppkey   @"57ad49a9e0f55a3351003470"
 #define jingWeiDu    [CCLocationManager shareLocation]
 #define k_scale kScreenWidth/320.0
@@ -65,6 +67,16 @@ __LINE__,               \
 #define kColorMainGrey      [UIColor hexColor:@"6a6a6a"]
 #define kColorMainBorderGrey [UIColor hexColor:@"a1a1a1"]
 
+
+
+#ifndef __OPTIMIZE__
+#define NSLog(...) NSLog(__VA_ARGS__)
+#else
+#define NSLog(...) {}
+#endif
+
+
+
 //自定义错误提供给NSError使用
 #define kCustomErrorDomain @"com.liangdian.ios"
 #endif /* foot_Prefix_pch */
@@ -79,6 +91,11 @@ __LINE__,               \
 #import "UIView+lineView.h"
 #import "CCLocationManager.h"
 #import "UIImageView+WebCache.h"
+#import "XTCommonAPIConstant.h"
+#import "XTRequestManager.h"
+#import "YCUserModel.h"
+#import "SomeOtherRequest.h"
+#import <CoreLocation/CoreLocation.h>
 //#import "CommonDeal.h"
 //#import "AppContextManager.h"
 //#import "AFNetworkService.h"

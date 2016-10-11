@@ -42,7 +42,7 @@
         
         //关注按钮
         self.focusButton = [[UIButton alloc]init];
-        [self addSubview:self.focusButton];
+//        [self addSubview:self.focusButton];
         [self.focusButton setTitle:@"+关注" forState:UIControlStateNormal];
         self.focusButton.alpha = 0.8;
         [self.focusButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -70,7 +70,7 @@
         self.name.sd_layout.topSpaceToView(_imageview,14*k_scaleHeight).centerXEqualToView(_imageview).widthIs(100).heightIs(20);
         
         UILabel *pingfen =[UILabel sharedWithFont:13 andColor:COLOR andAnligment:center andBackgroundColor:nil];
-        pingfen.text = @"评分";
+        pingfen.text = @"评分(满5分)";
         [self addSubview:pingfen];
         UILabel *danshu = [UILabel sharedWithFont:13 andColor:COLOR andAnligment:center andBackgroundColor:nil];
         danshu.text = @"单数";
@@ -80,10 +80,8 @@
         [self addSubview:juli];
         
         danshu.sd_layout.centerXEqualToView(self).topSpaceToView(self.name,10*k_scaleHeight).widthIs(80*k_scale).heightIs(15);
-        
         pingfen.sd_layout.rightSpaceToView(danshu,10*k_scale).topEqualToView(danshu).widthIs(80*k_scale).heightIs(15);
         juli.sd_layout.leftSpaceToView(danshu,10*k_scale).topEqualToView(danshu).widthIs(80*k_scale).heightIs(15);
-        
         
         
         self.grade = [UILabel sharedWithFont:14 andColor:COLOR andAnligment:center andBackgroundColor:nil];
@@ -99,17 +97,18 @@
         
         //分割线
         
-        UIView *line1 = [UIView lineWithColor:COLOR];
+        line1 = [UIView lineWithColor:COLOR];
         [self addSubview:line1];
-        UIView *line2 = [UIView lineWithColor:COLOR];
+        line2 = [UIView lineWithColor:COLOR];
         [self addSubview:line2];
-        UIView *line3 = [UIView lineWithColor:COLOR];
+        line3 = [UIView lineWithColor:COLOR];
         [self addSubview:line3];
         line1.sd_layout.widthIs(1).topEqualToView(pingfen).leftSpaceToView(danshu,1).bottomEqualToView(self.grade);
         line2.sd_layout.widthIs(1).topEqualToView(pingfen).rightSpaceToView(danshu,1).bottomEqualToView(self.grade);
         line3.sd_layout.heightIs(1).topSpaceToView(self.orderNumber,10*k_scaleHeight).leftSpaceToView(self,50*k_scale).rightSpaceToView(self,50*k_scale);
         
         //文本
+        
         self.text = [UILabel sharedWithFont:12 andColor:COLOR andAnligment:left andBackgroundColor:nil];
         [self addSubview:self.text];
         
@@ -121,7 +120,7 @@
         self.text.lineBreakMode = NSLineBreakByCharWrapping;
         self.text.text = @"● 服务说明:本店于十一期间特推出一系列优惠，限时限量敬请选购！沙发：钻石品质，首领风范！床垫：华贵典雅，彰显时尚！尊贵而不失奢华，典雅却不失自然！温馨和浪漫的生活，我们与你一店于十一期间特推出一系列优惠，限时限量敬请选购！沙发：钻石品质，首领风范！床垫：华贵典雅，彰显时尚！尊贵而不失奢华，典雅却不失自然！温馨和浪漫的生活，我们与你同创造！服务说明:本店于十一期间特推出一系列优惠，限时限量敬请选购！沙发：钻石品质，首领风范！床垫：华贵典雅，彰显时尚！尊贵而不失奢华，典雅却不失自然！温馨和浪漫的生活，我们与你一店于十一期间特推出一系列优惠，限时限量敬请选购！沙发：钻石品质，首领风范！床垫：华贵典雅，彰显时尚！尊贵而不失奢华，典雅却不失自然！温馨和浪漫的生活，我们与你同创造！";
         CGSize size = [self.text sizeThatFits:CGSizeMake(self.text.frame.size.width, 2000)];
-        self.text.sd_layout.leftEqualToView(line3).rightEqualToView(line3).topSpaceToView(line3,5).heightIs(size.height);
+//        self.text.sd_layout.leftEqualToView(line3).rightEqualToView(line3).topSpaceToView(line3,5).heightIs(size.height);
         //项目
         self.project = [UILabel sharedWithFont:12 andColor:COLOR andAnligment:left andBackgroundColor:nil];
         [self addSubview:self.project];
@@ -139,7 +138,7 @@
         self.button = [[UIButton alloc]init];
         [self addSubview:self.button];
         self.button.backgroundColor = [UIColor clearColor];
-        [self.button setTitle:@"预约" forState:UIControlStateNormal];
+        [self.button setTitle:@"查看详情" forState:UIControlStateNormal];
         [self.button setTitleColor:[UIColor getColor:@"3B2935"] forState:UIControlStateNormal];
         [self.button.titleLabel setFont:[UIFont systemFontOfSize:14]];
         self.button.tintColor = [UIColor getColor:@"3B2935"];
@@ -149,7 +148,7 @@
         [self.button addTarget:self action:@selector(cellBtnClicked) forControlEvents:UIControlEventTouchUpInside];
         //cell的高度
         self.height = 120+144*k_scaleHeight+size.height;
-        NSLog(@"height = %f",self.height);
+        
         
 
         
@@ -167,14 +166,21 @@
 
 -(void)setToMyHomeCellModel:(ToMyHomeCellModel *)toMyHomeCellModel{
     _toMyHomeCellModel = toMyHomeCellModel;
-    [self.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",toMyHomeCellModel.imageviewUrl]]];
+    
+    [_imageview sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",toMyHomeCellModel.imageviewUrl]]];
     self.name.text = toMyHomeCellModel.name;
     self.grade.text = toMyHomeCellModel.grade;
-    self.orderNumber.text = toMyHomeCellModel.orderNumber;
-    self.distance.text = toMyHomeCellModel.distance;
+    self.orderNumber.text =[NSString stringWithFormat:@"%@单",toMyHomeCellModel.orderNumber];
+    self.distance.text = [NSString stringWithFormat:@"%@km",toMyHomeCellModel.distance];
     self.text.text = toMyHomeCellModel.text;
     self.project.text = toMyHomeCellModel.project;
     self.belongTo.text = toMyHomeCellModel.belongTo;
+    
+        CGSize size = [self.text sizeThatFits:CGSizeMake(self.text.frame.size.width, 2000)];
+        self.text.sd_layout.leftEqualToView(line3).rightEqualToView(line3).topSpaceToView(line3,5).heightIs(size.height);
+        self.height = 120+144*k_scaleHeight+size.height;
+    
+    
 }
 
 
@@ -187,7 +193,7 @@
 #pragma mark ========delegate=====
 -(void)cellBtnClicked{
     
-    [self.delegate cellOrderBtnClicked];
+    [self.delegate cellOrderBtnClicked:self.myCurrentRow];
     
 }
 -(void)focusBtnClicked{

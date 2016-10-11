@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface SearchResualtViewController : UIViewController
-
+//用户搜索的关键词
+@property(nonatomic,copy)NSString *keyword;
 @end

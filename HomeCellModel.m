@@ -5,9 +5,10 @@
 //  Created by Admin on 16/8/18.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
-#define XXJdistance                              @""
-#define XXJname                                    @""
-
+#define XXJdistance                              @"distance"
+#define XXJname                                    @"shopname"
+#define XXJShopID                                    @"sid"
+#define XXJShopImage                                    @"images"
 #import "HomeCellModel.h"
 
 @implementation HomeCellModel
@@ -35,7 +36,30 @@
     {
         self.name = dic[XXJname];
     }
-
+    
+    // 3
+    if ([dic objectForKey:XXJShopID] == nil ||
+        [dic objectForKey:XXJShopID] == [NSNull null])
+    {
+        self.shopID =  @"";
+    }
+    else
+    {
+        self.shopID = dic[XXJShopID];
+    }
+    
+    
+    //4
+    // 3
+    if ([dic objectForKey:XXJShopImage] == nil ||
+        [dic objectForKey:XXJShopImage] == [NSNull null])
+    {
+        self.image =  @"";
+    }
+    else
+    {
+        self.image = dic[XXJShopImage];
+    }
     
 }
 @end

@@ -11,8 +11,7 @@
 @interface GoodSViewController ()<UIScrollViewDelegate,WYScrollViewNetDelegate>
 {
     WYScrollView *WYNetScrollView;
-    NSMutableArray *NetImageArray;
-    NSArray *arr;
+    NSMutableArray *imageArr;
     UIButton *orderBtn;
 }
 @property(nonatomic,strong) UIScrollView *scrollview;
@@ -23,30 +22,39 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     HaHaHaAddBackGroundImage
-    
-    // =====测试数据======
-    arr = @[
-            @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg",
-            @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg",
-            @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg"
-            ];
-    
-    //===========
+    imageArr =  [[NSMutableArray alloc]initWithCapacity:0];
     self.scrollview = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-48*k_scaleHeight)];
     [self.view addSubview:self.scrollview];
     self.scrollview.scrollEnabled = YES;
     self.scrollview.showsVerticalScrollIndicator = NO;
     self.scrollview.backgroundColor = [UIColor clearColor];
-
-
     self.navigationItem.title = @"商品详情";
-
-    [self setscrollview];
+    
     [self setprojectview];
     [self createBottomOrder];
-    [self settestdata];
-
+    [self GetRequestData];
 }
+-(void)GetRequestData{
+    WS(weakSelf)
+    [SomeOtherRequest GetShopProductDetailWithProductID:self.productID success:^(id response) {
+//        NSLog(@"商品详情的返回结果是:%@",response[@"images"]);
+        imageArr = response[@"images"];
+        [weakSelf setscrollview];
+        weakSelf.name.text = response[@"prodname"];
+        weakSelf.shiyi.text = [NSString stringWithFormat:@"\n● 商品说明:\n\n %@",response[@"instruction"]];
+        weakSelf.goodsSize.text = [NSString stringWithFormat:@"规格:%@",response[@"prodsize"]];
+        CGSize size = [weakSelf.shiyi sizeThatFits:CGSizeMake(weakSelf.shiyi.frame.size.width, 2000)];
+        weakSelf.shiyi.frame =CGRectMake(10, 75, kScreenWidth-20, size.height);
+        weakSelf.projectView.frame = CGRectMake(0, 200, kScreenWidth,70+size.height);
+        weakSelf.price.text = [NSString stringWithFormat:@"%@元",response[@"price"]];
+        weakSelf.scrollview.contentSize = CGSizeMake(kScreenWidth,CGRectGetMaxY(self.projectView.frame));
+        [weakSelf applyHttpData];
+    } error:^(id response) {
+        
+    }];
+}
+
+
 -(void)createBottomOrder{
     orderBtn = [[UIButton alloc]init];
     [orderBtn addTarget:self action:@selector(orderBtnClicked) forControlEvents:UIControlEventTouchUpInside];
@@ -56,7 +64,13 @@
     [self.view addSubview:orderBtn];
 }
 -(void)orderBtnClicked{
-    [MBProgressHUD showSuccess:@"已加入购物车"];
+    [SomeOtherRequest AddProductToCarWithUserId:[YCUserModel userId] andProductID:self.productID success:^(id response) {
+        NSLog(@"加入购物车 %@",response);
+        [MBProgressHUD showSuccess:@"已加入购物车"];
+    } error:^(id response) {
+        
+    }];
+    
 }
 -(void)setprojectview{
     self.projectView = [[UIView alloc]initWithFrame:CGRectMake(0, 200, kScreenWidth, 100)];
@@ -66,7 +80,7 @@
     [self.projectView addSubview:self.name];
     //商品规格
     self.goodsSize = [[UILabel alloc]initWithFrame:CGRectMake(10, 35, kScreenWidth-20, 30)];
-    self.goodsSize.text = @"规格：20g*20袋";
+    self.goodsSize.text = @"";
     self.goodsSize.font = [UIFont systemFontOfSize:12];
     self.goodsSize.textColor = COLOR;
     [self.projectView addSubview:self.goodsSize];
@@ -77,7 +91,7 @@
     [self.projectView addSubview:self.shiyi];
     self.shiyi.numberOfLines = 0;
     self.shiyi.lineBreakMode = NSLineBreakByCharWrapping;
-    self.shiyi.text = @"● 商品说明:\n \n  本店于十一期间特推出一系列优惠，限时限量敬请选购！沙发：钻石品质，首领风范！床垫：华贵典雅，彰显时尚！尊贵而不失奢华，典雅却不失自然！温馨和浪漫的生活，我们与你一店于十一期间特推出一系列优惠，限时限量敬请选购！沙发：钻石品质，首领风范！床垫：华贵典雅，彰显时尚！尊贵而不失奢华，典雅却不失自然！温馨和浪漫的生活，我们与你同创造！";
+    self.shiyi.text = @"";
     CGSize size = [self.shiyi sizeThatFits:CGSizeMake(self.shiyi.frame.size.width, 2000)];
     self.shiyi.frame =CGRectMake(10, 75, kScreenWidth-20, size.height);
     //时长 选择人数
@@ -94,24 +108,15 @@
     
     
 }
--(void)settestdata{
-    self.name.text = @"多乐士袋装茶";
-    self.goodsSize.text = @"规格：20g*25袋";
-    self.shiyi.text = @"\n● 商品说明:\n\n  我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶，我是茶叶。";
-    CGSize size = [self.shiyi sizeThatFits:CGSizeMake(self.shiyi.frame.size.width, 2000)];
-    self.shiyi.frame =CGRectMake(10, 75, kScreenWidth-20, size.height);
-    self.projectView.frame = CGRectMake(0, 200, kScreenWidth,70+size.height);
-//    self.time.text = @"199人选择";
-    self.price.text= @"998.00元";
-//    self.comments.text = @"TA的评价(360条)  99.6%好评";
-    self.scrollview.contentSize = CGSizeMake(kScreenWidth,CGRectGetMaxY(self.projectView.frame));
+
+
+-(void)applyHttpData{
+    
 }
-
-
 
 -(void)setscrollview{
     /** 设置网络scrollView的Frame及所需图片*/
-    WYNetScrollView = [[WYScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200) WithNetImages:arr];
+    WYNetScrollView = [[WYScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200) WithNetImages:imageArr];
     /** 设置滚动延时*/
     WYNetScrollView.AutoScrollDelay = 3;
     /** 设置占位图*/

@@ -58,11 +58,11 @@
     
     self.name.text = shopCellModel.name;
     
-    self.time.text = shopCellModel.time;
+    self.time.text = [NSString stringWithFormat:@"%@分钟",shopCellModel.time];
     
-    self.chooseNumber.text = shopCellModel.chooseNumber;
+    self.chooseNumber.text = [NSString stringWithFormat:@"%@人选择",shopCellModel.chooseNumber];
     
-    self.price.text = shopCellModel.price;
+    self.price.text = [NSString stringWithFormat:@"%@元",shopCellModel.price];
     
 }
 @end

@@ -5,7 +5,8 @@
 //  Created by Admin on 16/4/25.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
-
+#import "ToShopCellModel.h"
+#import "SearchCellModel.h"
 #import "SearchResualtViewController.h"
 #import "ShopTableViewCell.h"
 #import "MoreTableViewCell.h"
@@ -40,66 +41,81 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
     UIImageView *backgroundImageView;
     UIImage *backgroundImage;
 }
+@property(nonatomic,strong)NSMutableArray *shopsArr;
 @end
 
 @implementation SearchResualtViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
+    self.shopsArr = [[NSMutableArray alloc]initWithCapacity:0];
     backgroundImage = [UIImage imageNamed:@"homeVCBackgroundImage"];
     backgroundImageView = [[UIImageView alloc]initWithImage:backgroundImage];
     backgroundImageView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     [self.view addSubview:backgroundImageView];
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
-        self.edgesForExtendedLayout=UIRectEdgeNone;
-        
-    }
+  
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"搜索结果";
     selectType = @"店铺相关";
     //三个筛选按钮
-    for (int i = 0; i< 3; i ++) {
-        UIButton * btn = [[UIButton alloc]initWithFrame: CGRectMake(viewWidth/3*i, 0, viewWidth/3, 40)];
-        btn.tag = 600+i;
-        [btn setBackgroundColor:[UIColor clearColor]];
-        [btn setTitleColor:COLOR forState:UIControlStateNormal];
-        btn.titleLabel.textAlignment = 1;
-//        [btn setContentEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 0)];
-//        btn.imageEdgeInsets = UIEdgeInsetsMake(0,viewWidth/3,0,20);
-        btn.titleLabel.font = [UIFont systemFontOfSize:15];//title字体大小
-//        [btn setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
-        
-        if (i == 0) {
-            [btn setTitle:@"店铺相关" forState:UIControlStateNormal];
-            [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            oneBtn = btn;
-        }
-        else if(i == 1)
-        {
-            [btn setTitle:@"技师相关" forState:UIControlStateNormal];
-            twoBtn = btn;
-        }
-        else
-        {
-            [btn setTitle:@"项目相关" forState:UIControlStateNormal];
-            threeBtn  = btn;
-        }
-        [btn addTarget:self action:@selector(selectPress:) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:btn];
-    }
+//    for (int i = 0; i< 3; i ++) {
+//        UIButton * btn = [[UIButton alloc]initWithFrame: CGRectMake(viewWidth/3*i, 0, viewWidth/3, 40)];
+//        btn.tag = 600+i;
+//        [btn setBackgroundColor:[UIColor clearColor]];
+//        [btn setTitleColor:COLOR forState:UIControlStateNormal];
+//        btn.titleLabel.textAlignment = 1;
+////        [btn setContentEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 0)];
+////        btn.imageEdgeInsets = UIEdgeInsetsMake(0,viewWidth/3,0,20);
+//        btn.titleLabel.font = [UIFont systemFontOfSize:15];//title字体大小
+////        [btn setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
+//        
+//        if (i == 0) {
+//            [btn setTitle:@"店铺相关" forState:UIControlStateNormal];
+//            [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//            oneBtn = btn;
+//        }
+//        else if(i == 1)
+//        {
+//            [btn setTitle:@"技师相关" forState:UIControlStateNormal];
+//            twoBtn = btn;
+//        }
+//        else
+//        {
+//            [btn setTitle:@"项目相关" forState:UIControlStateNormal];
+//            threeBtn  = btn;
+//        }
+//        [btn addTarget:self action:@selector(selectPress:) forControlEvents:UIControlEventTouchUpInside];
+//        [self.view addSubview:btn];
+//    }
+//    
+    [self getNetData];
     
-    
-    searchResualtTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 41, viewWidth, viewHeight-120-115) style:UITableViewStylePlain];
+    searchResualtTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64) style:UITableViewStylePlain];
     searchResualtTable.dataSource = self;
     searchResualtTable.delegate = self;
     searchResualtTable.backgroundColor = [UIColor clearColor];
     [self.view addSubview:searchResualtTable];
     
-    
 }
-
+#pragma mark - 加载数据
+-(void)getNetData{
+    NSDictionary *prama = @{@"keyword":self.keyword};
+    [XTRequestManager GET:kXTCommonAPIConstantSearchShop parameters:prama responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
+//        NSLog(@"  搜索结果  页面返回数据是:%@",responseObject);
+        NSArray *arr = responseObject[@"0"];
+        for(NSDictionary *dic in arr){
+//            NSLog(@"字典是%@",dic);
+            ToShopCellModel *model =[[ToShopCellModel alloc]initFromDictionary:dic];
+            [_shopsArr addObject:model];
+//            NSLog(@"shuzu是:%@",self.shopsArr);
+            [searchResualtTable reloadData];
+        }
+    } failure:^(NSError *error) {
+        
+    }];
+}
 - (void)selectPress:(id)sender
 {
     UIButton *btn = sender;
@@ -202,113 +218,121 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if([selectType isEqualToString:@"技师相关"] || [selectType isEqualToString:@"项目相关"]) {
-        return 1;
-    }
-    else
-    {
-        if (isOpen && selectIndex.section == section) {
-            
-            return 2;
-        }
-        return 1;
-    }
-    //    return [shopArr count];
+//    if([selectType isEqualToString:@"技师相关"] || [selectType isEqualToString:@"项目相关"]) {
+//        return 1;
+//    }
+//    else
+//    {
+//        if (isOpen && selectIndex.section == section) {
+//            
+//            return 2;
+//        }
+//        return 1;
+//    }
+    NSLog(@"shuzu de shuliang shi %lu",self.shopsArr.count);
+        return self.shopsArr.count;
     
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([selectType isEqualToString:@"技师相关"] || [selectType isEqualToString:@"项目相关"]) {
-        return 110;
-    }
-    else
-    {
-        if (isOpen && selectIndex.section == indexPath.section && indexPath.row != 0) {
-            
-            return 80;
-        }
-        return 110;
-    }
+//    if ([selectType isEqualToString:@"技师相关"] || [selectType isEqualToString:@"项目相关"]) {
+//        return 110;
+//    }
+//    else
+//    {
+//        if (isOpen && selectIndex.section == indexPath.section && indexPath.row != 0) {
+//            
+//            return 80;
+//        }
+//        return 110;
+//    }
+    return 90;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([selectType isEqualToString:@"项目相关"]) {
-        //项目
-        static NSString *tableCell = @"ProjectCell";
-        ProjectTableViewCell *cell = (ProjectTableViewCell *)[tableView dequeueReusableCellWithIdentifier:tableCell];
-        if (cell == nil)
-        {
-            cell = [[ProjectTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                               reuseIdentifier:tableCell];
-            cell.proCel_delegate = self;
-            cell.backgroundColor = [UIColor clearColor];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
+//    if ([selectType isEqualToString:@"项目相关"]) {
+//        //项目
+//        static NSString *tableCell = @"ProjectCell";
+//        ProjectTableViewCell *cell = (ProjectTableViewCell *)[tableView dequeueReusableCellWithIdentifier:tableCell];
+//        if (cell == nil)
+//        {
+//            cell = [[ProjectTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+//                                               reuseIdentifier:tableCell];
+//        }
+//        cell.proCel_delegate = self;
+//        cell.backgroundColor = [UIColor clearColor];
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//
         //数据源
 //        [cell getData:indexPath];
 //        [cell getDataModel:[projectArr objectAtIndex:indexPath.row]];
-        return cell;
-    }
-    else if ([selectType isEqualToString:@"技师相关"]) {
-        //技师
-        static NSString *tableCell = @"TechnicianCell";
-        TechnicianTableViewCell *cell = (TechnicianTableViewCell *)[tableView dequeueReusableCellWithIdentifier:tableCell];
-        if (cell == nil)
-        {
-            cell = [[TechnicianTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                  reuseIdentifier:tableCell];
-            cell.backgroundColor = [UIColor clearColor];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
-        //数据源
-//        TechnicianMode *mode = [visitArr objectAtIndex:indexPath.row];
-//        [cell getTechnicianMode:mode];
-        return cell;
-    }
-    else
+//        return cell;
+//    }
+//    else if ([selectType isEqualToString:@"技师相关"]) {
+//        //技师
+//        static NSString *tableCell = @"TechnicianCell";
+//        TechnicianTableViewCell *cell = (TechnicianTableViewCell *)[tableView dequeueReusableCellWithIdentifier:tableCell];
+//        if (cell == nil)
+//        {
+//            cell = [[TechnicianTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+//                                                  reuseIdentifier:tableCell];
+//            cell.backgroundColor = [UIColor clearColor];
+//            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        }
+//        //数据源
+////        TechnicianMode *mode = [visitArr objectAtIndex:indexPath.row];
+////        [cell getTechnicianMode:mode];
+//        return cell;
+//    }
+//    else
+//    {
+//        if (isOpen && selectIndex.section == indexPath.section && indexPath.row != 0) {
+//            MoreTableViewCell *cell = (MoreTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
+//            
+//            
+//            if (cell == nil)
+//            {
+//                cell = [[MoreTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+//                                                reuseIdentifier:CellIdentifier2];
+//                cell.moreCell_deleagte = self;
+//                cell.backgroundColor = [UIColor clearColor];
+//            }
+//            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    
+//            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//            return cell;
+//            
+//        }else{
+//
+    static NSString *tableCell = @"SettingCell1";
+    ShopTableViewCell *cell = (ShopTableViewCell *)[tableView dequeueReusableCellWithIdentifier:tableCell];
+    if (cell == nil)
     {
-        if (isOpen && selectIndex.section == indexPath.section && indexPath.row != 0) {
-            MoreTableViewCell *cell = (MoreTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier2];
-            
-            
-            if (cell == nil)
-            {
-                cell = [[MoreTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                reuseIdentifier:CellIdentifier2];
-                cell.moreCell_deleagte = self;
-                cell.backgroundColor = [UIColor clearColor];
-            }
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            return cell;
-            
-        }else{
-            
-            ShopTableViewCell *cell = (ShopTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
-            
-            if (cell == nil)
-            {
-                cell = [[ShopTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                reuseIdentifier:CellIdentifier1];
-                cell.shopCel_delegate = self;
-                cell.backgroundColor = [UIColor clearColor];
-            }
-         
-            
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            return cell;
-        }
-        
+        cell = [[ShopTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                        reuseIdentifier:tableCell];
     }
-    return nil;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    if (_shopsArr.count>0) {
+        cell.shopCel_delegate = self;
+        cell.backgroundColor = [UIColor clearColor];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.toShopCellModel = self.shopsArr[indexPath.row];
+    }
+    
+    return cell;
+    
+    
+    
+        
+
+
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([selectType isEqualToString:@"店铺相关"]) {
+//    if ([selectType isEqualToString:@"店铺相关"]) {
 //        ShopDetailViewController *shopDetailCtr = [[ShopDetailViewController alloc]init];
         ShopDetailVC*shopDetailCtr = [[ShopDetailVC alloc]init];
         //        ShopMode *mode = [shopArr objectAtIndex:indexPath.row];
@@ -316,24 +340,24 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
         [self.navigationController pushViewController:shopDetailCtr animated:YES];
         
         
-    }
-    else if ([selectType isEqualToString:@"技师相关"]) {
-        
-//        TechnicianMode *mode = [visitArr objectAtIndex:indexPath.row];
-        TechViewController *tecDetailCtr = [[TechViewController alloc]init];
-//        tecDetailCtr.technicianID =mode.technicianID;
-//        tecDetailCtr.title = mode.name;
-        [self.navigationController pushViewController:tecDetailCtr animated:YES];
-    }
-
-    else
-    {
-//        ProjectDetailViewController *proCtr = [[ProjectDetailViewController alloc]init];
-        ServiceViewController*xiangmu = [[ServiceViewController alloc]init];
-//        proCtr.title = @"清水足浴";
-        [self.navigationController pushViewController:xiangmu animated:YES];
-        
-    }
+//    }
+//    else if ([selectType isEqualToString:@"技师相关"]) {
+//        
+////        TechnicianMode *mode = [visitArr objectAtIndex:indexPath.row];
+//        TechViewController *tecDetailCtr = [[TechViewController alloc]init];
+////        tecDetailCtr.technicianID =mode.technicianID;
+////        tecDetailCtr.title = mode.name;
+//        [self.navigationController pushViewController:tecDetailCtr animated:YES];
+//    }
+//
+//    else
+//    {
+////        ProjectDetailViewController *proCtr = [[ProjectDetailViewController alloc]init];
+//        ServiceViewController*xiangmu = [[ServiceViewController alloc]init];
+////        proCtr.title = @"清水足浴";
+//        [self.navigationController pushViewController:xiangmu animated:YES];
+//        
+//    }
     
 }
 
@@ -450,14 +474,6 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

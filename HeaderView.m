@@ -7,37 +7,51 @@
 //
 
 #import "HeaderView.h"
-#import "WYScrollView.h"
-@interface HeaderView ()<WYScrollViewNetDelegate>
+#import "XThttpManager.h"
+#import "SDCycleScrollView.h"
+
+@interface HeaderView ()<WYScrollViewNetDelegate,SDCycleScrollViewDelegate>{
+    SDCycleScrollView *topScrollView;
+    NSInteger page ;
+    
+}
 
 @end
 @implementation HeaderView
 - (instancetype)initWithFrame:(CGRect)frame {
+    
     self = [super initWithFrame:frame];
     if (self) {
-        NetImageArray = [[NSMutableArray alloc]initWithCapacity:0];
-        // ========测试数据 记得删掉=======
-        NetImageArray = [NSMutableArray arrayWithObjects:
-                         @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg",
-                         @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg",
-                         @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg",
-                         nil];
-        self.backgroundColor = COLOR;
-        _WYNetScrollView = [[WYScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 200) WithNetImages:NetImageArray];
-        /** 设置滚动延时*/
-        _WYNetScrollView.AutoScrollDelay = 3;
-        /** 设置占位图*/
-        _WYNetScrollView.placeholderImage = [UIImage imageNamed:@"placeholderImage"];
-        /** 获取网络图片的index*/
-        self.WYNetScrollView.netDelagate = self;
-        /** 添加到当前View上*/
-        [self addSubview:_WYNetScrollView];
-    }
+        
+            WS(weakSelf)
+            XThttpManager*manager= [XThttpManager shareManager] ;
+            [manager uploadLatAndLonComplete:^(NSMutableArray *array) {
+                NSLog(@"商城页面顶部滚动视图的数组是：%@",array);
+                
+                topScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, kScreenWidth, 200) imageNamesGroup:array];
+                /** 设置占位图*/
+                topScrollView.placeholderImage = [UIImage imageNamed:@"placeholderImage"];
+                /** 获取网络图片的index*/
+                topScrollView.delegate = weakSelf;
+                /** 添加到当前View上*/
+                [weakSelf addSubview:topScrollView];
+            }];
+
+        }
     return self;
 }
-
--(void)didSelectedNetImageAtIndex:(NSInteger)index{
-    NSLog(@"点击了第%ld图片",(long)index);
+-(void)xt_setupScrollview{
+    
 }
+
+
+/** 点击图片回调 */
+- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
+
+//    NSLog(@"点击了第%ld图片",(long)index);
+    NSNumber *num = [NSNumber numberWithInteger:index];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"scrollImageClicked" object:nil userInfo:@{@"index":num}];
+}
+
 
 @end

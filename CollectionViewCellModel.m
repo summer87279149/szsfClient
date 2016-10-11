@@ -5,11 +5,11 @@
 //  Created by Admin on 16/8/18.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
-#define XXJimageUrl         @""
-#define XXJname             @""
-#define XXJcontentSize      @""
-#define XXJprice            @""
-
+#define XXJimageUrl         @"images"
+#define XXJname             @"prodname"
+#define XXJcontentSize      @"prodsize"
+#define XXJprice            @"price"
+#define XXJCellID           @"id"
 
 #import "CollectionViewCellModel.h"
 
@@ -52,6 +52,15 @@
     else
     {
         self.price = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJprice]];
+    }
+    
+    if ([dic objectForKey:XXJCellID]==nil||[dic objectForKey:XXJCellID] == [NSNull null])
+    {
+        self.cellID = @"";
+    }
+    else
+    {
+        self.cellID = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJCellID]];
     }
 }
 @end

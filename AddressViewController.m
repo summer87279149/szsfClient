@@ -9,6 +9,9 @@
 #import "AddressViewController.h"
 
 @interface AddressViewController ()
+{
+    BOOL isSelectCity;
+}
 @property(nonatomic,strong)NSIndexPath *selectedIndexPath;//当前选中的NSIndexPath
 @end
 
@@ -81,6 +84,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.displayType == kDisplayProvince) {
+        isSelectCity = NO;
         NSDictionary *province = self.provinces[indexPath.row];
         NSArray *citys = [province objectForKey:@"sub"];
         self.selectedProvince = [province objectForKey:@"name"];
@@ -92,18 +96,24 @@
         [self.navigationController pushViewController:cityVC animated:YES];
     }
     else if (self.displayType == kDisplayCity){
+        isSelectCity = YES;
         NSDictionary *city = self.citys[indexPath.row];
         self.selectedCity = [city objectForKey:@"name"];
     }
 }
 -(void)submit{
+    
+    if (isSelectCity == NO) {
+        [MBProgressHUD showError:@"请选择一个城市"];
+        return ;
+    }
     NSDictionary *dict = [NSDictionary dictionaryWithObject:self.selectedCity forKey:@"city"];
     [[NSNotificationCenter defaultCenter]postNotificationName:@"chooseCity" object:nil userInfo:dict];
     [self sureCancel];
 }
 -(void)sureCancel{
     [self dismissViewControllerAnimated:YES completion:^{
-        [MBProgressHUD showSuccess:[NSString stringWithFormat:@"%@",self.selectedCity]];
+//        [MBProgressHUD showSuccess:[NSString stringWithFormat:@"%@",self.selectedCity]];
     }];
 }
 -(void)cancel{

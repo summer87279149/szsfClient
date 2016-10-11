@@ -5,15 +5,26 @@
 //  Created by Admin on 16/8/18.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
-#define XXJportrait                     @""
-#define XXJtechName                     @""
-#define XXJAuthenticationImage          @""
-#define XXJskill                        @""
-#define XXJserviceTimes                 @""
+#define XXJTechnicianID                                  @"tid"
+#define XXJportrait                     @"headimgurl"
+#define XXJtechName                     @"tname"
+#define XXJAuthenticationImage          @"isstar"
+#define XXJskill                        @"cate"
+#define XXJserviceTimes                 @"orderqty"
+#define XXJTechWorkYears                               @"years"
 #import "MyFocusCellModel.h"
 
 @implementation MyFocusCellModel
 -(void)parseFromDictionary:(NSDictionary *)dic{
+    if ([dic objectForKey:XXJTechnicianID] == nil ||
+        [dic objectForKey:XXJTechnicianID] == [NSNull null])
+    {
+        self.technicianID = @"";
+    }
+    else
+    {
+        self.technicianID = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJTechnicianID]];
+    }
     
     if ([dic objectForKey:XXJportrait]==nil||[dic objectForKey:XXJportrait] == [NSNull null])
     {
@@ -57,7 +68,15 @@
     {
         self.serviceTimes = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJserviceTimes]];
     }
-   
+    if ([dic objectForKey:XXJTechWorkYears] == nil ||
+        [dic objectForKey:XXJTechWorkYears] == [NSNull null])
+    {
+        self.years = @"";
+    }
+    else
+    {
+        self.years = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJTechWorkYears]];
+    }
 
 }
 @end

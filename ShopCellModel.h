@@ -19,4 +19,6 @@
 @property(nonatomic,copy) NSString *chooseNumber;
 
 @property(nonatomic,copy) NSString *time;
+
+@property(nonatomic,copy) NSString *projectId;
 @end

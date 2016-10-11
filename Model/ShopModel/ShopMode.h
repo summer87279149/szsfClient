@@ -25,10 +25,10 @@
 //地址
 @property(nonatomic,strong)NSString *shopAddress;
 
-//商店经度
+//商店经度（meiyong）
 @property(nonatomic,strong)NSString *latitude;
 
-//商店纬度
+//商店纬度（meiyong）
 @property(nonatomic,strong)NSString *longitude;
 
 //商家电话
@@ -42,7 +42,8 @@
 
 //好评率
 @property(nonatomic,strong)NSString *goodCommentRare;
-
+//距离
+@property(nonatomic,strong)NSString *distance;
 
 
 @end

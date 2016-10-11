@@ -30,7 +30,7 @@
         
         //姓名
         self.name = [UILabel sharedWithFont:14.0 andColor:COLOR andAnligment:left andBackgroundColor:nil];
-        self.name.text = @"181****8289";
+        self.name.text = @"***********";
         [self addSubview:self.name];
         self.name.sd_layout.leftSpaceToView(self,10).topSpaceToView(self,5*k_scaleHeight).heightIs(15*k_scaleHeight).widthIs(200);
         
@@ -41,9 +41,9 @@
         [self addSubview:self.comments];
         self.comments.lineBreakMode = NSLineBreakByCharWrapping;
         self.comments.numberOfLines = 0;
-        self.comments.text = @"做的不错，下次还来找你";
+        self.comments.text = @"＊＊＊＊＊＊＊＊＊＊";
         CGSize size = [self.comments sizeThatFits:CGSizeMake(self.comments.frame.size.width, 2000)];
-        NSLog(@"%f",size.height);
+//        NSLog(@"%f",size.height);
         self.comments.sd_layout.leftSpaceToView(self,10).topSpaceToView(self.name,5*k_scaleHeight).heightIs(size.height).widthIs(kScreenWidth*2/3);
    
         
@@ -51,12 +51,12 @@
         self.project = [UILabel sharedWithFont:12 andColor:[UIColor darkGrayColor] andAnligment:right andBackgroundColor:nil];
         [self addSubview:self.project];
         self.project.sd_layout.rightSpaceToView(self,10).centerYEqualToView(self.name).heightIs(15*k_scaleHeight).widthIs(kScreenWidth-200);
-        self.project.text = @"项目：肩颈腰调理";
+        self.project.text = @"项目：＊＊＊＊＊";
         
         
         //时间
         self.time = [UILabel sharedWithFont:11 andColor:[UIColor darkGrayColor] andAnligment:right andBackgroundColor:nil];
-        self.time.text = @"2016年8月1日";
+        self.time.text = @"****年＊月＊日";
         [self addSubview:self.time];
         self.time.sd_layout.rightSpaceToView(self,10).topEqualToView(self.comments).heightIs(11*k_scaleHeight).widthIs(kScreenWidth/3);
         
@@ -70,7 +70,7 @@
         
      
         self.height = 41*k_scaleHeight+size.height+10;
-        NSLog(@"%f",self.height);
+//        NSLog(@"%f",self.height);
         
     }
     return self;

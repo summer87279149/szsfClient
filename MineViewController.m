@@ -21,20 +21,26 @@
 }
 @property (strong, nonatomic) UIImageView *avatarImage;
 @property (nonatomic,strong) NSData *avatarImageData;
+@property(nonatomic,strong)UILabel *nameLbel;
+
+@property(nonatomic,copy)NSString *imageUrl;
+
+@property(nonatomic,copy)NSString *nickName;
+
+@property(nonatomic,copy)NSString *telNum;
 @end
 
 @implementation MineViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.view.backgroundColor = [UIColor whiteColor];
     UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"homeVCBackgroundImage"]];
     imageView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     [self.view addSubview:imageView];
-    m_mineArr = [[NSMutableArray alloc]initWithObjects:@"个人信息",@"充值",@"我的关注",@"我的订单",@"我的消息",@"团队预约",@"意见反馈",@"设置", nil];
+    m_mineArr = [[NSMutableArray alloc]initWithObjects:@"个人信息"/*,@"充值"*/,@"我的关注",@"我的订单",@"我的消息",@"意见反馈",@"设置", nil];
     
-    self.navigationItem.rightBarButtonItem = [self phoneButton];
+//    self.navigationItem.rightBarButtonItem = [self phoneButton];
     
     m_mineTtabView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 0, 0) style:UITableViewStyleGrouped];
     //m_mineTtabView.style = UITableViewStylePlain;
@@ -67,16 +73,16 @@
     
     UIButton *headBtn = [[UIButton alloc]init];
     headBtn.backgroundColor = [UIColor clearColor];
-    [headBtn addTarget:self action:@selector(changeImage) forControlEvents:UIControlEventTouchUpInside];
+//    [headBtn addTarget:self action:@selector(changeImage) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:headBtn];
     
-    UILabel *nameLbel = [[UILabel alloc]init];
-    nameLbel.backgroundColor = [UIColor clearColor];
-    nameLbel.textColor = [UIColor whiteColor];
-    nameLbel.text = @"18121708147";
-    nameLbel.textAlignment = 1;
-    [headerView addSubview:nameLbel];
-    
+    _nameLbel = [[UILabel alloc]init];
+    _nameLbel.backgroundColor = [UIColor clearColor];
+    _nameLbel.textColor = [UIColor whiteColor];
+    _nameLbel.text = @"";
+    _nameLbel.textAlignment = 1;
+    [headerView addSubview:_nameLbel];
+  /*
     UIView *priceView = [[UIView alloc]init];
     priceView.backgroundColor = [UIColor clearColor];
     [headerView addSubview:priceView];
@@ -124,6 +130,9 @@
     couponNumLbl.textAlignment = 2;
     [priceView addSubview:couponNumLbl];
     
+   */
+    
+     //如果需要显示金额和充值的话头部视图170改为200
     headerView.sd_layout
     .widthIs(m_mineTtabView.frame.size.width)
     .heightIs(200);
@@ -146,12 +155,12 @@
     .widthIs(90)
     .heightIs(90);
     
-    nameLbel.sd_layout
+    _nameLbel.sd_layout
     .centerXEqualToView(headerView)
     .topSpaceToView(self.avatarImage,10)
     .widthIs(viewWidth)
     .heightIs(30);
-    
+ /*
     priceView.sd_layout
     .leftSpaceToView(headerView,0)
     .rightSpaceToView(headerView,0)
@@ -197,14 +206,12 @@
     .centerYEqualToView(priceView)
     .heightIs(30)
     .widthIs(90);
+   */
     
 }
 
--(void)changeImage{
-    
-    UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"选择照片" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"现在拍一张照片",@"从相册中选一张照片", nil];
-    UIViewController *rootVC = [self imc_viewController];
-    [sheet showInView:rootVC.view];
+-(void)viewWillAppear:(BOOL)animated{
+    [self getRequestData];
 }
 
 
@@ -232,12 +239,26 @@
     UIWebView *phoneCallWebView = [[UIWebView alloc] initWithFrame:CGRectZero];   [phoneCallWebView loadRequest:[NSURLRequest requestWithURL:phoneURL]];
     [self.view addSubview:phoneCallWebView];
 }
-
+#pragma mark - http
+-(void)getRequestData{
+    WS(weakSelf)
+    [SomeOtherRequest GetMineInfoWithUserID:[YCUserModel userId] success:^(id response) {
+        NSLog(@"‘我的’页面返回数据:%@",response);
+        weakSelf.imageUrl = [NSString stringWithFormat:@"%@",response[@"headimgurl"]];
+        weakSelf.nickName = [NSString stringWithFormat:@"%@",response[@"nickname"]];
+        weakSelf.telNum = [NSString stringWithFormat:@"%@",response[@"tel"]];
+        
+        [weakSelf.avatarImage sd_setImageWithURL:URLWITHSTRING(response[@"headimgurl"])];
+        weakSelf.nameLbel.text = response[@"nickname"];
+    } error:^(id response) {
+        
+    }];
+}
 #pragma mark - UItableView delegate
 //设置表头
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 300;
+    return 250;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -320,6 +341,9 @@
     else if([[m_mineArr objectAtIndex:indexPath.row] isEqualToString:@"个人信息"])
     {
         UserCenterViewController *orderVC = [[UserCenterViewController alloc]init];
+        orderVC.imageUrl = self.imageUrl;
+        orderVC.nickName = self.nickName;
+        orderVC.telNum = self.telNum;
         [self.navigationController pushViewController:orderVC animated:YES];
     }
 
@@ -331,67 +355,6 @@
 }
 
 
-#pragma mark - UIActionsheet Delegate
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 0) {
-        if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-            [self openCamera];
-        }
-        
-    } else if (buttonIndex == 1) {
-        if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
-            [self openPhotoLibrary];
-        }
-    }
-}
 
-/**
- *  打开相机
- */
-- (void)openCamera
-{
-    UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
-    ipc.sourceType = UIImagePickerControllerSourceTypeCamera;
-    ipc.cameraDevice = UIImagePickerControllerCameraDeviceFront;
-    ipc.delegate = self;
-    ipc.allowsEditing = YES;
-    UIViewController *rootVC = [self imc_viewController];
-    [rootVC presentViewController:ipc animated:YES completion:nil];
-}
 
-/**
- *  打开相册
- */
-- (void)openPhotoLibrary
-{
-    UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
-    ipc.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
-    ipc.delegate = self;
-    ipc.allowsEditing = YES;
-    UIViewController *rootVC = [self imc_viewController];
-    [rootVC presentViewController:ipc animated:YES completion:nil];
-    self.avatarImage.layer.cornerRadius = 45;
-}
-
-#pragma mark - 图片选择控制器的代理
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
-    
-    [picker dismissViewControllerAnimated:YES completion:nil];
-    self.avatarImage.image = [UIImage imageWithData:UIImageJPEGRepresentation(info[UIImagePickerControllerEditedImage], 0.5)];
-    self.avatarImageData = UIImageJPEGRepresentation(info[UIImagePickerControllerEditedImage], 0.2);
-    self.avatarImage.layer.cornerRadius = 45;
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    UIViewController *rootVC = [self imc_viewController];
-    [rootVC dismissViewControllerAnimated:YES completion:nil];
-}
-- (UIViewController *)imc_viewController {
-    UIResponder *responder = self;
-    while ([responder isKindOfClass:[UIView class]]) {
-        responder = responder.nextResponder;
-    }
-    return (UIViewController *)responder;
-}
 @end

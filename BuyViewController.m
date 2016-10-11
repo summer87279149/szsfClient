@@ -119,11 +119,7 @@
     self.phoneNumber.text = @"18101508289";
     self.phoneNumber.borderStyle = UITextBorderStyleNone;
     self.phoneNumber.keyboardType = UIKeyboardTypeNumberPad;
-   
-//    self.commitOrderBtn.frame = CGRectMake(10, CGRectGetMaxY(self.view3.frame)+100, kScreenWidth-20, 44);
-    
 
-    
 }
 
 -(void)createAddress{

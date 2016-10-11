@@ -5,6 +5,8 @@
 //  Created by Admin on 16/8/8.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
+#import "TechCellModel.h"
+#import "TechnicianMode.h"
 #import "TechCommentVController.h"
 #import "ServiceViewController.h"
 #import "TechViewController.h"
@@ -19,13 +21,19 @@
     UIView *topView;
     UITableView *tableview;
     UITableView *threeCommentsTableview;
+    TechnicianMode *techModel;
+    TechCellModel *techCellmodel;
+    NSMutableArray *techCellArr;
+    NSString *isFocus;
 }
+
 @end
 
 @implementation TechViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    techCellArr = [[NSMutableArray alloc]initWithCapacity:0];
     self.navigationItem.title = @"技师";
     BGImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"homeVCBackgroundImage"]];
     BGImage.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
@@ -36,10 +44,39 @@
     scrollView.backgroundColor = [UIColor clearColor];
     [self creatTopView];
     [self creatTableView];
-    
     //添加测试数据
-    [self createTestData];
+//    [self createTestData];
+
+    [self getRequestDataAboutTech];
 }
+
+-(void)getRequestDataAboutTech{
+    if (self.techID.length>0) {
+        NSString *str =[[NSUserDefaults standardUserDefaults]objectForKey:@"ud_user_id"];
+        [SomeOtherRequest ShowTechWithTecID:self.techID AndUserID:str  success:^(id response) {
+            NSLog(@"huidaio shi  %@",response);
+            isFocus = [NSString stringWithFormat:@"%@",response[@"isfocus"]];
+            techModel = [[TechnicianMode alloc]initFromDictionary:response[@"tech"]];
+            [self applyNetData];
+           NSArray *arr = response[@"project"];
+            for(NSDictionary *dic in arr){
+                techCellmodel = [[TechCellModel alloc]initFromDictionary:dic];
+                [techCellArr addObject:techCellmodel];
+            }
+//            NSLog(@"moxingshi %@",techCellArr);
+            //数组刷新
+            [tableview reloadData];
+        } error:^(id response) {
+            
+        }];
+    }else{
+        
+    }
+    
+}
+
+
+
 -(void)creatTableView{
     tableview = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64) style:UITableViewStylePlain];
     tableview.dataSource = self;
@@ -49,7 +86,7 @@
     [self.view addSubview:tableview];
 }
 -(void)creatTopView{
-    topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 201*k_scaleHeight)];
+    topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 170*k_scaleHeight)];
     topView.backgroundColor =[UIColor clearColor];
 //    [scrollView addSubview:topView];
     //头像
@@ -61,7 +98,6 @@
     //关注按钮
     self.focusButton = [[UIButton alloc]init];
     [topView addSubview:self.focusButton];
-    [self.focusButton setTitle:@"+关注" forState:UIControlStateNormal];
     self.focusButton.alpha = 0.8;
     [self.focusButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.focusButton.titleLabel.font = [UIFont systemFontOfSize:14.0];
@@ -78,7 +114,7 @@
     self.AuthenticationImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"名师"]];
     [topView addSubview:self.AuthenticationImage];
     self.AuthenticationImage.sd_layout.topSpaceToView(self.name,10).leftSpaceToView(self.portrait,15*k_scale).widthIs(26*k_scale).heightIs(26*k_scale);
-    
+    self.AuthenticationImage.hidden=YES;
     //技能
     self.skill = [UILabel sharedWithFont:11.0 andColor:COLOR andAnligment:left andBackgroundColor:nil];
     [topView addSubview:self.skill];
@@ -90,11 +126,11 @@
     //服务次数
     self.serviceTimes =[UILabel sharedWithFont:11.0 andColor:COLOR andAnligment:left andBackgroundColor:nil];
     [topView addSubview:self.serviceTimes];
-    self.serviceTimes.sd_layout.centerYEqualToView(smallPerson).leftSpaceToView(smallPerson,8);
+    self.serviceTimes.sd_layout.centerYEqualToView(smallPerson).leftSpaceToView(smallPerson,8).heightIs(15);
     //第一条下划线
     UIView*line1 = [UIView lineWithColor:COLOR];
     [topView addSubview:line1];
-    line1.sd_layout.heightIs(1).widthIs(kScreenWidth-20).xIs(10).topSpaceToView(self.portrait,-10*k_scaleHeight);
+    line1.sd_layout.heightIs(1).widthIs(kScreenWidth-20).xIs(10).topSpaceToView(self.portrait,0);
     //工作经验
     self.workExperience = [[UITextView alloc]init];
     self.workExperience.backgroundColor = [UIColor clearColor];
@@ -108,39 +144,39 @@
     UIView *line2 = [UIView lineWithColor:COLOR];
     [topView addSubview:line2];
     line2.sd_layout.topSpaceToView(self.workExperience,10).heightIs(1).widthIs(kScreenWidth-20).xIs(10);
-    //他的动态
-    self.hisActionButton = [[UIButton alloc]init];
-    [self.hisActionButton showsTouchWhenHighlighted];
-    [topView addSubview:self.hisActionButton];
-    [self.hisActionButton setTitle:@"TA的动态" forState:UIControlStateNormal];
-    [self.hisActionButton setTitleColor:[UIColor getColor:@"A0974D"] forState:UIControlStateNormal];
-    self.hisActionButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    self.hisActionButton.sd_layout.xIs(45*k_scale).topSpaceToView(line2,12*k_scaleHeight).widthIs(65*k_scale).heightIs(15*k_scaleHeight);
-    
-    //钻石图标
-    UIImageView *diamondIcon = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"钻石"]];
-    [topView addSubview:diamondIcon];
-    diamondIcon.sd_layout.widthIs(26*k_scale).heightIs(20*k_scaleHeight).centerYEqualToView(self.hisActionButton).leftSpaceToView(self.hisActionButton,10);
-    //下划线3
-    UIView *line3 = [UIView lineWithColor:COLOR];
-    [topView addSubview:line3];
-    line3.sd_layout.widthIs(1).topEqualToView(diamondIcon).heightIs(25*k_scaleHeight).centerXEqualToView(topView);
-    //认证证书
-    self.AuthenticationButton = [[UIButton alloc]init];
-    [self.AuthenticationButton showsTouchWhenHighlighted];
-    [topView addSubview:self.AuthenticationButton];
-    self.AuthenticationButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    [self.AuthenticationButton setTitle:@"认证证书" forState:UIControlStateNormal];
-    [self.AuthenticationButton setTitleColor:[UIColor getColor:@"A0974D"] forState:UIControlStateNormal];
-    self.AuthenticationButton.sd_layout.topSpaceToView(line2,12*k_scaleHeight).widthIs(60*k_scale).heightIs(15*k_scaleHeight).leftSpaceToView(line3,33*k_scale);
-    //皇冠图标
-    UIImageView *Icon = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"皇冠"]];
-    [topView addSubview:Icon];
-    Icon.sd_layout.widthIs(26*k_scale).heightIs(20*k_scaleHeight).centerYEqualToView(self.hisActionButton).leftSpaceToView(self.AuthenticationButton,10);
+//    //他的动态
+//    self.hisActionButton = [[UIButton alloc]init];
+//    [self.hisActionButton showsTouchWhenHighlighted];
+//    [topView addSubview:self.hisActionButton];
+//    [self.hisActionButton setTitle:@"TA的动态" forState:UIControlStateNormal];
+//    [self.hisActionButton setTitleColor:[UIColor getColor:@"A0974D"] forState:UIControlStateNormal];
+//    self.hisActionButton.titleLabel.font = [UIFont systemFontOfSize:15];
+//    self.hisActionButton.sd_layout.xIs(45*k_scale).topSpaceToView(line2,12*k_scaleHeight).widthIs(65*k_scale).heightIs(15*k_scaleHeight);
+//    
+//    //钻石图标
+//    UIImageView *diamondIcon = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"钻石"]];
+//    [topView addSubview:diamondIcon];
+//    diamondIcon.sd_layout.widthIs(26*k_scale).heightIs(20*k_scaleHeight).centerYEqualToView(self.hisActionButton).leftSpaceToView(self.hisActionButton,10);
+//    //下划线3
+//    UIView *line3 = [UIView lineWithColor:COLOR];
+//    [topView addSubview:line3];
+//    line3.sd_layout.widthIs(1).topEqualToView(diamondIcon).heightIs(25*k_scaleHeight).centerXEqualToView(topView);
+//    //认证证书
+//    self.AuthenticationButton = [[UIButton alloc]init];
+//    [self.AuthenticationButton showsTouchWhenHighlighted];
+//    [topView addSubview:self.AuthenticationButton];
+//    self.AuthenticationButton.titleLabel.font = [UIFont systemFontOfSize:15];
+//    [self.AuthenticationButton setTitle:@"认证证书" forState:UIControlStateNormal];
+//    [self.AuthenticationButton setTitleColor:[UIColor getColor:@"A0974D"] forState:UIControlStateNormal];
+//    self.AuthenticationButton.sd_layout.topSpaceToView(line2,12*k_scaleHeight).widthIs(60*k_scale).heightIs(15*k_scaleHeight).leftSpaceToView(line3,33*k_scale);
+//    //皇冠图标
+//    UIImageView *Icon = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"皇冠"]];
+//    [topView addSubview:Icon];
+//    Icon.sd_layout.widthIs(26*k_scale).heightIs(20*k_scaleHeight).centerYEqualToView(self.hisActionButton).leftSpaceToView(self.AuthenticationButton,10);
     //评论和好评率
     self.comments = [UILabel sharedWithFont:16.0 andColor:COLOR andAnligment:left andBackgroundColor:nil];
     [topView addSubview:self.comments];
-    self.comments.sd_layout.xIs(10).widthIs(kScreenWidth-20).topSpaceToView(diamondIcon,16*k_scaleHeight).heightIs(25*k_scaleHeight);
+    self.comments.sd_layout.xIs(10).widthIs(kScreenWidth-20).topSpaceToView(line2,5*k_scaleHeight).heightIs(25*k_scaleHeight);
     self.comments.textColor = COLOR;
     
     //"更多"按钮
@@ -174,23 +210,66 @@
     
 }
 
--(void)createTestData{
-    self.name.text = @"郭德纲";
-    self.workExperience.text = @"纷纷开始大脑开发建设电脑及飞机上都能克服恐惧的是能否看见的是你粉丝都能减肥烦恼的就是那副驾驶都能健康妇女丹江口市你反抗精神的咖啡店是否能接受发生地就可能发生的纪念封能看见的是粉嫩就开始电脑课见风使舵款奶粉发生地看见非农即将开始的房间看电视呢见风使舵净空法师妇女丹江口市菲尼克斯多家开发商决定开发年级开始就看你烦恼苏丹诺夫看见谁都能减肥";
-    self.skill.text = @"中医技师  中医推拿师 10年经验";
-    self.serviceTimes.text = @"服务3002次";
-    self.comments.text = @"TA的评价(360条)  99.6%好评";
+//-(void)createTestData{
+//    self.name.text = @"郭德纲";
+//    self.workExperience.text = @"纷纷开始大脑开发建设电脑及飞机上都能克服恐惧的是能否看见的是你粉丝都能减肥烦恼的就是那副驾驶都能健康妇女丹江口市你反抗精神的咖啡店是否能接受发生地就可能发生的纪念封能看见的是粉嫩就开始电脑课见风使舵款奶粉发生地看见非农即将开始的房间看电视呢见风使舵净空法师妇女丹江口市菲尼克斯多家开发商决定开发年级开始就看你烦恼苏丹诺夫看见谁都能减肥";
+//    self.skill.text = @"中医技师  中医推拿师 10年经验";
+//    self.serviceTimes.text = @"服务3002次";
+//    self.comments.text = @"TA的评价(360条)  99.6%好评";
+//}
+
+-(void)applyNetData{
+    [self.portrait sd_setImageWithURL:[NSURL URLWithString:techModel.headimgurl]];
+    self.name.text = techModel.name;
+    self.workExperience.text =techModel.techIntroduction;
+    self.skill.text = [NSString stringWithFormat:@"%@ %@年经验",techModel.skill,techModel.years];
+    self.serviceTimes.text =[NSString stringWithFormat:@"服务%@次",techModel.serviceTimes];
+//    NSLog(@"%@",techModel.serviceTimes);
+    self.comments.text = [NSString stringWithFormat:@"TA的评价(%@条)  %@好评",techModel.commentsNumber,techModel.goodCommentRare];
+    if ([techModel.AuthenticationImage isEqualToString:@"0"]) {
+        self.AuthenticationImage.hidden=YES;
+    }else{
+        self.AuthenticationImage.hidden=NO;
+    }
+    if ([isFocus isEqualToString:@"0"]) {
+        [self.focusButton setTitle:@"+关注" forState:UIControlStateNormal];
+    }else{
+        [self.focusButton setTitle:@"已关注" forState:UIControlStateNormal];
+    }
 }
 
 -(void)focusButtonClicked{
     if ([self.focusButton.titleLabel.text isEqualToString:@"+关注"]) {
-        [self.focusButton setTitle:@"已关注" forState:UIControlStateNormal];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [SomeOtherRequest UserFocusTecWithTecID:self.techID UserID:[YCUserModel userId] success:^(id response) {
+//            NSLog(@"关注成功返回函数:%@",response);
+            [MBProgressHUD hideHUDForView:self.view];
+            [MBProgressHUD showSuccess:@"关注成功"];
+             [self.focusButton setTitle:@"已关注" forState:UIControlStateNormal];
+        } error:^(id response) {
+            [MBProgressHUD hideHUDForView:self.view];
+            [MBProgressHUD showError:@"关注失败,请检查网络"];
+        }];
+       
     }else{
-        [self.focusButton setTitle:@"+关注" forState:UIControlStateNormal];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [SomeOtherRequest UserCancelFocusWithTecID:self.techID UserID:[YCUserModel userId] success:^(id response) {
+//            NSLog(@"关注失败返回 %@",response);
+            
+            [MBProgressHUD hideHUDForView:self.view];
+            [MBProgressHUD showSuccess:@"取消关注成功"];
+            [self.focusButton setTitle:@"+关注" forState:UIControlStateNormal];
+        } error:^(id response) {
+            [MBProgressHUD hideHUDForView:self.view];
+            [MBProgressHUD showError:@"取消关注失败,请检查网络"];
+        }];
+        
     }
 }
 -(void)moreBtnClicked:(UIButton *)button{
+    
     TechCommentVController *VC = [[TechCommentVController alloc]init];
+    VC.para = @{@"tid":techModel.technicianID};
     [self.navigationController pushViewController:VC animated:YES];
 }
 #pragma mark ＝＝＝＝＝＝＝tableView DataSource＝＝＝＝＝＝＝＝
@@ -205,7 +284,8 @@
 //    if (tableView == threeCommentsTableview) {
 //        return 3;
 //    }
-    return 5;
+   
+    return techCellArr.count;
 }
 
 
@@ -224,14 +304,19 @@
     myTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if(cell==nil){
         cell=[[myTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.techCellModel = techCellArr[indexPath.row];
     return cell;
 //        }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+   TechCellModel *model = techCellArr[indexPath.row];
+//    NSLog(@"当前点击的是第%lu行,id是%@",indexPath.row,model.projectID);
     ServiceViewController *service = [[ServiceViewController alloc]init];
+    service.projectID = model.projectID;
+    service.techID = techModel.technicianID;
     [self.navigationController pushViewController:service animated:YES];
 }
 

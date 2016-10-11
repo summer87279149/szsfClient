@@ -5,28 +5,66 @@
 //  Created by Admin on 16/8/15.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
-
+#import "MyFocusCellModel.h"
 #import "MyFocusViewController.h"
 #import "MyFocusTableViewCell.h"
 #import "TechViewController.h"
 @interface MyFocusViewController ()<UITableViewDelegate,UITableViewDataSource>
+{
+    NSMutableArray * myFocusTableCellModelArr;
+    MyFocusCellModel *myFocusCellModel;
+}
 @property(nonatomic,strong)UITableView *tableView;
-
 @end
 
 @implementation MyFocusViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    myFocusTableCellModelArr = [[NSMutableArray alloc]initWithCapacity:0];
     self.navigationItem.title = @"我的关注";
     HaHaHaAddBackGroundImage
     _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64) style:UITableViewStylePlain];
     _tableView.delegate=self;
     _tableView.dataSource=self;
     _tableView.backgroundColor = [UIColor clearColor];
+    // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
+    [_tableView addHeaderWithTarget:self action:@selector(headerRereshing)];
+    // 自动刷新(一进入程序就下拉刷新)
+    [_tableView headerBeginRefreshing];
+    [_tableView headerEndRefreshing];
     [self.view addSubview:_tableView];
+    
+}
+-(void)headerRereshing{
+    [myFocusTableCellModelArr removeAllObjects];
+    [self getRequestData];
 }
 
+-(void)getRequestData{
+    NSLog(@"我的userid是:%@",[YCUserModel userId]);
+    WS(weakSelf)
+    [SomeOtherRequest GetMyFocusTecWithUserID:[YCUserModel userId] success:^(id response) {
+        NSArray *arr = response;
+        for(NSDictionary *dic in arr){
+            myFocusCellModel = [[MyFocusCellModel alloc]initFromDictionary:dic];
+            [myFocusTableCellModelArr addObject:myFocusCellModel];
+        }
+        [weakSelf applyData];
+        NSLog(@"我的关注的技师是 %@",response);
+    } error:^(id response) {
+        
+    }];
+}
+-(void)applyData{
+    
+    [_tableView reloadData];
+    [self loadFinished];
+}
+-(void)loadFinished{
+    [_tableView headerEndRefreshing];
+    
+}
 #pragma  mark tableViewDelegate and DataSource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 
@@ -35,7 +73,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 10;
+    return myFocusTableCellModelArr.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -43,15 +81,21 @@
     MyFocusTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if(cell==nil){
         cell=[[MyFocusTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
+    }
+    if (myFocusTableCellModelArr.count>0) {
+        cell.myFocusCellModel = myFocusTableCellModelArr[indexPath.row];
         cell.userInteractionEnabled = YES;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+    
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    TechViewController * VC = [[TechViewController alloc]init];
-    [self.navigationController pushViewController:VC animated:YES];
+    MyFocusCellModel *model = myFocusTableCellModelArr[indexPath.row];
+    TechViewController *techVC = [[TechViewController alloc]init];
+    NSLog(@"%@",model.technicianID);
+    techVC.techID = model.technicianID;
+    [self.navigationController pushViewController:techVC animated:YES];
     
     
 }

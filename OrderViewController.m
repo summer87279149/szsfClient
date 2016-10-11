@@ -8,7 +8,6 @@
 #import "MainNavViewController.h"
 #import "KeyInputView.h"
 #import "OrderViewController.h"
-#import "ProjectModal.h"
 #import "GoodsNumber.h"
 #import "OrderAddressViewController.h"
 #import "UserTool.h"
@@ -21,6 +20,7 @@
     UIView *contenView;
     UIView *viewThird;
     UIButton *complish;
+    BOOL isToShop;
 }
 @property(nonatomic,strong)UIDatePicker *datePicker;
 @property(nonatomic,strong)UIButton *datepickerBtn;
@@ -33,6 +33,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.title = @"提交订单";
     HaHaHaAddBackGroundImage
     scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     scrollView.showsVerticalScrollIndicator = NO;
@@ -55,21 +56,25 @@
     [contenText resignFirstResponder];
     return YES;
 }
+
+
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
     return YES;
 }
 
+
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
     complish.hidden=NO;
 }
+
+
 - (void)textFieldDidEndEditing:(UITextField *)textField{
     if (textField == contenText) {
         complish.hidden=YES;
     }
     if (textField == self.phoneNumber) {
-       
+
     }
-    
 }
 #pragma mark datePicker
 -(void)createDataPicker{
@@ -106,7 +111,7 @@
     [UIView animateWithDuration:0.3 animations:^{
         self.datePicker.frame = CGRectMake(0, kScreenHeight-250*k_scale,kScreenWidth, 250*k_scale);
         self.datepickerBtn.frame = CGRectMake(0, kScreenHeight-250*k_scale-25*k_scale, kScreenWidth, 25*k_scale);
-        //        self.placeholderBtn.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-25*k_scale-250*k_scale);
+
         [self.view addSubview:self.placeholderBtn];
     } completion:^(BOOL finished) {
         
@@ -149,7 +154,7 @@
     [view1 addSubview:image];
     
     self.projectName = [UILabel sharedWithFont:13 andColor:COLOR andAnligment:left andBackgroundColor:nil];
-    self.projectName.text = @"清水足浴";
+    self.projectName.text = self.projectModal.projectName;
     [view1 addSubview:self.projectName];
     self.projectName.frame = CGRectMake(10, 12, kScreenWidth, 20);
     
@@ -180,10 +185,13 @@
     self.projectPrice = [UILabel sharedWithFont:13 andColor:[UIColor redColor] andAnligment:right andBackgroundColor:nil];
     [view1 addSubview:self.projectPrice];
     self.projectPrice.sd_layout.rightSpaceToView(view1,10).topSpaceToView(lineview2,12).heightIs(20).widthIs(100);
-    self.projectPrice.text = @"¥25.5";
+    [self countPrice];
     
 }
-
+-(void)countPrice{
+    float totalPrice = [self.projectModal.price floatValue]*goods.counts;
+    self.projectPrice.text = [NSString stringWithFormat:@"%.2f",totalPrice];
+}
 -(void)createSecondView{
     UIView *view2 = [[UIView alloc]initWithFrame:CGRectMake(0, 44*3+20, kScreenWidth, 44*2)];
     view2.backgroundColor = [UIColor clearColor];
@@ -198,7 +206,8 @@
     UILabel *yourPhoneNumber = [UILabel sharedWithFont:13 andColor:[UIColor lightGrayColor] andAnligment:left andBackgroundColor:nil];
     yourPhoneNumber.frame = CGRectMake(10, 12, kScreenWidth-20, 20);
     [view2 addSubview:yourPhoneNumber];
-    yourPhoneNumber.text = @"您的手机号码";
+    
+    yourPhoneNumber.text = @"您的电话号码:";
     yourPhoneNumber.textColor = COLOR;
     
     UIView *lineView = [UIView lineWithColor:[UIColor lightGrayColor]];
@@ -207,7 +216,10 @@
     
     self.phoneNumber = [[UITextField alloc]initWithFrame:CGRectMake(10, 56, kScreenWidth-20, 20)];
     [view2 addSubview:self.phoneNumber];
-    self.phoneNumber.text = @"18101508289";
+    if ([YCUserModel phoneNumber]) {
+       self.phoneNumber.text = [YCUserModel phoneNumber];
+    }
+   
     self.phoneNumber.borderStyle = UITextBorderStyleNone;
     self.phoneNumber.keyboardType = UIKeyboardTypeNumberPad;
     
@@ -244,6 +256,7 @@
     [viewThird addSubview:self.toShopBtn];
     self.toShopBtn.selected = YES;
     self.toShopBtn.frame = CGRectMake(10, 46, (kScreenWidth-20)/2, 30);
+    isToShop = YES;
     
     self.ToMyHomeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.ToMyHomeBtn setImage:[UIImage imageNamed:@"check_1"] forState:UIControlStateNormal];
@@ -256,9 +269,18 @@
     [viewThird addSubview:self.ToMyHomeBtn];
     self.ToMyHomeBtn.sd_layout.heightIs(30).widthIs((kScreenWidth-20)/2).rightSpaceToView(viewThird,10).centerYEqualToView(self.toShopBtn);
     
+    if ([self.projectModal.isToMyHome isEqualToString:@"0"]) {
+        self.ToMyHomeBtn.hidden = YES;
+    }
+    
+    
+    
+    
+    
+    
     self.commitOrderBtn = [[UIButton alloc]init];
     self.commitOrderBtn.backgroundColor = COLOR;
-    [self.commitOrderBtn setTitle:@"提交订单" forState:UIControlStateNormal];
+    [self.commitOrderBtn setTitle:@"确认预约" forState:UIControlStateNormal];
     self.commitOrderBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     self.commitOrderBtn.layer.cornerRadius = 5;
     [self.commitOrderBtn addTarget:self action:@selector(commitOrderBtnClicked) forControlEvents:UIControlEventTouchUpInside];
@@ -283,7 +305,7 @@
     
     UILabel *choose = [UILabel sharedWithFont:13 andColor:COLOR andAnligment:left andBackgroundColor:nil];
     [self.view3 addSubview:choose];
-    choose.text = @"点此选择服务时间";
+    choose.text = @"点我选择服务时间";
     choose.frame = CGRectMake(10, 12, kScreenWidth-20, 20);
     choose.userInteractionEnabled = YES;
     UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGestureEvent:)];
@@ -303,7 +325,7 @@
     
     UILabel *choose2 = [UILabel sharedWithFont:13 andColor:COLOR andAnligment:left andBackgroundColor:nil];
     [self.view3 addSubview:choose2];
-    choose2.text = @"点此选择服务地址";
+    choose2.text = @"点我选择服务地址";
     choose2.sd_layout.topSpaceToView(line2,12).heightIs(20).xIs(10).widthIs(kScreenWidth-20);
     choose2.userInteractionEnabled = YES;
     UITapGestureRecognizer * tapGesture2 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapChooseAdd:)];
@@ -370,7 +392,7 @@
     .rightSpaceToView(contenView,5)
     .bottomSpaceToView(contenView,5);
     
-    complish.sd_layout.centerYEqualToView(choose3).rightSpaceToView(self.view3,10).widthIs(50).heightIs(30);
+    complish.sd_layout.centerYEqualToView(choose3).rightSpaceToView(self.view3,10).widthIs(50).heightIs(25);
 }
 
 -(void)createKeyInputView{
@@ -400,6 +422,7 @@
     [self selectDate];
 }
 -(void)toShopBtnClicked:(UIButton *)button{
+    isToShop = YES;
     self.toShopBtn.selected = !self.toShopBtn.selected;
     if (self.toShopBtn.isSelected) {
         self.ToMyHomeBtn.selected = NO;
@@ -412,6 +435,7 @@
 
 
 -(void)toMyHomeBtnClicked:(UIButton *)button{
+    isToShop = NO;
     self.ToMyHomeBtn.selected = !self.ToMyHomeBtn.selected;
     if (self.ToMyHomeBtn.isSelected) {
         self.toShopBtn.selected = NO;
@@ -449,7 +473,7 @@
     //        CGFloat height = CGRectGetMaxY(viewThird.frame);
     //        scrollView.contentSize = CGSizeMake(kScreenWidth,height+280);
     //    }
-    scrollView.contentSize = CGSizeMake(kScreenWidth,kScreenHeight*1.1);
+//    scrollView.contentSize = CGSizeMake(kScreenWidth,kScreenHeight*1.1);
 }
 
 
@@ -459,19 +483,90 @@
         [MBProgressHUD showError:@"请输入正确的手机号"];
         return;
     }
-    [MBProgressHUD showError:@"无服务器"];
-    PayViewController *pay = [[PayViewController alloc]init];
-    [self.navigationController pushViewController:pay animated:YES];
+    //商品数量
+    NSNumber *number = [NSNumber numberWithInt:goods.counts];
+    //当选择上门服务时
+    if (isToShop == NO) {
+        if (self.ToMyHomeTimeLabel.text.length == 0) {
+            [MBProgressHUD showError:@"请选择上门服务时间"];
+            return;
+        }
+        if (self.ToMyHomeAddLabel.text.length==0) {
+            [MBProgressHUD showError:@"请选择服务地址"];
+            return;
+        }
+        if (contenText.text.length==0) {
+            [MBProgressHUD showError:@"请填写详细地址"];
+            return;
+        }
+        
+        //地址
+        NSString *mainAdd = self.ToMyHomeAddLabel.text;
+        NSString *detailAdd = contenText.text;
+        NSString *totalAdd = [mainAdd stringByAppendingString:detailAdd];
+        NSLog(@"最终地址是:%@",totalAdd);
+        NSString *encodeStr = [totalAdd stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *timeStr = [NSString stringWithFormat:@"%@",self.ToMyHomeTimeLabel.text];
+        NSLog(@"%@",self.projectModal.projectID);
+        NSLog(@"%@",self.projectModal.technicianID);
+        NSLog(@"%@",[YCUserModel userId]);
+        NSLog(@"%@",number);
+        NSLog(@"self.ToMyHomeTimeLabel.text:%@",self.ToMyHomeTimeLabel.text);
+        NSLog(@"encodeStr:%@",encodeStr);
+        
+        NSDictionary *paraDic = @{@"pid":self.projectModal.projectID,
+                                  @"tid":self.projectModal.technicianID,
+                                  @"userid":[YCUserModel userId],
+                                  @"num":number,
+                                  @"tel":self.phoneNumber.text,
+                                  @"time":timeStr,
+                                  @"address":encodeStr
+                                  };
+        
+        [self submitOrderWithPara:paraDic];
+    }else{
+        NSDictionary *paraDic = @{@"pid":self.projectModal.projectID,
+                                  @"tid":self.projectModal.technicianID,
+                                  @"userid":[YCUserModel userId],
+                                  @"num":number,
+                                  @"tel":self.phoneNumber.text,
+                                  };
+     
+        [self submitOrderWithPara:paraDic];
+    }
+  
+   
 }
-
-
+-(void)submitOrderWithPara:(id)para{
+    NSLog(@"提交项目订单的参数%@",para);
+    WS(weakSelf)
+    [SomeOtherRequest submitOrderWithPara:para success:^(id response) {
+        NSLog(@"提交项目订单的返回结果是:%@",response);
+        
+        [weakSelf submitOrderSuccess];
+        
+        
+    } error:^(id response) {
+        
+    }];
+//    PayViewController *pay = [[PayViewController alloc]init];
+//    [self.navigationController pushViewController:pay animated:YES];
+}
+-(void)submitOrderSuccess{
+     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"预约成功" message:@"请等待商家与您联系" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
 
 /**
  *  商品数量＊单价 ＝ 小计
  */
 -(void)BtnClicked{
     
-    
+    [self countPrice];
 }
 
 -(void)modifyAdd:(NSNotification *)note{

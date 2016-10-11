@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ShopCellModel.h"
+#import "ShopMode.h"
+//@class ShopMode;
+//@class ShopCellModel;
 @interface ShopDetailVC : UIViewController
 
 //店名
@@ -25,4 +28,6 @@
 //显示更多评论按钮
 @property (weak, nonatomic) IBOutlet UIButton *moreCommentButton;
 
+//本店铺的shopID
+@property(nonatomic,copy)NSString *shopID;
 @end

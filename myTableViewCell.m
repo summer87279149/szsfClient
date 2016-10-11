@@ -34,11 +34,11 @@
         self.imageview.sd_layout.leftSpaceToView(self,10).topSpaceToView(self,10).bottomSpaceToView(self,10).widthIs(140*k_scale);
         //项目名字
         self.name = [[UILabel alloc]init];
-        self.name.text = @"小儿三伏推";
+        self.name.text = @"";
         self.name.font = [UIFont systemFontOfSize:17];
         self.name.textColor = [UIColor getColor:@"3B2935"];
         [self addSubview:self.name];
-        self.name.sd_layout.leftSpaceToView(self.imageview,10).topSpaceToView(self,10);
+        self.name.sd_layout.leftSpaceToView(self.imageview,10).topSpaceToView(self,10).heightIs(15);
         //"宜"图标
         UIImageView *iView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"宜"]];
         [self addSubview:iView];
@@ -49,7 +49,7 @@
         self.shiyi.numberOfLines = 0;
         self.shiyi.lineBreakMode = NSLineBreakByCharWrapping;
         self.shiyi.font = [UIFont systemFontOfSize:12];
-        self.shiyi.text = @"跌打损伤";
+        self.shiyi.text = @"";
         [self addSubview:self.shiyi];
         self.shiyi.sd_layout.leftSpaceToView(iView,10).topSpaceToView(self.name,5).rightSpaceToView(self,10).heightIs(30);
         //时钟
@@ -60,21 +60,20 @@
         self.time = [[UILabel alloc]init];
         [self addSubview:self.time];
         self.time.textColor = [UIColor darkGrayColor];
-        self.time.text = @"60分钟  193人选择";
+        self.time.text = @"";
         self.time.font = [UIFont systemFontOfSize:13];
         self.time.sd_layout.leftSpaceToView(iView2,10).topSpaceToView(self.shiyi,8).heightIs(15);
-        
        
         //价格
         self.price = [[UILabel alloc]init];
         [self addSubview:self.price];
-        self.price.text = @"988.00元";
+        self.price.text = @"";
         self.price.font = [UIFont systemFontOfSize:15];
         self.price.textColor = [UIColor getColor:@"A0974D"];
-        self.price.sd_layout.topSpaceToView(self.shiyi,15).leftSpaceToView(self.imageview,10);
+        self.price.sd_layout.topSpaceToView(self.time,10).leftSpaceToView(self.imageview,10).heightIs(25);
         //预约按钮
         self.button = [[UIButton alloc]init];
-        [self addSubview:self.button];
+//        [self addSubview:self.button];
         [self.button setTitle:@"预约" forState:UIControlStateNormal];
         [self.button setTitleColor:[UIColor getColor:@"3B2935"] forState:UIControlStateNormal];
         [self.button.titleLabel setFont:[UIFont systemFontOfSize:14]];
@@ -91,8 +90,10 @@
     [self.imageview sd_setImageWithURL:URLWITHSTRING(techCellModel.imageviewUrl)];
     self.name.text=techCellModel.name;
     self.shiyi.text = techCellModel.shiyi;
-    self.time.text = techCellModel.time;
-    self.price.text = techCellModel.price;
+    self.time.text = [NSString stringWithFormat:@"%@分钟  %@人选择",techCellModel.time,techCellModel.chooseNum];
+    
+    self.price.text = [NSString stringWithFormat:@"单价:%@元",techCellModel.price];
+    
     
     
     

@@ -5,17 +5,29 @@
 //  Created by Admin on 16/8/18.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
-#define XXJimageview        @""
-#define XXJname             @""
-#define XXJshiyi            @""
-#define XXJtime             @""
-#define XXJprice            @""
+#define XXJProjectID        @"id"
+#define XXJimageview        @"logo"
+#define XXJname             @"projectname"
+#define XXJshiyi            @"effect"
+#define XXJtime             @"time"
+#define XXJSelectNum        @"selectnum"
+#define XXJprice            @"price"
 
 
 #import "TechCellModel.h"
 
 @implementation TechCellModel
 -(void)parseFromDictionary:(NSDictionary *)dic{
+    //
+    if ([dic objectForKey:XXJProjectID] == nil ||
+        [dic objectForKey:XXJProjectID] == [NSNull null])
+    {
+        self.projectID = @"";
+    }
+    else
+    {
+        self.projectID = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJProjectID]];
+    }
     //
     if ([dic objectForKey:XXJimageview] == nil ||
         [dic objectForKey:XXJimageview] == [NSNull null])
@@ -62,6 +74,16 @@
     else
     {
         self.time = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJtime]];
+    }
+    //
+    if ([dic objectForKey:XXJSelectNum] == nil ||
+        [dic objectForKey:XXJSelectNum] == [NSNull null])
+    {
+        self.chooseNum = @"";
+    }
+    else
+    {
+        self.chooseNum = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJSelectNum]];
     }
     
     

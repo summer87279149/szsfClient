@@ -15,10 +15,11 @@
 {
     if (self = [super init])
     {
-        self.imageName = dict[@"imageName"];
-        self.goodsTitle = dict[@"goodsTitle"];
-        self.goodsPrice = dict[@"goodsPrice"];
-        self.goodsNum = [dict[@"goodsNum"]intValue];
+        self.pid = dict[@"pid"];
+        self.imageName = dict[@"images"];
+        self.goodsTitle = dict[@"prodname"];
+        self.goodsPrice = dict[@"price"];
+        self.goodsNum = [dict[@"amount"]intValue];
         self.selectState = [dict[@"selectState"]boolValue];
     }
     return  self;

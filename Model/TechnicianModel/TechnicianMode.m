@@ -8,16 +8,17 @@
 
 #import "TechnicianMode.h"
 
-#define XXJTechnicianID                                  @"id"
-#define XXJName                                          @"name"
-#define XXJheadimgurl                                    @"age"
-#define XXJAuthenticationImage                           @"score"
-#define XXJskill                                         @"shopname"
+#define XXJTechnicianID                                  @"tid"
+#define XXJName                                          @"tname"
+#define XXJheadimgurl                                    @"headimgurl"
+#define XXJAuthenticationImage                           @"isstar"
+#define XXJskill                                         @"cate"
 #define XXJserviceTimes                                  @"orderqty"
-#define XXJisFocus                                       @"headimgurl"
-#define XXJtechIntroduction                              @"sex"
-#define XXJcommentsNumber                                @"distance"
-#define XXJgoodCommentRare                               @""
+#define XXJisFocus                                       @"isfocus"
+#define XXJtechIntroduction                              @"instruction"
+#define XXJcommentsNumber                                @"remarks"
+#define XXJgoodCommentRare                               @"goodremarkrate"
+#define XXJTechWorkYears                               @"years"
 
 
 @implementation TechnicianMode
@@ -143,6 +144,17 @@
     else
     {
         self.goodCommentRare = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJgoodCommentRare]];
+    }
+    
+    
+    if ([dic objectForKey:XXJTechWorkYears] == nil ||
+        [dic objectForKey:XXJTechWorkYears] == [NSNull null])
+    {
+        self.years = @"";
+    }
+    else
+    {
+        self.years = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJTechWorkYears]];
     }
     
     

@@ -119,7 +119,16 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
-
+-(BOOL)checkPassWord:(NSString *)password
+{
+    //6-20位数字和字母组成
+    NSString *regex = @"^[a-zA-Z0-9]{6,16}$";
+    NSPredicate *   pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    if ([pred evaluateWithObject:password]) {
+        return YES ;
+    }else
+        return NO;
+}
 
 
 - (IBAction)findbtnClicked:(id)sender {
@@ -136,6 +145,13 @@
         [MBProgressHUD showError:@"请输入密码"];
         return;
     }
+    
+    if (![self checkPassWord:_passwordText.text]) { // 手机号码格式正确
+        
+        [UserTool alertViewDisplayTitle:nil andMessage:@"请输入正确格式的密码" andDisplayValue:1.];
+        return;
+    }
+    
     NSString *YZM = self.testNumText.text;
     if (YZM.length == 0) { // 没有输入密码
         [MBProgressHUD showError:@"请输入短信效验码"];

@@ -47,6 +47,7 @@
 // 初始化注册界面
 - (void)initUserRegisterView {
     
+    
     self.selectBtn.selected = YES;
     
     self.registerBtn.enabled = self.selectBtn.selected;
@@ -188,24 +189,40 @@
     self.registerBtn.enabled = sender.selected;
     
 }
-
+-(BOOL)checkPassWord:(NSString *)password
+{
+    //6-20位数字和字母组成
+    NSString *regex = @"^[a-zA-Z0-9]{6,16}$";
+    NSPredicate *   pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    if ([pred evaluateWithObject:password]) {
+        return YES ;
+    }else
+        return NO;
+}
 // 注册
 - (IBAction)registerBtnClick:(UIButton *)sender {
     
     // 1.判断是否为手机号
-    BOOL res = [UserTool isValidateMobile:self.phoneNumText.text];
-    
-    if (res) { // 手机号码格式正确
-        
-        
-    }else { // 手机号码格式错误
-        
+    if(![UserTool isValidateMobile:self.phoneNumText.text]){
         [UserTool alertViewDisplayTitle:nil andMessage:@"请输入正确手机号" andDisplayValue:1.];
-    
+        return;
     }
+    if(_testNumText.text.length==0){
+        [UserTool alertViewDisplayTitle:nil andMessage:@"请输入验证码" andDisplayValue:1.];
+
+    }
+    if (![self checkPassWord:_passwordText.text]) { // 手机号码格式正确
+        
+     [UserTool alertViewDisplayTitle:nil andMessage:@"请输入正确格式的密码" andDisplayValue:1.];
+        return;
+    }
+        
+    
+    
     
 
 }
+
 
 #pragma mark textField代理
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface TechViewController : UIViewController
+//技师id
+@property (copy, nonatomic) NSString *techID;
 //技师头像
 @property (strong, nonatomic)  UIImageView *portrait;
 //关注按钮

@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "WYScrollView.h"
-@protocol HeaderViewDelegate <NSObject>
 
+@protocol HeaderViewDelegate <NSObject>
+@required
+-(void)scrollImagesClickedAt:(NSInteger)index;
 @end
 @interface HeaderView : UICollectionReusableView
 {
@@ -17,4 +19,5 @@
 }
 @property(nonatomic,strong)WYScrollView* WYNetScrollView;
 @property(nonatomic,weak) id <HeaderViewDelegate> delegate;
+-(void)xt_setupScrollview;
 @end

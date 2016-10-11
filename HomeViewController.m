@@ -5,6 +5,8 @@
 //  Created by Admin on 16/8/9.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
+#import "SDCycleScrollView.h"
+#import "HomeCellModel.h"
 #import "SearchResualtViewController.h"
 #import "HomeViewController.h"
 #import "MJRefresh.h"
@@ -17,12 +19,12 @@
 #import "NSTimer+XTCategory.h"
 #import "UMSocial.h"
 #import "HomeCellModel.h"
-@interface HomeViewController ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,WYScrollViewNetDelegate,UITextViewDelegate,UMSocialUIDelegate>
+#import "CCLocationManager.h"
+@interface HomeViewController ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,UITextViewDelegate,UMSocialUIDelegate,SDCycleScrollViewDelegate>
 {
     UISearchBar *m_searchBa;
     WYScrollView *WYNetScrollView;              //滚动图片控件
-    /** 网络图片数组*/
-    NSMutableArray *NetImageArray;
+    SDCycleScrollView *topScrollView;
     MBProgressHUD *m_loadingView;
     NSMutableArray *dataArr;
     
@@ -36,6 +38,22 @@
     NSTimer *timer;
     UITextView *midText;
     NSString *currentCity;//当前城市;
+    
+    
+    
+    /** 经纬度*/
+    NSNumber *lat;
+    NSNumber *lon;
+    /** 网络图片数组*/
+    NSMutableArray *NetImageArray;
+    /** 网络图片对应的商家id*/
+    NSMutableArray *NetImageShopID;
+    /**中间的介绍文字*/
+    NSMutableString *instruction;
+    /**中间的cell模型*/
+    HomeCellModel *cellModel;
+    /**存放cellModel的数组*/
+    NSMutableArray *cellModelArray;
 }
 @property(nonatomic,strong)UISearchBar *m_searchBa;
 @property(nonatomic,strong)UITableView *homeTable;
@@ -46,7 +64,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+//    self.automaticallyAdjustsScrollViewInsets =YES;
 //    [jingWeiDu getCity:^(NSString *addressString) {
         #pragma warining 模拟器上这里报错 ，先注释掉
 ////        currentCity = addressString;
@@ -61,11 +79,6 @@
     backgroundImageView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     [self.view addSubview:backgroundImageView];
     
-    
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
-        self.edgesForExtendedLayout=UIRectEdgeNone;
-        
-    }
     
     selectType = @"名店推荐";
     
@@ -84,6 +97,9 @@
     
     
     NetImageArray = [[NSMutableArray alloc]initWithCapacity:0];
+    NetImageShopID = [[NSMutableArray alloc]initWithCapacity:0];
+    instruction = [[NSMutableString alloc]initWithString:@"在中医文化中，足疗法源远流长，它源于我国古代，是人们在长期的社会实践中的知识积累和经验总结，至今已有3000多年的历史传统。古人曾经有过许多对足浴的经典记载和描述：“春天洗脚，升阳固脱；夏天洗脚，暑湿可祛；秋天洗脚,肺润肺濡；冬天洗脚，丹田温灼。"];
+    cellModelArray =[[NSMutableArray alloc]initWithCapacity:0];
     // ========测试数据 记得删掉=======
     NetImageArray = [NSMutableArray arrayWithObjects:
                      @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg",
@@ -100,6 +116,8 @@
     homeTable.dataSource = self;
     homeTable.delegate = self;
     [self.view addSubview:homeTable];
+//    self.navigationController.automaticallyAdjustsScrollViewInsets = NO;
+    homeTable.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     homeTable.backgroundView=backgroundImageView;
     homeTable.separatorColor = [UIColor getColor:@"3b2935"];
     homeTable.sd_layout
@@ -135,7 +153,7 @@
     lineView.sd_layout.leftSpaceToView(imageView,10*k_scale).heightIs(100).widthIs(1).bottomSpaceToView(headerView,30);
     
     midText = [[UITextView alloc]init];
-    midText.text = @"在中医文化中，足疗法源远流长，它源于我国古代，是人们在长期的社会实践中的知识积累和经验总结，至今已有3000多年的历史传统。古人曾经有过许多对足浴的经典记载和描述：“春天洗脚，升阳固脱；夏天洗脚，暑湿可祛；秋天洗脚,肺润肺濡；冬天洗脚，丹田温灼。在中医文化中，足疗法源远流长，它源于我国古代，是人们在长期的社会实践中的知识积累和经验总结，至今已有3000多年的历史传统。古人曾经有过许多对足浴的经典记载和描述：“春天洗脚，升阳固脱；夏天洗脚，暑湿可祛；秋天洗脚,肺润肺濡；冬天洗脚，丹田温灼";
+    midText.text = instruction;
     midText.textColor = [UIColor getColor:@"3b2935"];
     midText.editable = NO;
     midText.delegate=self;
@@ -155,6 +173,9 @@
     [homeTable headerBeginRefreshing];
     [homeTable headerEndRefreshing];
     [self performSelector:@selector(resetText) withObject:nil afterDelay:2.0f];
+//    self.automaticallyAdjustsScrollViewInsets =YES;
+//    self.edgesForExtendedLayout = UIRectEdgeNone;
+    
 }
 
 - (UIBarButtonItem *)shareButton
@@ -172,17 +193,60 @@
     
     return item;
 }
+#pragma mark - 请求数据(上传经纬度)
+-(void)uploadLatAndLon{
+    WS(weakSelf);
+    [[CCLocationManager shareLocation]  getLocationCoordinate:^(CLLocationCoordinate2D locationCorrrdinate) {
+        lat = [NSNumber numberWithDouble:locationCorrrdinate.latitude];
+        lon = [NSNumber numberWithDouble:locationCorrrdinate.longitude];
+        [weakSelf startUploadLatAndLon];
+    }];
+}
+-(void)startUploadLatAndLon{
+    NSDictionary *prama = @{@"lng":lon,@"lat":lat};
+    WS(weakSelf)
+    [XTRequestManager GET:XTUploadLinAndLon parameters:prama responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
+//        NSLog(@"====%@",responseObject);
+        NSArray *arr = responseObject[@"homebanner"];
+        for (int i=0; i<arr.count; ++i) {
+            NSDictionary * dictionary = arr[i];
+            [NetImageArray addObject:dictionary[@"banner"]];
+            [NetImageShopID addObject:dictionary[@"id"]];
+        }
+//        NSLog(@"====%@",NetImageArray);
+        NSDictionary *textDic = responseObject[@"instruction"];
+        instruction = textDic[@"inst"];
+        for(NSDictionary *d in responseObject[@"recommendshop"]){
+            cellModel = [[HomeCellModel alloc]initFromDictionary:d];
+//        NSLog(@"cellModel.image=%@",cellModel.image);
+            [cellModelArray addObject:cellModel];
+        }
+        
+        [weakSelf applyDataFromResponseObject];
+    } failure:^(NSError *error) {
+        
+    }];
+}
+#pragma mark- 设置数据
+-(void)applyDataFromResponseObject{
+    if (NetImageArray&&instruction&&NetImageShopID&&cellModelArray) {
+        [self createNetScrollView];
+        midText.text = instruction;
+        [homeTable reloadData];
+    }
+    [homeTable headerEndRefreshing];
+}
 #pragma mark =====================================
 //分享
 -(void)shareBtnClicekd{
- 
-    [UMSocialData defaultData].extConfig.title = @"息息脚";
-    [UMSocialData defaultData].extConfig.wechatSessionData.url = @"http://baidu.com";
-    [UMSocialData defaultData].extConfig.wechatTimelineData.url = @"http://baidu.com";
+    [self  uploadLatAndLon];
+    [UMSocialData defaultData].extConfig.title = @"神州师傅";
+    [UMSocialData defaultData].extConfig.wechatSessionData.url = @"http://www.baidu.com";
+    [UMSocialData defaultData].extConfig.wechatTimelineData.url = @"http://www.baidu.com";
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:UmengAppkey
-                                      shareText:@"欢迎使用息息脚"
-                                     shareImage:[UIImage imageNamed:@"120"]
+                                      shareText:@"欢迎使用神州师傅"
+                                     shareImage:[UIImage imageNamed:@"AppIcon"]
                                 shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
                                        delegate:self];
 }
@@ -204,7 +268,6 @@
     timer = [NSTimer eocScheduledTimerWithTimeInterval:0.06 block:^{
         [weakSelf performSelector:@selector(onTick:) withObject:nil afterDelay:0];
     } repeats:YES];
-    
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
@@ -240,11 +303,18 @@
 }
 //轮播图
 -(void)createNetScrollView{
-    WYNetScrollView = [[WYScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200) WithNetImages:NetImageArray];
-    WYNetScrollView.AutoScrollDelay = 3;
-    WYNetScrollView.placeholderImage = [UIImage imageNamed:@"placeholderImage"];
-    WYNetScrollView.netDelagate = self;
-    [headerView addSubview:WYNetScrollView];
+//    WYNetScrollView = [[WYScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200) WithNetImages:NetImageArray];
+//    WYNetScrollView.AutoScrollDelay = 3;
+//    WYNetScrollView.placeholderImage = [UIImage imageNamed:@"placeholderImage"];
+//    WYNetScrollView.netDelagate = self;
+//    [headerView addSubview:WYNetScrollView];
+    topScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200) imageNamesGroup:NetImageArray];
+    /** 设置占位图*/
+    topScrollView.placeholderImage = [UIImage imageNamed:@"placeholderImage"];
+    /** 获取网络图片的index*/
+   topScrollView.delegate = self;
+    /** 添加到当前View上*/
+    [headerView addSubview:topScrollView];
 }
 
 ////右按钮1
@@ -323,7 +393,10 @@
 {
     [dataArr removeAllObjects];
     [NetImageArray removeAllObjects];
+    [NetImageShopID removeAllObjects];
+    [cellModelArray removeAllObjects];
     [self carouselRequest];
+    [self uploadLatAndLon];
 }
 
 
@@ -356,7 +429,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    [self createNetScrollView];
+    
     return headerView;
 }
 
@@ -370,10 +443,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if ([selectType isEqualToString:@"名店推荐"]) {
-        return 2;
+        return cellModelArray.count;
     }
     else{
-        return 1;
+        return cellModelArray.count;
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -389,7 +462,7 @@
                                         reuseIdentifier:tableCell];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
+    cell.homeCellModel = cellModelArray[indexPath.row];
     return cell;
 }
 
@@ -401,18 +474,15 @@
     [self.navigationController pushViewController:push animated:YES];
 }
 
-#pragma mark============== WYScrollViewNetDelegate ===============
-/** 获取网络图片的index*/
--(void)didSelectedNetImageAtIndex:(NSInteger)index{
+#pragma mark============== SDScrollViewNetDelegate ===============
+
+/** 点击图片回调 */
+- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
     [m_searchBa resignFirstResponder];
     ShopDetailVC *push = [[ShopDetailVC alloc]init];
     push.title = @"商家";
     [self.navigationController pushViewController:push animated:YES];
-    //    CarouselMode *mode = [dataArr objectAtIndex:index];
-    //    NSString *urlStr = mode.url;
-    //    NSLog(@"点中网络图片的详情地址:%@",urlStr);
 }
-
 #pragma mark - UISearchBarDelegate
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{

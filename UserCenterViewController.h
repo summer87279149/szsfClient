@@ -10,4 +10,9 @@
 
 @interface UserCenterViewController : UIViewController
 
+@property(nonatomic,copy)NSString *imageUrl;
+
+@property(nonatomic,copy)NSString *nickName;
+
+@property(nonatomic,copy)NSString *telNum;
 @end

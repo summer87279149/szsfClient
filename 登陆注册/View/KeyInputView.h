@@ -14,6 +14,7 @@ typedef void (^KeyInputViewBlock) (KeyInputView *) ;
 @interface KeyInputView : UIView
 
 @property (nonatomic, copy) KeyInputViewBlock keyBlock;
+@property (weak, nonatomic) IBOutlet UIButton *Btn;
 
 + (instancetype)keyInputView;
 

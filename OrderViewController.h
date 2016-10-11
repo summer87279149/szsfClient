@@ -7,8 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ProjectModal.h"
 @interface OrderViewController : UIViewController
+////是否支持上门  “1”支持  “0”不支持
+//@property (nonatomic,copy) NSString *isToMyHome;
+////项目id
+//@property (nonatomic,copy) NSString *pid;
+////项目名字
+//@property (nonatomic,copy) NSString *pName;
+////技师id
+//@property (nonatomic,copy) NSString *tid;
+
+
+@property (nonatomic,strong)ProjectModal *projectModal;
+
+
+
+
 
 //指定技师姓名
 @property (nonatomic,strong) UILabel *appointTechName;

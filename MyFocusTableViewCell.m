@@ -35,6 +35,7 @@
         self.AuthenticationImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"名师"]];
         self.AuthenticationImage.frame = CGRectMake(100, 45, 40, 40);
         [self.techView addSubview:self.AuthenticationImage];
+        self.AuthenticationImage.hidden=YES;
         //技能、工作年限
         self.skill = [[UILabel alloc]init];
         self.skill.textColor =COLOR;
@@ -76,9 +77,14 @@
     self.techName.text = myFocusCellModel.techName;
     if ([myFocusCellModel.AuthenticationImage intValue]==0) {
         self.AuthenticationImage.hidden = YES;
+    }else{
+         self.AuthenticationImage.hidden = NO;
     }
-    self.skill.text = myFocusCellModel.skill;
-    self.serviceTimes.text = myFocusCellModel.serviceTimes;
+    self.skill.text = [NSString stringWithFormat:@"%@  %@年经验",myFocusCellModel.skill,myFocusCellModel.years];
+    
+    self.serviceTimes.text = [NSString stringWithFormat:@"服务%@次",myFocusCellModel.serviceTimes];
+                              
+                              
 }
 
 

@@ -7,11 +7,11 @@
 //
 
 #import "CommentCellModel.h"
-#define XXJname                 @""
-#define XXJserviceName          @""
-#define XXJtime                 @""
-#define XXJcommentContent       @""
-#define XXJgrade                @""
+#define XXJname                 @"nickname"
+#define XXJserviceName          @"projectname"
+#define XXJtime                 @"date"
+#define XXJcommentContent       @"content"
+#define XXJgrade                @"stars"
 @implementation CommentCellModel
 -(void)parseFromDictionary:(NSDictionary *)dic{
     
@@ -68,7 +68,7 @@
     else
     {
 //        self.grade = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJgrade]];
-        self.grade = [dic[XXJgrade] floatValue];
+        self.grade = [dic[XXJgrade] floatValue]/5;
     }
     
 }

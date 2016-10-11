@@ -80,6 +80,17 @@
 }
 - (void)submitBtnPress
 {
+    if(contenText.text.length==0||contenText.text==nil){
+        [MBProgressHUD showError:@"请输入意见"];
+    }else{
+        WS(weakSelf)
+        [SomeOtherRequest feedBackWithUserID:[YCUserModel userId] andSuggestion:contenText.text success:^(id response) {
+            [MBProgressHUD showSuccess:@"提交成功，感谢反馈"];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        } error:^(id response) {
+            
+        }];
+    }
     
     
     
@@ -88,9 +99,9 @@
 
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-    if(range.location > 100){
+    if(range.location > 60){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
-                                                        message:@"输入的自字符数不能超过100"
+                                                        message:@"输入的自字符数不能超过60"
                                                        delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [alert show];
         
@@ -104,7 +115,7 @@
 
 - (void)textViewDidChange:(UITextView *)textView{
     int count;
-    count = 100.0 - contenText.text.length;
+    count = 60.0 - contenText.text.length;
     [wordCount setText:[NSString stringWithFormat:@"剩余输入%d字", count]];  //_wordCount是一个显示剩余可输入数字的label
 }
 -(BOOL)canPerformAction:(SEL)action withSender:(id)sender

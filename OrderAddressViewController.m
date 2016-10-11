@@ -2,17 +2,22 @@
 
 #import "OrderAddressViewController.h"
 
-@interface OrderAddressViewController ()
+@interface OrderAddressViewController (){
+    BOOL isSelectCity;
+}
 @property(nonatomic,strong)NSIndexPath *selectedIndexPath;//当前选中的NSIndexPath
 @end
 
 @implementation OrderAddressViewController
+
+
 -(void)viewDidLoad{
     HaHaHaAddBackGroundImage
     [self configureData];
     [self configureViews];
     
 }
+
 
 -(void)configureData{
     if (self.displayType == kDisplayProvince) {
@@ -22,6 +27,7 @@
         self.provinces = [dict objectForKey:@"address"];
     }
 }
+
 
 -(void)configureViews{
     if (self.displayType == kDisplayProvince) { //只在选择省份页面显示取消按钮
@@ -48,6 +54,7 @@
         return self.areas.count;
     }
 }
+
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString* ID = @"cityCell";
@@ -80,8 +87,10 @@
     return cell;
 }
 
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.displayType == kDisplayProvince) {
+        isSelectCity = NO;
         NSDictionary *province = self.provinces[indexPath.row];
         NSArray *citys = [province objectForKey:@"sub"];
         self.selectedProvince = [province objectForKey:@"name"];
@@ -92,6 +101,7 @@
         cityVC.selectedProvince = self.selectedProvince;
         [self.navigationController pushViewController:cityVC animated:YES];
     }else if (self.displayType == kDisplayCity){
+        isSelectCity = NO;
         NSDictionary *city = self.citys[indexPath.row];
         self.selectedCity = [city objectForKey:@"name"];
         NSArray *areas = [city objectForKey:@"sub"];
@@ -104,6 +114,7 @@
         [self.navigationController pushViewController:areaVC animated:YES];
     }
     else{
+        isSelectCity = YES;
         //取消上一次选定状态
         UITableViewCell *oldCell =  [tableView cellForRowAtIndexPath:self.selectedIndexPath];
         oldCell.imageView.image = [UIImage imageNamed:@"unchecked"];
@@ -116,7 +127,13 @@
     }
     
 }
+
+
 -(void)submit{
+    if (isSelectCity == NO) {
+        [MBProgressHUD showError:@"未选择地区"];
+        return;
+    }
     if (self.selectedProvince == nil) {
         self.selectedProvince =@"位置省份";
     }
@@ -133,12 +150,14 @@
     [self sureCancel];
 }
 
+
 -(void)sureCancel{
     
     [self dismissViewControllerAnimated:YES completion:^{
-        [MBProgressHUD showSuccess:[NSString stringWithFormat:@"%@-%@-%@",self.selectedProvince,self.selectedCity,self.selectedArea]];
+//        [MBProgressHUD showSuccess:[NSString stringWithFormat:@"%@-%@-%@",self.selectedProvince,self.selectedCity,self.selectedArea]];
     }];
 }
+
 -(void)cancel{
     [self dismissViewControllerAnimated:YES completion:nil];
 }

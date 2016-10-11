@@ -14,8 +14,7 @@ void transform_baidu_from_mars(double lat, double lng, double* tarLat, double* t
 
 @implementation CLLocation (YCLocation)
 
-- (CLLocation*)locationMarsFromEarth
-{
+- (CLLocation*)locationMarsFromEarth{
     double lat = 0.0;
     double lng = 0.0;
     transform_earth_from_mars(self.coordinate.latitude, self.coordinate.longitude, &lat, &lng);
@@ -28,8 +27,7 @@ void transform_baidu_from_mars(double lat, double lng, double* tarLat, double* t
                                         timestamp:self.timestamp];
 }
 
-- (CLLocation*)locationEarthFromMars
-{
+- (CLLocation*)locationEarthFromMars{
     // 二分法查纠偏文件
     // http://xcodev.com/131.html
     return nil;

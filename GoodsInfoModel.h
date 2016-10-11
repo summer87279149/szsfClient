@@ -10,7 +10,8 @@
 
 
 @interface GoodsInfoModel : NSObject
-
+//商品id
+@property(strong,nonatomic)NSString *pid;
 @property(strong,nonatomic)NSString *imageName;//商品图片
 @property(strong,nonatomic)NSString *goodsTitle;//商品标题
 @property(strong,nonatomic)NSString *goodsPrice;//商品单价

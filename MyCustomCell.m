@@ -41,7 +41,7 @@
         
         //促销价
         _priceTitleLab = [[UILabel alloc]initWithFrame:CGRectMake(90, 35, 70, 30)];
-        _priceTitleLab.text = @"会员价:";
+        _priceTitleLab.text = @"单价:";
         _priceTitleLab.font = [UIFont systemFontOfSize:13];
         _priceTitleLab.textColor = COLOR;
         _priceTitleLab.backgroundColor = [UIColor clearColor];
@@ -67,6 +67,7 @@
         [_deleteBtn setImage:[UIImage imageNamed:@"按钮-.png"] forState:UIControlStateNormal];
         [_deleteBtn addTarget:self action:@selector(deleteBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         _deleteBtn.tag = 11;
+        _deleteBtn.showsTouchWhenHighlighted = YES;
         [bgView addSubview:_deleteBtn];
         
         //购买商品的数量
@@ -83,6 +84,7 @@
         [_addBtn setImage:[UIImage imageNamed:@"按钮+.png"] forState:UIControlStateNormal];
         [_addBtn addTarget:self action:@selector(addBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         _addBtn.tag = 12;
+        _addBtn.showsTouchWhenHighlighted = YES;
         [bgView addSubview:_addBtn];
         
         //是否选中图片
@@ -102,11 +104,11 @@
  */
 -(void)addTheValue:(GoodsInfoModel *)goodsModel
 {
-    _goodsImgV.image = [UIImage imageNamed:goodsModel.imageName];
+    [_goodsImgV sd_setImageWithURL:URLWITHSTRING(goodsModel.imageName)];
     _goodsTitleLab.text = goodsModel.goodsTitle;
     _priceLab.text = goodsModel.goodsPrice;
     _numCountLab.text = [NSString stringWithFormat:@"%d",goodsModel.goodsNum];
-    
+    NSLog(@"商品数量是:%d",goodsModel.goodsNum);
     if (goodsModel.selectState)
     {
         _selectState = YES;
@@ -130,6 +132,8 @@
     {
         //调用代理
         [self.delegate btnClick:self andFlag:(int)sender.tag];
+    }else{
+        [MBProgressHUD showError:@"勾选商品后才能修改数量"];
     }
 
 }
@@ -145,6 +149,8 @@
     {
         //调用代理
         [self.delegate btnClick:self andFlag:(int)sender.tag];
+    }else{
+        [MBProgressHUD showError:@"勾选商品后才能修改数量"];
     }
 
 }

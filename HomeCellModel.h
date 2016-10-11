@@ -12,4 +12,5 @@
 @property (nonatomic ,copy) NSString *image;
 @property (nonatomic ,copy) NSString *distance;
 @property (nonatomic ,copy) NSString *name;
+@property (nonatomic ,copy) NSString *shopID;
 @end

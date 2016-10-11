@@ -8,17 +8,17 @@
 
 #import "ShopMode.h"
 
-#define XXJShopID                                       @"id"
+#define XXJShopID                                       @"sid"
 #define XXJShopImagesURL                                @"images"
 #define XXJShopName                                     @"shopname"
 #define XXJShopAddress                                  @"address"
 #define XXJLatitude                                     @"latitude"
 #define XXJLongitude                                    @"longitude"
 #define XXJShopPhone                                    @"tel"
-#define XXJShopOrderqty                                 @"orderqty"
-#define XXJcommentsNumber                               @"score"
-#define XXJgoodCommentRare                              @"score"
-
+#define XXJShopOrderqty                                 @"selectnum"
+#define XXJcommentsNumber                               @"remarks"
+#define XXJgoodCommentRare                              @"goodremarkrate"
+#define XXJDistance                                     @"distance"
 
 
 
@@ -145,7 +145,15 @@
     
     
    
-    
+    if ([dic objectForKey:XXJDistance] == nil ||
+        [dic objectForKey:XXJDistance] == [NSNull null])
+    {
+        self.distance = @"";
+    }
+    else
+    {
+        self.distance = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJDistance]];
+    }
    
     
     

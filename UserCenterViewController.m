@@ -8,7 +8,7 @@
 
 #import "UserCenterViewController.h"
 
-@interface UserCenterViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate,UITextFieldDelegate,UIScrollViewDelegate>
+@interface UserCenterViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate,UITextFieldDelegate,UIScrollViewDelegate,UIActionSheetDelegate>
 
 
 @property(nonatomic,strong)UIButton *userHeader;
@@ -84,7 +84,7 @@
     // 用户昵称
     UITextField *usernameField1=[[UITextField alloc]init];
     usernameField1.frame=CGRectMake(10, CGRectGetMaxY(self.userHeader.frame)+40,[UIScreen mainScreen].bounds.size.width-20, 40);
-    usernameField1.text=@"";
+    
     usernameField1.textColor=[UIColor blackColor];
     usernameField1.returnKeyType = UIReturnKeyDone;
     usernameField1.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -108,7 +108,7 @@
     phoneNumber.frame=CGRectMake(10, CGRectGetMaxY(self.usernameField1.frame)+10,[UIScreen mainScreen].bounds.size.width-20, 40);
     phoneNumber.text=@"";
     phoneNumber.enabled=NO;
-    phoneNumber.textColor=[UIColor blackColor];
+    phoneNumber.textColor=[UIColor darkGrayColor];
     phoneNumber.returnKeyType = UIReturnKeyDone;
     phoneNumber.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [self.scrollView1 addSubview:phoneNumber];
@@ -129,7 +129,7 @@
     modify.frame=CGRectMake(([UIScreen mainScreen].bounds.size.width-100)/2, CGRectGetMaxY(self.phoneNumber.frame)+10,100, 35);
     [self.scrollView1 addSubview:modify];
     
-    [modify setTitle:@"修改" forState:UIControlStateNormal];
+    [modify setTitle:@"确认修改" forState:UIControlStateNormal];
     [modify addTarget:self action:@selector(modifyBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     modify.backgroundColor = COLOR;
     modify.layer.cornerRadius=15;
@@ -141,7 +141,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:Nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyBoardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
-    
+    [_headerImage sd_setImageWithURL:URLWITHSTRING(self.imageUrl)];
+    self.usernameField1.text= self.nickName;
+    phoneNumber.text = self.telNum;
 }
 - (void)setUpData
 {
@@ -149,7 +151,18 @@
 // 修改按钮点击事件
 - (void)modifyBtnClicked
 {
-    
+    if (_usernameField1.text.length>8) {
+        [MBProgressHUD showError:@"姓名长度应小于10个字符"];
+        return;
+    }
+    WS(weakSelf)
+    [SomeOtherRequest modifyNickNameWithUserID:[YCUserModel userId] andName:_usernameField1.text success:^(id response) {
+        NSLog(@"修改昵称:%@",response);
+       [MBProgressHUD showSuccess:@"修改成功"];
+        [weakSelf.view endEditing:YES];
+    } error:^(id response) {
+        
+    }];
 }
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
@@ -159,12 +172,51 @@
 
 -(void)clickHeader
 {
+    UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"选择照片" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"现在拍一张照片",@"从相册中选一张照片", nil];
+    UIViewController *rootVC = [self imc_viewController];
+    [sheet showInView:rootVC.view];
+   }
+#pragma mark - UIActionsheet Delegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+            [self openCamera];
+        }
+        
+    } else if (buttonIndex == 1) {
+        if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+            [self openPhotoLibrary];
+        }
+    }
+}
+/**
+ *  打开相机
+ */
+- (void)openCamera
+{
     UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
-    ipc.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    ipc.sourceType = UIImagePickerControllerSourceTypeCamera;
+    ipc.cameraDevice = UIImagePickerControllerCameraDeviceFront;
     ipc.delegate = self;
     ipc.allowsEditing = YES;
-    [self presentViewController:ipc animated:YES completion:nil];
+    UIViewController *rootVC = [self imc_viewController];
+    [rootVC presentViewController:ipc animated:YES completion:nil];
 }
+
+/**
+ *  打开相册
+ */
+- (void)openPhotoLibrary
+{
+    UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
+    ipc.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    ipc.delegate = self;
+    ipc.allowsEditing = YES;
+    UIViewController *rootVC = [self imc_viewController];
+    [rootVC presentViewController:ipc animated:YES completion:nil];
+    _headerImage.layer.cornerRadius = 45;
+}
+
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
@@ -173,24 +225,70 @@
     
     // 1.取出选中的图片
     UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
-    NSData *mData =UIImageJPEGRepresentation(originalImage, 0.05);
+    NSData *mData =UIImageJPEGRepresentation(originalImage, 1);
     UIImage *needImage = nil;
     
     needImage = [UIImage imageWithData:mData];
     
     CGSize size = needImage.size;
-    float height = 640.0f * size.height/size.width;
-    needImage = [self imageWithImageSimple:needImage scaledToSize:CGSizeMake(640.0f, height)];
+    float height = 200.0f * size.height/size.width;
+    needImage = [self imageWithImageSimple:needImage scaledToSize:CGSizeMake(200.0f, height)];
+    [self saveImage:needImage];
+   
     
-   NSData * data = UIImageJPEGRepresentation(needImage, 1.0f);
+}
+//从document取得图片
+- (UIImage *)getImage:(NSString *)totalPath
+{
+    return [UIImage imageWithContentsOfFile:totalPath];
+}
+//保存图片
+- (void)saveImage:(UIImage *)tempImage
+{
+
     /**
      *  上传图片
      *
-     *  @return <#return value description#>
      */
+    WS(weakSelf)
+    [SomeOtherRequest saveImage:tempImage userid:[YCUserModel userId] success:^(id response) {
+        [weakSelf.headerImage sd_setImageWithURL:URLWITHSTRING(response[@"headimgurl"])];
+        NSLog(@"上传图片成功返回：%@",response);
+    } error:^(id response) {
+        [MBProgressHUD showError:@"上传失败，请联系管理员"];
+    }];
+}
+
+
+
+
+- (UIImage*)imageWithImageSimple:(UIImage*)image scaledToSize:(CGSize)newSize
+{
+    // Create a graphics image context
+    UIGraphicsBeginImageContext(newSize);
+    
+    // Tell the old image to draw in this new context, with the desired
+    // new size
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    
+    // Get the new image from the context
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    // End the context
+    UIGraphicsEndImageContext();
+    
+    // Return the new image.
+    return newImage;
     
 }
 
+- (UIViewController *)imc_viewController {
+    UIResponder *responder = self;
+    while ([responder isKindOfClass:[UIView class]]) {
+        responder = responder.nextResponder;
+    }
+    return (UIViewController *)responder;
+}
 
 
 #pragma mark - 键盘
@@ -212,28 +310,11 @@
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
     [textField endEditing:YES];
+    
 }
 
 
 
-- (UIImage*)imageWithImageSimple:(UIImage*)image scaledToSize:(CGSize)newSize
-{
-    // Create a graphics image context
-    UIGraphicsBeginImageContext(newSize);
-    
-    // Tell the old image to draw in this new context, with the desired
-    // new size
-    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
-    
-    // Get the new image from the context
-    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-    
-    // End the context
-    UIGraphicsEndImageContext();
-    
-    // Return the new image.
-    return newImage;
-}
 
 - (void)dealloc
 {
@@ -266,9 +347,6 @@
     
     
 }
-
-
-
 
 
 

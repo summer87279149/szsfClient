@@ -131,18 +131,15 @@
         .heightIs(80)
         .widthIs(80)
         .bottomSpaceToView(self,0);
-
     }
     return self;
 }
 
 -(void)setHomeCellModel:(HomeCellModel *)homeCellModel{
     _homeCellModel = homeCellModel;
-    
     [imgView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",homeCellModel.image]]];
-    nearbyLbl.text = homeCellModel.distance;
-     nameLbl.text = homeCellModel.name;
-    
+    nearbyLbl.text =[NSString stringWithFormat:@"距离:%@km",homeCellModel.distance];
+    nameLbl.text = homeCellModel.name;
 }
 
 
@@ -190,9 +187,9 @@
         nameLbl.text = @"谭某某";
         infoLbl.text = @"擅长足疗、按摩、推拿";
         consumptionLbl.text = @"虹桥养生会所";
-//        nearbyLbl.text = @"从业20年";
-         nearbyLbl.attributedText = [self createPractitionersString:@"从业" AndStringTwo:@"20"];
-//        numberLbl.text = @"已有600人选择";
+//      nearbyLbl.text = @"从业20年";
+        nearbyLbl.attributedText = [self createPractitionersString:@"从业" AndStringTwo:@"20"];
+//      numberLbl.text = @"已有600人选择";
         numberLbl.attributedText = [self createRiviewAttributedPriceString:@"已有" AndStringTwo:@"375"];
     }
 }

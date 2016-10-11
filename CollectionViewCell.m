@@ -16,7 +16,7 @@
         self.backgroundColor = [UIColor clearColor];
         
         
-        self.image = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"MallImage"]];
+        self.image = [[UIImageView alloc]init];
         [self addSubview: self.image];
         self.image.sd_layout.topSpaceToView(self,3).leftSpaceToView(self,3).rightSpaceToView(self,3).bottomSpaceToView(self,self.bounds.size.height/3);
         
@@ -55,9 +55,8 @@
         
         
         
-        self.name.text = @"多乐士袋装茶";
-        self.contentSize.text = @"20g*20袋";
-        self.price.text = @"150元";
+       
+
 
     }
     return self;
@@ -65,6 +64,7 @@
 -(void)setCollectionViewCellModel:(CollectionViewCellModel *)collectionViewCellModel{
     _collectionViewCellModel = collectionViewCellModel;
     [self.image sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",collectionViewCellModel.imageUrl]]];
+//    NSLog(@"cell里面的图片地址是:%@",[NSString stringWithFormat:@"%@",collectionViewCellModel.imageUrl]);
     self.name.text = collectionViewCellModel.name;
     self.price.text = collectionViewCellModel.price;
     self.contentSize.text = collectionViewCellModel.contentSize;

@@ -19,6 +19,8 @@
 @property(nonatomic,strong)NSString *headimgurl;
 //是否有名师认证图标
 @property(nonatomic,copy) NSString *AuthenticationImage;
+//技师工作年限
+@property(nonatomic,strong)NSString *years;
 //技能
 @property(nonatomic,copy) NSString *skill;
 //服务次数

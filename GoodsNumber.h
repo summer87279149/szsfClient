@@ -9,13 +9,8 @@
 #import <UIKit/UIKit.h>
 @protocol GoodsNumberDelegate<NSObject>
 @required
-
 -(void)BtnClicked;
-
-
 @end
-
-
 @interface GoodsNumber : UIView
 //商品增加数量按钮
 @property(nonatomic,strong)UIButton *incresBtn;

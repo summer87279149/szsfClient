@@ -11,11 +11,16 @@
 #import "ToMyHomeCellModel.h"
 @protocol ToMyHomeTableViewCellDelegate <NSObject>
 @required
--(void)cellOrderBtnClicked;
+-(void)cellOrderBtnClicked:(NSInteger)row;
 -(void)focusBtnClick:(UITableViewCell *)cell ;//andTitle:(NSString *)title;
 -(void)cancelFocusBtnClick:(UITableViewCell *)cell ;
 @end
-@interface ToMyHomeTableViewCell : UITableViewCell
+@interface ToMyHomeTableViewCell : UITableViewCell{
+    UIView *line1;
+    UIView *line2;
+    UIView *line3;
+}
+@property(nonatomic,assign)NSInteger myCurrentRow;
 //头像
 @property(nonatomic,strong) UIImageView* imageview;
 //今日可约

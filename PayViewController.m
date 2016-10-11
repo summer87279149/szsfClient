@@ -9,6 +9,7 @@
 #import "PayViewController.h"
 #import "PayFirstTableViewCell.h"
 #import "PayCell.h"
+
 @interface PayViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView *tableView;
 @property(nonatomic,strong) UIButton *payCommit;

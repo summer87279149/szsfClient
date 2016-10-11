@@ -49,7 +49,7 @@
     hud.removeFromSuperViewOnHide = YES;
     // YES代表需要蒙版效果
     hud.dimBackground = YES;
-    
+    [hud hideAnimated:YES afterDelay:1];
     return hud;
 }
 

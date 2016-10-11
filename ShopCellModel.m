@@ -5,11 +5,12 @@
 //  Created by Admin on 16/8/18.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
-#define XXJimage                @""
-#define XXJname                 @""
-#define XXJprice                @""
-#define XXJchooseNumber         @""
-#define XXJtime                 @""
+#define XXJID                   @"id"
+#define XXJimage                @"logo"
+#define XXJname                 @"projectname"
+#define XXJprice                @"price"
+#define XXJchooseNumber         @"selectnum"
+#define XXJtime                 @"time"
 
 #import "ShopCellModel.h"
 
@@ -69,6 +70,16 @@
     else
     {
         self.time = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJtime]];
+    }
+    // id
+    if ([dic objectForKey:XXJID] == nil ||
+        [dic objectForKey:XXJID] == [NSNull null])
+    {
+        self.projectId = @"";
+    }
+    else
+    {
+        self.projectId = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJID]];
     }
     
     

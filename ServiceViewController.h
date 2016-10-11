@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface ServiceViewController : UIViewController
+//项目ID
+@property(nonatomic,strong) NSString *projectID;
+//该项目的技师id
+@property(nonatomic,strong) NSString *techID;
 //项目介绍view
 @property(nonatomic,strong) UIView *projectView;
 //名字

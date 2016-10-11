@@ -6,6 +6,8 @@
 //  Copyright © 2015年 hackcc. All rights reserved.
 //
 
+
+#import "HomeVController.h"
 #import "MainTabBarController.h"
 #import "MainNavViewController.h"
 
@@ -25,8 +27,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    HomeViewController *mainViewController=[[HomeViewController alloc]init];
-    [self addViewController:mainViewController withImage:@"home_off" WithSelectImage:@"home" WithTitle:@"首页"];
+//    HomeViewController *mainViewController=[[HomeViewController alloc]init];
+//    [self addViewController:mainViewController withImage:@"home_off" WithSelectImage:@"home" WithTitle:@"首页"];
+    
+    HomeVController *main = [[HomeVController alloc]init];
+    
+//    [self xt_addViewController:main withImage:@"home_off" WithSelectImage:@"home" WithTitle:@"首页"];
+   [self addViewController:main withImage:@"home_off" WithSelectImage:@"home" WithTitle:@"首页"];
     
     ToShopViewController *toShopViewController=[[ToShopViewController alloc]init];
     [self addViewController:toShopViewController withImage:@"toShop_off" WithSelectImage:@"toShop" WithTitle:@"到店"];
@@ -42,6 +49,7 @@
     [self addViewController:mineViewController withImage:@"mine_off" WithSelectImage:@"mine" WithTitle:@"我的"];
     self.tabBar.backgroundImage = [UIImage imageNamed:@"tabBarBackImage"];
     self.tabBar.tintColor =COLOR;
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -80,9 +88,6 @@
     UIImage *selectTempImage = [[UIImage imageNamed:selectImage] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     viewContro.tabBarItem.selectedImage = selectTempImage;
 
-//    viewContro.view.backgroundColor = [UIColor colorWithRed:arc4random_uniform(200)/255.0 green:arc4random_uniform(200)/255.0 blue:arc4random_uniform(200)/255.0 alpha:1.0];
-//    
-//    viewContro.view.backgroundColor=[UIColor whiteColor];
     
     MainNavViewController *nav=[[MainNavViewController alloc]initWithRootViewController:viewContro];
 
@@ -90,6 +95,34 @@
     
     
 }
-
+- (void)xt_addViewController :(UIViewController *)viewContro withImage:(NSString *)imageName WithSelectImage:(NSString *)selectImage WithTitle:(NSString *)title {
+    viewContro.title = title;
+    
+    UIImage *TempImage = [[UIImage imageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    viewContro.tabBarItem.image = TempImage;
+    
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    
+    dic[NSForegroundColorAttributeName]=COLOR;
+    
+    [viewContro.tabBarItem setTitleTextAttributes:dic forState:UIControlStateNormal];
+    
+    NSMutableDictionary *dic2 = [NSMutableDictionary dictionary];
+    
+    dic2[NSForegroundColorAttributeName]=[UIColor whiteColor];
+    
+    [viewContro.tabBarItem setTitleTextAttributes:dic2 forState:UIControlStateSelected];
+    
+    //     取消系统控制器的渲染效果
+    UIImage *selectTempImage = [[UIImage imageNamed:selectImage] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    viewContro.tabBarItem.selectedImage = selectTempImage;
+    
+    
+    UINavigationController *nav=[[UINavigationController alloc]initWithRootViewController:viewContro];
+    
+    [self addChildViewController:nav];
+    
+    
+}
 
 @end

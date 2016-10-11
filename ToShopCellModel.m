@@ -5,12 +5,13 @@
 //  Created by Admin on 16/8/18.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
-#define XXJimageUrl                             @""
-#define XXJname                                 @""
-#define XXdescrip                               @""
-#define XXprice                                 @""
-#define XXstar                                  @""
-#define XXnear                                  @""
+#define XXJShopID                               @"sid"
+#define XXJimageUrl                             @"images"
+#define XXJname                                 @"shopname"
+#define XXdescrip                               @"description"
+#define XXprice                                 @"avgprice"
+#define XXstar                                  @"score"
+#define XXnear                                  @"distance"
 
 
 #import "ToShopCellModel.h"
@@ -18,6 +19,20 @@
 @implementation ToShopCellModel
 - (void)parseFromDictionary:(NSDictionary *)dic
 {
+    if ([dic objectForKey:XXJShopID]==nil||[dic objectForKey:XXJShopID] == [NSNull null])
+    {
+        self.shopID = @"";
+    }
+    else
+    {
+        self.shopID = [NSString stringWithFormat:@"%d",[[dic objectForKey:XXJShopID] intValue]];
+    }
+    
+    
+    
+    
+    
+    
     //tu pian
     if ([dic objectForKey:XXJimageUrl]==nil||[dic objectForKey:XXJimageUrl] == [NSNull null])
     {
@@ -74,7 +89,7 @@
     }
     else
     {
-        self.near = [NSString stringWithFormat:@"%@",[dic objectForKey:XXnear]];
+        self.near = [NSString stringWithFormat:@"%@km",[dic objectForKey:XXnear]];
     }
 
 }

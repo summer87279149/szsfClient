@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "BasicModel.h"
 @interface ToShopCellModel : BasicModel
+//shopID
+@property(nonatomic,copy)NSString *shopID;
 //图片
 @property(nonatomic,copy)NSString *imageUrl;
 //名称

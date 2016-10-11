@@ -5,14 +5,15 @@
 //  Created by Admin on 16/8/18.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
-#define XXJimageviewUrl                 @""
-#define XXJname                 @""
-#define XXJgrade                 @""
-#define XXJorderNumber                 @""
-#define XXJdistance                 @""
-#define XXJtext                 @""
-#define XXJproject                 @""
-#define XXJbelongTo                 @""
+#define XXJTechID                       @"tid"
+#define XXJimageviewUrl                 @"headimgurl"
+#define XXJname                         @"tname"
+#define XXJgrade                        @"tscore"
+#define XXJorderNumber                  @"finishedorders"
+#define XXJdistance                     @"distance"
+#define XXJtext                         @"instruction"
+#define XXJproject                      @"cate"
+#define XXJbelongTo                     @"shopname"
 
 
 #import "ToMyHomeCellModel.h"
@@ -20,6 +21,17 @@
 @implementation ToMyHomeCellModel
 - (void)parseFromDictionary:(NSDictionary *)dic
 {
+    // 技师id
+    if ([dic objectForKey:XXJTechID]==nil||[dic objectForKey:XXJTechID] == [NSNull null])
+    {
+        self.techID = @"";
+    }
+    else
+    {
+        self.techID = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJTechID]];
+    }
+    
+    
     // tou xiang
     if ([dic objectForKey:XXJimageviewUrl]==nil||[dic objectForKey:XXJimageviewUrl] == [NSNull null])
     {
@@ -56,7 +68,7 @@
     }
     else
     {
-        self.orderNumber = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJorderNumber]];
+        self.orderNumber = [NSString stringWithFormat:@"%d",(int)[dic objectForKey:XXJorderNumber]];
     }
     
     //ju li

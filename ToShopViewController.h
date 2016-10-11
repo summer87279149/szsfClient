@@ -7,7 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-
+typedef NS_ENUM(NSUInteger, XTType) {
+    /** 距离*/
+    XTTypeDistance = 0,
+    /** 销量*/
+    XTTypeSaleNumbers = 1,
+    /** 价格*/
+    XTTypePrice = 2,
+    
+};
 @interface ToShopViewController : UIViewController
 
 @end

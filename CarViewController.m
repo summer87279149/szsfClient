@@ -10,7 +10,7 @@
 #import "MyCustomCell.h"
 #import "GoodsInfoModel.h"
 #import "BuyViewController.h"
-
+#import "BuyVC.h"
 @interface CarViewController ()<UITableViewDataSource,UITableViewDelegate,MyCustomCellDelegate>
 {
     UITableView *_MyTableView;
@@ -29,31 +29,10 @@
     [super viewDidLoad];
     HaHaHaAddBackGroundImage
     self.title = @"购物车";
-    //设置标题的属性样式等
-//    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor],NSFontAttributeName:[UIFont systemFontOfSize:23.0f]}];
-    
     //初始化数据
     allPrice = 0.0;
-    infoArr = [[NSMutableArray alloc]init];
-    /**
-     *  初始化一个数组，数组里面放字典。字典里面放的是单元格需要展示的数据
-     */
-    for (int i = 0; i<7; i++)
-    {
-        NSMutableDictionary *infoDict = [[NSMutableDictionary alloc]init];
-        [infoDict setValue:@"img6.png" forKey:@"imageName"];
-        [infoDict setValue:@"这是商品标题" forKey:@"goodsTitle"];
-        [infoDict setValue:@"2000" forKey:@"goodsPrice"];
-        [infoDict setValue:[NSNumber numberWithBool:NO] forKey:@"selectState"];
-        [infoDict setValue:[NSNumber numberWithInt:1] forKey:@"goodsNum"];
-        
-        //封装数据模型
-        GoodsInfoModel *goodsModel = [[GoodsInfoModel alloc]initWithDict:infoDict];
-        
-        //将数据模型放入数组中
-        [infoArr addObject:goodsModel];
-    }
-    
+    infoArr = [[NSMutableArray alloc]initWithCapacity:0];
+    [self getRequestData];
     /**
      创建表格，并设置代理
      */
@@ -62,12 +41,28 @@
     _MyTableView.delegate = self;
     _MyTableView.showsVerticalScrollIndicator = NO;
     //给表格添加一个尾部视图
-
     _MyTableView.tableFooterView = [self creatFootView];
     _MyTableView.backgroundColor = [UIColor clearColor];
   
     [self.view addSubview:_MyTableView];
 }
+-(void)getRequestData{
+    [SomeOtherRequest GetProductCarWithUserID:[YCUserModel userId] success:^(id response) {
+        NSLog(@"购物车的返回结果是:%@,%@",response,[YCUserModel userId]);
+        //封装数据模型
+        NSArray *arr = response;
+        NSLog(@"arr shi %@",arr);
+        for(NSDictionary *dic in arr){
+            GoodsInfoModel *goodsModel = [[GoodsInfoModel alloc]initWithDict:dic];
+            [infoArr addObject:goodsModel];
+        }
+        [_MyTableView reloadData];
+    } error:^(id response) {
+    }];
+}
+
+
+
 
 /**
  *  创建表格尾部视图
@@ -112,14 +107,32 @@
     settlementBtn.backgroundColor = COLOR;
     settlementBtn.layer.cornerRadius = 3;
     [footView addSubview:settlementBtn];
-    
-    
     return footView;
 }
 -(void)goToPay{
-    BuyViewController *buy = [[BuyViewController alloc]init];
+    if(infoArr.count==0){
+        [MBProgressHUD showError:@"没有商品"];
+        return;
+    }
+    NSMutableArray *pushInfoArr = [[NSMutableArray alloc]initWithCapacity:0];
+    NSMutableArray *requestArr = [[NSMutableArray alloc]initWithCapacity:0];
+    for (NSInteger i = 0; i<infoArr.count; ++i) {
+        GoodsInfoModel *goodsModel = infoArr[i];
+        if (goodsModel.selectState == YES){
+            NSNumber *goodNum = [NSNumber numberWithInt:goodsModel.goodsNum];
+            NSDictionary *dic = @{@"pid":goodsModel.pid,@"number":goodNum};
+            [requestArr addObject:dic];
+            [pushInfoArr addObject:goodsModel];
+        }
+    }
+    BuyVC *buy = [[BuyVC alloc]init];
+    buy.infoArr = [NSMutableArray arrayWithArray:pushInfoArr];
+    buy.requestArr = [NSMutableArray arrayWithArray:requestArr];
+    buy.allPrice = [_allPriceLab.text floatValue];
     [self.navigationController pushViewController:buy animated:YES];
 }
+
+#pragma mark - tableViewDelegate
 //返回单元格个数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -146,7 +159,30 @@
 {
     return 120;
 }
-
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"删除";
+}
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    GoodsInfoModel *model = infoArr[indexPath.row];
+    [SomeOtherRequest deleteItemWithItemID:model.pid AndUserID:[YCUserModel userId] success:^(id response) {
+        NSLog(@"%@",response);
+        // 从数据源中删除
+        [infoArr removeObjectAtIndex:indexPath.row];
+        // 从列表中删除
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    } error:^(id response) {
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
+   
+}
 //单元格选中事件
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -203,6 +239,7 @@
 }
 
 #pragma mark -- 实现加减按钮点击代理事件
+
 /**
  *  实现加减按钮点击代理事件
  *
@@ -211,38 +248,56 @@
  */
 -(void)btnClick:(UITableViewCell *)cell andFlag:(int)flag
 {
-    NSIndexPath *index = [_MyTableView indexPathForCell:cell];
-    
     switch (flag) {
         case 11:
         {
+            NSIndexPath *index = [_MyTableView indexPathForCell:cell];
+            GoodsInfoModel *model = infoArr[index.row];
             //做减法
             //先获取到当期行数据源内容，改变数据源内容，刷新表格
-            GoodsInfoModel *model = infoArr[index.row];
+           
             if (model.goodsNum > 1)
-            {
-                model.goodsNum --;
+            {   WS(weakSelf)
+                [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                [SomeOtherRequest decreaseItemWithItemID:model.pid AndUserID:[YCUserModel userId] success:^(id response) {
+                    model.goodsNum --;
+//                    infoArr[index.row] = model;
+                    //刷新表格
+                    [_MyTableView reloadData];
+                    //计算总价
+                    [weakSelf totalPrice];
+                } error:^(id response) {
+                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                }];
+                
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
             }
         }
             break;
         case 12:
-        {
-            //做加法
+        {   WS(weakSelf)
+            NSIndexPath *index = [_MyTableView indexPathForCell:cell];
             GoodsInfoModel *model = infoArr[index.row];
-           
-            model.goodsNum ++;
+            //做加法
+//            GoodsInfoModel *model = infoArr[index.row];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [SomeOtherRequest addItemWithItemID:model.pid AndUserID:[YCUserModel userId] success:^(id response) {
+                model.goodsNum ++;
+                //刷新表格
+                [_MyTableView reloadData];
+                //计算总价
+                [weakSelf totalPrice];
+            } error:^(id response) {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+            }];
             
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
         }
             break;
         default:
             break;
     }
     
-    //刷新表格
-    [_MyTableView reloadData];
-    
-    //计算总价
-    [self totalPrice];
     
 }
 
@@ -265,10 +320,11 @@
     
     //每次算完要重置为0，因为每次的都是全部循环算一遍
     allPrice = 0.0;
+    
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
+
+- (void)didReceiveMemoryWarning {    [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 

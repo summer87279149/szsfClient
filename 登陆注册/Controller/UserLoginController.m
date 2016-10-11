@@ -5,13 +5,15 @@
 //  Created by admin on 15/12/4.
 //  Copyright © 2015年 hackcc. All rights reserved.
 //
-
+#import "AppDelegate.h"
+#import "XTRequestManager.h"
 #import "UserLoginController.h"
 #import "UserRegisterController.h"
 #import "UserTool.h"
 #import "KeyInputView.h"
 #import "AppDelegate.h"
 #import "FindPwdViewController.h"
+#import "MainTabBarController.h"
 @interface UserLoginController ()<UITextFieldDelegate>
 
 // 手机号
@@ -38,7 +40,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.view.backgroundColor = [UIColor whiteColor];
     self.QQBtn.hidden = YES;
     self.WXBtn.hidden = YES;
     [self initUserLoginView];
@@ -117,15 +119,33 @@
 - (IBAction)loginBtnClick:(UIButton *)sender {
     
     BOOL res = [UserTool isValidateMobile:self.phoneNumText.text];
-    
+    NSString *phoneNumber = self.phoneNumText.text;
+    NSString *password = self.passwordText.text;
+    NSDictionary *dic = @{@"tel":phoneNumber,@"password":password};
     if (res) {
-        
        
+        [XTRequestManager GET:kUserLogin parameters:dic responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
+            NSLog(@"%@",responseObject[@"msg"]);
+            if ([responseObject[@"status"] isEqualToString:@"success"]) {
+                YCUserModel *User = [YCUserModel shareManager];
+                User.userId = responseObject[@"userid"];
+                [User save];
+                [MBProgressHUD showSuccess:responseObject[@"msg"]];
+                MainTabBarController *tabBarVC=[[MainTabBarController alloc]init];
+
+//                [weakSelf presentViewController:tabBarVC animated:YES completion:nil];
                 
-        
+//                UIApplication *app =[UIApplication sharedApplication];
+//                 AppDelegate *app2 = app.delegate;
+                [UIApplication sharedApplication].keyWindow.rootViewController=tabBarVC;
+//                  self.view.window.rootViewController = tabBarVC;
+                
+            }else{
+                [MBProgressHUD showError:responseObject[@"msg"]];
+            }
             
-    
-        
+        } failure:^(NSError *error) {
+        }];
     }else {
     
         [UserTool alertViewDisplayTitle:nil andMessage:@"请输入正确手机号" andDisplayValue:1.];
@@ -145,6 +165,10 @@
 
 - (void)registerBtnClick:(UIButton *)btn {
 
+    [self.view endEditing:YES];
+    [self.view resignFirstResponder];
+    [_passwordText endEditing:YES];
+    [_passwordText resignFirstResponder];
     UserRegisterController *regVC = [[UserRegisterController alloc] init];
     
     [self.navigationController pushViewController:regVC animated:YES];

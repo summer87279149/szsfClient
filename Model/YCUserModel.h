@@ -43,6 +43,8 @@
 // 用户状态，0为待审核，1为审核通过，2为驳回，3为失败
 @property (strong, nonatomic) NSString *userStates;
 
++(instancetype)shareManager;
+
 - (void)save;
 
 + (NSString *)userToken;
@@ -51,13 +53,15 @@
 
 + (NSString *)username;
 
++ (NSString *)phoneNumber;
+
 + (NSString *)password;
 
 + (NSString *)userId;
 
 + (BOOL)didLogin;
 
-+ (void)logOut;
+- (void)logOut;
 
 + (NSString *)latitude;
 

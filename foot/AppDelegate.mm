@@ -5,12 +5,15 @@
 //  Created by Admin on 16/8/9.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
+
+#import "MainNavViewController.h"
+#import "UserLoginController.h"
 #import "JPUSHService.h"
 #import "AppDelegate.h"
 #import "MainTabBarController.h"
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
-#define JPUSHAPPKEY             @""
+#define JPUSHAPPKEY             @"96d2871305222d19f2e25886"
 @interface AppDelegate ()
 {
     BMKMapManager *_mapManager;
@@ -23,22 +26,33 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [UMSocialData setAppKey:UmengAppkey];
     
-    [UMSocialWechatHandler setWXAppId:@"wx981099fb2508da9a" appSecret:@"db426a9829e4b49a0dcac7b4162da6b6" url:@"http://www.umeng.com/social"];
+    [UMSocialWechatHandler setWXAppId:@"wx981099fb2508da9a" appSecret:@"d599611fc41bd1bfd27bfd070a1cc8fd" url:@"https://www.baidu.com"];
     [UMSocialConfig hiddenNotInstallPlatforms:@[UMShareToWechatSession, UMShareToWechatTimeline]];
     
     _mapManager = [[BMKMapManager alloc]init];
     
     BOOL ret = [_mapManager start:@"zpBFNy0kFlGOZ1UrUTcI1oyNRcFqrGCV" generalDelegate:self];
     if (!ret) {
-        NSLog(@"百度地图失败");
+//        NSLog(@"百度地图失败");
     }else{
-        NSLog(@"百度地图成功");
+//        NSLog(@"百度地图成功");
+    }
+    if (![[NSUserDefaults standardUserDefaults]objectForKey:CITYCODE]||![[NSUserDefaults standardUserDefaults]objectForKey:CITYNAME]) {
+        [[NSUserDefaults standardUserDefaults]setObject:@"321000" forKey:CITYCODE];
+        [[NSUserDefaults standardUserDefaults]setObject:@"扬州市" forKey:CITYNAME];
     }
     
+    UserLoginController *a = [[UserLoginController alloc]init];
+    MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
+    MainTabBarController *tabBarVC=[[MainTabBarController alloc]init];
+    NSString *str =[[NSUserDefaults standardUserDefaults]objectForKey:@"ud_user_id"];
+    if (str==nil||str==NULL) {
+        self.window.rootViewController=naVC;
+        
+    }else{
+        self.window.rootViewController=tabBarVC;
+    }
     
-    //    LoginViewController *loginController=[[LoginViewController alloc]init];
-    MainTabBarController *loginController=[[MainTabBarController alloc]init];
-    self.window.rootViewController=loginController;
     [self.window makeKeyAndVisible];
     
     
@@ -50,9 +64,9 @@
                                               categories:nil];
     } else {
         //categories 必须为nil
-        [JPUSHService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-                                                          UIRemoteNotificationTypeSound |
-                                                          UIRemoteNotificationTypeAlert)
+        [JPUSHService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
+                                                          UIUserNotificationTypeSound |
+                                                          UIUserNotificationTypeAlert)
                                               categories:nil];
     }
     
@@ -67,6 +81,7 @@
     [JPUSHService setBadge:0];
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     
+      //　先调用友盟，然后调用微信注册信息
 
     
     return YES;
@@ -95,10 +110,13 @@
     
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    
-}
 
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    //    [UMSocialSnsService  applicationDidBecomeActive];
+    //进入前台将消息角标变为0
+    [JPUSHService setBadge:0];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+}
 - (void)applicationWillTerminate:(UIApplication *)application {
 }
 
@@ -150,7 +168,7 @@ forRemoteNotification:(NSDictionary *)userInfo
 - (void)application:(UIApplication *)application
 didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [JPUSHService handleRemoteNotification:userInfo];
-    NSLog(@"收到通知:%@", [self logDic:userInfo]);
+    NSLog(@"收到通知11111:%@", [self logDic:userInfo]);
 }
 
 - (void)application:(UIApplication *)application
@@ -158,8 +176,9 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo
 fetchCompletionHandler:
 (void (^)(UIBackgroundFetchResult))completionHandler {
     [JPUSHService handleRemoteNotification:userInfo];
-    NSLog(@"收到通知:%@", [self logDic:userInfo]);
-    
+    NSLog(@"收到通知2222:%@", [self logDic:userInfo]);
+    [JPUSHService setBadge:0];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     completionHandler(UIBackgroundFetchResultNewData);
 }
 

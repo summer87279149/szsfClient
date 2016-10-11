@@ -15,7 +15,9 @@
 {
     self = [super init];
     if (self) {
-        self.counts = 0;
+        
+        
+        self.counts = 1;
         self.decresBtn = [[UIButton alloc]init];
         [self.decresBtn setTitle:@"－" forState:UIControlStateNormal];
         [self addSubview:self.decresBtn];
@@ -24,9 +26,11 @@
         self.decresBtn.sd_layout.topEqualToView(self).bottomEqualToView(self).leftEqualToView(self).widthRatioToView(self,0.3);
         [self.decresBtn addTarget:self action:@selector(decresBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         
+        
         UIView *line1 = [UIView lineWithColor:COLOR];
         [self addSubview:line1];
         line1.sd_layout.widthIs(1).topEqualToView(self).bottomEqualToView(self).leftSpaceToView(self.decresBtn,0);
+        
         
         self.incresBtn = [[UIButton alloc]init];
         [self.incresBtn setTitle:@"＋" forState:UIControlStateNormal];
@@ -36,9 +40,11 @@
         [self.incresBtn addTarget:self action:@selector(incresBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         self.incresBtn.sd_layout.topEqualToView(self).bottomEqualToView(self).rightEqualToView(self).widthRatioToView(self,0.3);
         
+        
         UIView *line2 = [UIView lineWithColor:COLOR];
         [self addSubview:line2];
         line2.sd_layout.widthIs(1).topEqualToView(self).bottomEqualToView(self).rightSpaceToView(self.incresBtn,0);
+        
         
         self.countsLab = [UILabel sharedWithFont:13 andColor:COLOR andAnligment:center andBackgroundColor:nil];
         [self addSubview:self.countsLab];
@@ -54,7 +60,7 @@
 
 
 -(void)decresBtnClicked:(UIButton *)button{
-    if (self.counts==0) {
+    if (self.counts==1) {
         return;
     }else{
     self.counts--;

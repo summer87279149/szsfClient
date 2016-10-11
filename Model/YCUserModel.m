@@ -10,6 +10,25 @@
 #import <CoreFoundation/CoreFoundation.h>
 
 @implementation YCUserModel
++(instancetype)shareManager
+{
+    static YCUserModel *manager =nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        manager = [[YCUserModel alloc]init];
+    });
+    return manager;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+    }
+    return self;
+}
+
+
 
 - (void)save{
     
@@ -81,7 +100,12 @@
     
     return username;
 }
-
++ (NSString *)phoneNumber{
+    
+    NSString *phoneNumber = [[NSUserDefaults standardUserDefaults] objectForKey:USER_PHONE];
+    
+    return  phoneNumber;
+}
 + (NSString *)password{
     
     NSString *password = [[NSUserDefaults standardUserDefaults] objectForKey:USER_PASSWORD];
@@ -136,7 +160,7 @@
     return login;
 }
 
-+ (void)logOut{
+- (void)logOut{
     
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     [ud setObject:nil forKey:USER_NAME];

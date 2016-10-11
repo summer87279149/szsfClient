@@ -5,36 +5,32 @@
 //  Created by Admin on 16/8/6.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
-
+#import "SDCycleScrollView.h"
 #import "ServiceViewController.h"
-#import "WYScrollView.h"
 #import "Masonry.h"
 #import "TechViewController.h"
 #import "OrderViewController.h"
 #import "TechCommentVController.h"
-@interface ServiceViewController ()<UIScrollViewDelegate,WYScrollViewNetDelegate>
+#import "ProjectModal.h"
+@interface ServiceViewController ()<UIScrollViewDelegate>
 {
-    WYScrollView *WYNetScrollView;
-    NSMutableArray *NetImageArray;
-    NSArray *arr;
-     UIButton *orderBtn;
+    SDCycleScrollView *topScrollView;
+//    WYScrollView *WYNetScrollView;
+    //轮播图
+    NSMutableArray *arr;
+    UIButton *orderBtn;
 }
 //@property (weak, nonatomic) IBOutlet UIScrollView *scrollview;
 @property(nonatomic,strong) UIScrollView *scrollview;
+
+@property(nonatomic,strong) ProjectModal *projectModel;
 @end
 
 @implementation ServiceViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // =====测试数据======
-    arr = @[
-            @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg",
-            @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg",
-            @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg"
-            ];
-    
-    //===========
+    arr = [[NSMutableArray alloc]init];;
     self.scrollview = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-48*k_scaleHeight)];
     [self.view addSubview:self.scrollview];
     self.scrollview.scrollEnabled = YES;
@@ -45,14 +41,31 @@
     
     self.navigationItem.title = @"项目";
 //    self.navigationController.navigationItem.title  =@"项目";
-    [self setscrollview];
+    [self getRequestData];
+    
     [self setprojectview];
     [self setcommentsView];
     [self settechnameView];
-    [self setserviceintroduceView];
-    [self settestdata];
+    
+    
     [self createBottomOrder];
 }
+#pragma mark - 网络请求
+-(void)getRequestData{
+    NSLog(@"项目页面请求的参数pid=:%@",self.projectID);
+    [XTRequestManager GET:kXTCommonAPIConstantProject parameters:@{@"id":self.projectID} responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
+       NSLog(@"项目页面请求的response = %@",responseObject);
+       arr = responseObject[@"projbanner"];
+        
+        _projectModel = [[ProjectModal alloc]initFromDictionary:responseObject[@"project"]];
+        [self setscrollview];
+        [self applyData];
+        [self setserviceintroduceView];
+   } failure:^(NSError *error) {
+       
+   }];
+}
+
 
 -(void)setprojectview{
     self.projectView = [[UIView alloc]initWithFrame:CGRectMake(0, 200, kScreenWidth, 100)];
@@ -91,28 +104,18 @@
 }
 
 -(void)setscrollview{
-    /** 设置网络scrollView的Frame及所需图片*/
-    WYNetScrollView = [[WYScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200) WithNetImages:arr];
-    /** 设置滚动延时*/
-    WYNetScrollView.AutoScrollDelay = 3;
+    
+    
+    topScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200) imageNamesGroup:arr];
     /** 设置占位图*/
-    WYNetScrollView.placeholderImage = [UIImage imageNamed:@"placeholder"];;
-    /** 获取网络图片的index*/
-    WYNetScrollView.netDelagate = self;
+    topScrollView.placeholderImage = [UIImage imageNamed:@"placeholderImage"];
     /** 添加到当前View上*/
-    [self.scrollview addSubview:WYNetScrollView];
+    [self.scrollview addSubview:topScrollView];
+    
+    
     
 }
-#pragma mark============== WYScrollViewNetDelegate ===============
-/** 获取网络图片的index*/
--(void)didSelectedNetImageAtIndex:(NSInteger)index
-{
-    [MBProgressHUD showSuccess:@"无服务器"];
-    //    CarouselMode *mode = [dataArr objectAtIndex:index];
-    //    NSString *urlStr = mode.url;
-    //    NSLog(@"点中网络图片的详情地址:%@",urlStr);
-    
-}
+
 -(void)setcommentsView{
     self.commentView = [[UIView alloc]initWithFrame:CGRectMake(0, 300, kScreenWidth, 50)];
     [self.scrollview addSubview:self.commentView];
@@ -134,7 +137,9 @@
 
 -(void)moreBtnClicked:(UIButton *)button{
     
+    
     TechCommentVController *techComment = [[TechCommentVController alloc]init];
+    techComment.para = @{@"tid":_projectModel.technicianID};
     [self.navigationController pushViewController:techComment animated:YES];
     
 }
@@ -142,13 +147,15 @@
 
 
 -(void)techViewClicked{
+    
     TechViewController *techVC = [[TechViewController alloc]init];
+    NSLog(@"技师ID是%@",_projectModel.technicianID);
+    techVC.techID = _projectModel.technicianID;
     [self.navigationController pushViewController:techVC animated:YES];
 }
 -(void)settechnameView{
     self.techView = [[UIView alloc]initWithFrame:CGRectMake(0, 350, kScreenWidth, 100)];
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(techViewClicked)];
-    
     [self.techView addGestureRecognizer:tapGesture];
     [self.scrollview addSubview:self.techView];
     
@@ -165,6 +172,7 @@
     self.AuthenticationImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"名师"]];
     self.AuthenticationImage.frame = CGRectMake(100, 45, 40, 40);
     [self.techView addSubview:self.AuthenticationImage];
+    self.AuthenticationImage.hidden=YES;
     //技能、工作年限
     self.skill = [[UILabel alloc]init];
     self.skill.textColor =COLOR;
@@ -184,6 +192,7 @@
     
     UIButton *button = [[UIButton alloc]init];
     [self.techView addSubview:button];
+    [button addTarget:self action:@selector(techViewClicked) forControlEvents:UIControlEventTouchUpInside];
     [button setTitle:@"  >  " forState:UIControlStateNormal];
     button.backgroundColor = [UIColor clearColor];
     [button setTitleColor:COLOR forState:UIControlStateNormal];
@@ -204,10 +213,11 @@
     [self.scrollview addSubview:self.serviceInfo];
     self.serviceInfo.numberOfLines = 0;
     self.serviceInfo.lineBreakMode = NSLineBreakByCharWrapping;
-    self.serviceInfo.text = @"● 服务说明:\n \n  本店于十一期间特推出一系列优惠，限时限量敬请选购！沙发：钻石品质，首领风范！床垫：华贵典雅，彰显时尚！尊贵而不失奢华，典雅却不失自然！温馨和浪漫的生活，我们与你一店于十一期间特推出一系列优惠，限时限量敬请选购！沙发：钻石品质，首领风范！床垫：华贵典雅，彰显时尚！尊贵而不失奢华，典雅却不失自然！温馨和浪漫的生活，我们与你同创造！";
+//    self.serviceInfo.text = @"● 服务说明:\n \n  本店于十一期间特推出一系列优惠，限时限量敬请选购！沙发：钻石品质，首领风范！床垫：华贵典雅，彰显时尚！尊贵而不失奢华，典雅却不失自然！温馨和浪漫的生活，我们与你一店于十一期间特推出一系列优惠，限时限量敬请选购！沙发：钻石品质，首领风范！床垫：华贵典雅，彰显时尚！尊贵而不失奢华，典雅却不失自然！温馨和浪漫的生活，我们与你同创造！";
+    self.serviceInfo.text = _projectModel.serviceInfo;
     CGSize size = [self.serviceInfo sizeThatFits:CGSizeMake(self.serviceInfo.frame.size.width, 2000)];
     self.serviceInfo.frame =CGRectMake(10, 470, kScreenWidth-10, size.height);
-     NSLog(@"label自适应  %f",size.height);
+//     NSLog(@"label自适应  %f",size.height);
     
     
     //预约须知
@@ -217,11 +227,12 @@
     [self.scrollview addSubview:self.orderNeedKnow];
     self.orderNeedKnow.numberOfLines = 0;
     self.orderNeedKnow.lineBreakMode = NSLineBreakByCharWrapping;
-    self.orderNeedKnow.text = @"● 预约需知:\n \n  本店于十一期间特推出一系列优惠，限时限量敬请选购！沙发：钻石品质，首领风范！床垫：华贵典雅，彰显时尚！尊贵而不失奢华，典雅却不失自然！温馨和浪漫的生活，我们与你本店于十一期间特推出一系列优惠，限时限量敬请选购！沙发：钻石品质，首领风范！床垫：华贵典雅，彰显时尚！尊贵而不失奢华，典雅却不失自然！温馨和浪漫的生活，我们与一同创造！";
+//    self.orderNeedKnow.text = @"● 预约需知:\n \n  本店于十一期间特推出一系列优惠，限时限量敬请选购！沙发：钻石品质，首领风范！床垫：华贵典雅，彰显时尚！尊贵而不失奢华，典雅却不失自然！温馨和浪漫的生活，我们与你本店于十一期间特推出一系列优惠，限时限量敬请选购！沙发：钻石品质，首领风范！床垫：华贵典雅，彰显时尚！尊贵而不失奢华，典雅却不失自然！温馨和浪漫的生活，我们与一同创造！";
+    self.orderNeedKnow.text = _projectModel.serviceKnow;
     CGSize size2 = [self.orderNeedKnow sizeThatFits:CGSizeMake(self.orderNeedKnow.frame.size.width, 2000)];
 //    self.orderNeedKnow.backgroundColor = [UIColor blueColor];
     self.orderNeedKnow.frame =CGRectMake(10, 470+self.serviceInfo.size.height+10, kScreenWidth-10, size2.height);
-    NSLog(@"label自适应2  %f",size2.height);
+//    NSLog(@"label自适应2  %f",size2.height);
     
     
     //针对部位
@@ -231,27 +242,46 @@
     [self.scrollview addSubview:self.aimAt];
     self.aimAt.numberOfLines = 0;
     self.aimAt.lineBreakMode = NSLineBreakByCharWrapping;
-    self.aimAt.text = @"● 针对部位:\n \n  本店于十一期间特推出一系列优惠，限时限量敬请选购！沙发：钻石品质，首领风范！床垫：华贵典雅，彰显时尚！尊贵而不失奢华，典雅却不失自然！温馨和浪漫的生活，我们与你一同店于十一期间特推出一系列优惠，限时限量敬请选购！沙发：钻石品质，首领风范！床垫：华贵典雅，彰显时尚！尊贵而不失奢华，典雅却不失自然！温馨和浪漫的生活，我们与你一同创造！";
+//    self.aimAt.text = @"● 针对部位:\n \n  本店于十一期间特推出一系列优惠，限时限量敬请选购！沙发：钻石品质，首领风范！床垫：华贵典雅，彰显时尚！尊贵而不失奢华，典雅却不失自然！温馨和浪漫的生活，我们与你一同店于十一期间特推出一系列优惠，限时限量敬请选购！沙发：钻石品质，首领风范！床垫：华贵典雅，彰显时尚！尊贵而不失奢华，典雅却不失自然！温馨和浪漫的生活，我们与你一同创造！";
+    self.aimAt.text = _projectModel.aimAt;
     CGSize size3 = [self.aimAt sizeThatFits:CGSizeMake(self.aimAt.frame.size.width, 2000)];
 //    self.aimAt.backgroundColor = [UIColor blueColor];
     self.aimAt.frame =CGRectMake(10, 470+self.serviceInfo.size.height+10+self.orderNeedKnow.size.height+10, kScreenWidth-10, size3.height);
-    NSLog(@"label自适应3  %f",size3.height);
+//    NSLog(@"label自适应3  %f",size3.height);
     
     //设置scrollview的滚动范围
     self.scrollview.contentSize = CGSizeMake(kScreenWidth,470+self.serviceInfo.size.height+10+self.orderNeedKnow.size.height+10+size3.height+64);
 }
 
--(void)settestdata{
-    self.name.text = @"小儿三伏推";
-    self.shiyi.text = @"跌打损伤 大脑偏瘫、精神不振";
-    self.time.text = @"60分钟  199人选择";
-    self.price.text= @"998.00元";
-    self.comments.text = @"TA的评价(360条)  99.6%好评";
-    self.techName.text = @"郭德纲";
-    self.skill.text = @"中医技师 中医推拿师 10年经验";
-    self.serviceTimes.text = @"3002次";
+//-(void)settestdata{
+//    self.name.text = @"小儿三伏推";
+//    self.shiyi.text = @"跌打损伤 大脑偏瘫、精神不振";
+//    self.time.text = @"60分钟  199人选择";
+//    self.price.text= @"998.00元";
+//    self.comments.text = @"TA的评价(360条)  99.6%好评";
+//    self.techName.text = @"郭德纲";
+//    self.skill.text = @"中医技师 中医推拿师 10年经验";
+//    self.serviceTimes.text = @"3002次";
+//    
+//}
+-(void)applyData{
+    self.name.text = _projectModel.projectName;
+    self.shiyi.text = _projectModel.effect;
+    self.time.text = [NSString stringWithFormat:@"%@分钟  %@人选择",_projectModel.time,_projectModel.chooseNumber];
+    self.price.text = [NSString stringWithFormat:@"%@元",_projectModel.price];
+    self.comments.text = [NSString stringWithFormat:@"评价(%@条)   %@好评",_projectModel.commentsNumber,_projectModel.goodComments];
+    [self.portrait sd_setImageWithURL:[NSURL URLWithString:_projectModel.headimgurl]];
+    self.techName.text = _projectModel.name;
+    if ([_projectModel.AuthenticationImage isEqualToString:@"0"]) {
+        self.AuthenticationImage.hidden=YES;
+    }else{
+        self.AuthenticationImage.hidden=NO;
+    }
+    self.skill.text = [NSString stringWithFormat:@"%@ %@年经验",_projectModel.skill,_projectModel.techWorkYears];
+    self.serviceTimes.text = [NSString stringWithFormat:@"服务过%@次",_projectModel.serviceTimes];
     
 }
+
 -(void)createBottomOrder{
     orderBtn = [[UIButton alloc]init];
     [orderBtn addTarget:self action:@selector(orderBtnClicked) forControlEvents:UIControlEventTouchUpInside];
@@ -262,6 +292,8 @@
 }
 -(void)orderBtnClicked{
     OrderViewController *yuyue = [[OrderViewController alloc]init];
+    yuyue.projectModal = [[ProjectModal alloc]init];
+    yuyue.projectModal = _projectModel;
     [self.navigationController pushViewController:yuyue animated:YES];
 }
 - (void)didReceiveMemoryWarning {

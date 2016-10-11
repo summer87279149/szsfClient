@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -23,8 +23,8 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="homeVCBackgroundImage" translatesAutoresizingMaskIntoConstraints="NO" id="v02-zh-CqD">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="homeVCBackgroundImage" translatesAutoresizingMaskIntoConstraints="NO" id="v02-zh-CqD">
+                    <rect key="frame" x="0.0" y="1" width="600" height="599"/>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wEG-yv-l1W">
                     <rect key="frame" x="0.0" y="201" width="600" height="199"/>
@@ -159,7 +159,7 @@
                         <constraint firstItem="4YH-Vf-v3F" firstAttribute="leading" secondItem="wEG-yv-l1W" secondAttribute="leading" id="rz3-72-uSQ"/>
                     </constraints>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W1m-NQ-xa6">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W1m-NQ-xa6">
                     <rect key="frame" x="20" y="430" width="560" height="50"/>
                     <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90588235289999997" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
@@ -177,7 +177,7 @@
                         <action selector="findbtnClicked:" destination="-1" eventType="touchUpInside" id="b9T-mi-4lW"/>
                     </connections>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginImage" translatesAutoresizingMaskIntoConstraints="NO" id="Gtf-MD-zZ5">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="登入页图标" translatesAutoresizingMaskIntoConstraints="NO" id="Gtf-MD-zZ5">
                     <rect key="frame" x="250" y="100" width="100" height="100"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="Gtf-MD-zZ5" secondAttribute="height" multiplier="1:1" id="cuH-MP-Qed"/>
@@ -187,20 +187,24 @@
             </subviews>
             <constraints>
                 <constraint firstItem="wEG-yv-l1W" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="3T0-wA-abi"/>
+                <constraint firstItem="v02-zh-CqD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="9uv-R4-x4o"/>
                 <constraint firstItem="W1m-NQ-xa6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="Acp-Wi-baa"/>
                 <constraint firstItem="wEG-yv-l1W" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Arz-Jd-EKV"/>
                 <constraint firstItem="Gtf-MD-zZ5" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Df8-w2-aYu"/>
                 <constraint firstItem="W1m-NQ-xa6" firstAttribute="top" secondItem="wEG-yv-l1W" secondAttribute="bottom" constant="30" id="I4y-n2-XyG"/>
                 <constraint firstItem="Gtf-MD-zZ5" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" multiplier="0.5" id="Qql-Bp-S0V"/>
+                <constraint firstItem="v02-zh-CqD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="TRA-M3-bNi"/>
                 <constraint firstAttribute="trailing" secondItem="W1m-NQ-xa6" secondAttribute="trailing" constant="20" id="c0h-NB-DxT"/>
+                <constraint firstAttribute="bottom" secondItem="v02-zh-CqD" secondAttribute="bottom" id="gaw-3w-Z8N"/>
+                <constraint firstAttribute="trailing" secondItem="v02-zh-CqD" secondAttribute="trailing" id="imy-3O-phz"/>
                 <constraint firstAttribute="trailing" secondItem="wEG-yv-l1W" secondAttribute="trailing" id="n8s-9K-H8y"/>
                 <constraint firstItem="W1m-NQ-xa6" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="udd-nB-Mql"/>
             </constraints>
-            <point key="canvasLocation" x="525" y="399"/>
+            <point key="canvasLocation" x="524" y="409"/>
         </view>
     </objects>
     <resources>
         <image name="homeVCBackgroundImage" width="477" height="848"/>
-        <image name="loginImage" width="40" height="40"/>
+        <image name="登入页图标" width="108" height="108"/>
     </resources>
 </document>

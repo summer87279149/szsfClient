@@ -27,6 +27,8 @@
     self.navigationBar.tintColor=[UIColor whiteColor];
     UIImage *image = [UIImage imageNamed:@"navigationBackgroundImage"];
     [self.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+//     self.edgesForExtendedLayout = UIRectEdgeNone;
+ 
     
 }
 
@@ -60,7 +62,7 @@
         viewController.hidesBottomBarWhenPushed = YES;
         
         // 将控制器中的返回按钮进行统一设置
-        viewController.navigationItem.leftBarButtonItem = [self addBarItemWithImage:@"backW" WithHighImage:@"backW" WithTagetAction:@selector(backClick) WithTarger:self];
+//        viewController.navigationItem.leftBarButtonItem = [self addBarItemWithImage:@"backW" WithHighImage:@"backW" WithTagetAction:@selector(backClick) WithTarger:self];
         
 //        viewController.navigationItem.rightBarButtonItem = [self addBarItemWithImage:@"tabbar_home" WithHighImage:@"tabbar_home_selected" WithTagetAction:@selector(homeBtnClick) WithTarger:self];
     }

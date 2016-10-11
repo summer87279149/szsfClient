@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface GoodSViewController : UIViewController
+//商品ID
+@property(nonatomic,strong) NSString *productID;
+
 //项目介绍view
 @property(nonatomic,strong) UIView *projectView;
 //名字

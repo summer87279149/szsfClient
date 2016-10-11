@@ -12,6 +12,8 @@
 @interface ProjectModal : BasicModel
 //项目模型
 
+//是否上门 "1"是 "0"否
+@property(nonatomic,strong)NSString *isToMyHome;
 //项目ID
 @property(nonatomic,strong)NSString *projectID;
 //图片URL 3张
@@ -30,8 +32,24 @@
 @property(nonatomic, copy)NSString *commentsNumber;
 //好评率
 @property(nonatomic, copy)NSString *goodComments;
-//技师模型
-@property (nonatomic,strong)TechnicianMode *techModal;
+////技师模型
+//@property (nonatomic,strong)TechnicianMode *techModal;
+
+//技师ID
+@property(nonatomic,strong)NSString *technicianID;
+//技师名字
+@property(nonatomic,strong)NSString *name;
+//头像
+@property(nonatomic,strong)NSString *headimgurl;
+//是否有名师认证图标
+@property(nonatomic,copy) NSString *AuthenticationImage;
+//技能
+@property(nonatomic,copy) NSString *skill;
+//服务次数
+@property(nonatomic,copy) NSString *serviceTimes;
+//技师工作年限
+@property(nonatomic,copy) NSString *techWorkYears;
+
 //服务说明
 @property(nonatomic, copy)NSString *serviceInfo;
 //服务需知
