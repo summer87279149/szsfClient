@@ -9,31 +9,21 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="162" id="KGk-i7-Jjw" customClass="MyOrderTableViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="382" height="162"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="139" id="KGk-i7-Jjw" customClass="MallOrderTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="382" height="139"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <frame key="frameInset" width="382" height="161"/>
+                <frame key="frameInset" width="382" height="139"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="OrderCell" image="height242" translatesAutoresizingMaskIntoConstraints="NO" id="Gfi-XD-ifr" customClass="heigh">
                         <color key="backgroundColor" red="0.50588235294117645" green="0.44313725490196076" blue="0.35294117647058826" alpha="0.62300646551724137" colorSpace="custom" customColorSpace="sRGB"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="清水足浴" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yuh-zw-Vju">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已付款" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R6P-dA-AK0">
                         <constraints>
-                            <constraint firstAttribute="width" constant="150" id="rd9-L2-65Z"/>
-                            <constraint firstAttribute="height" constant="20" id="uUd-Vz-lMt"/>
+                            <constraint firstAttribute="width" constant="80" id="O3m-Ga-0jS"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                        <color key="textColor" red="0.23137254900000001" green="0.16078431369999999" blue="0.20784313730000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="已预约过" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R6P-dA-AK0">
-                        <constraints>
-                            <constraint firstAttribute="width" constant="100" id="287-us-Qeh"/>
-                            <constraint firstAttribute="height" constant="20" id="ElZ-Qb-Z82"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="0.23137254900000001" green="0.16078431369999999" blue="0.20784313730000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -57,17 +47,11 @@
                         <color key="textColor" red="0.23137254900000001" green="0.16078431369999999" blue="0.20784313730000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3gb-Ns-gPh">
+                    <view alpha="0.29999999999999999" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3gb-Ns-gPh">
+                        <frame key="frameInset" minX="10" minY="35" width="362" height="1"/>
                         <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="e5B-2C-bdA"/>
-                        </constraints>
-                    </view>
-                    <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yG2-In-Gfb">
-                        <color key="backgroundColor" red="0.90196079019999997" green="0.90196079019999997" blue="0.90196079019999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="1" id="az8-kr-8yz"/>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="lFm-0b-mft"/>
                         </constraints>
                     </view>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dOM-oW-xa3">
@@ -78,10 +62,19 @@
                             <color key="titleColor" red="0.23137254900000001" green="0.16078431369999999" blue="0.20784313730000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </state>
                         <connections>
-                            <action selector="btnClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ppO-7S-gS6"/>
+                            <action selector="btnClick:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="hAg-BR-OTf"/>
                         </connections>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="订单号:1234567890" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mxy-Xc-Wor">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mxy-Xc-Wor">
+                        <frame key="frameInset" minX="10" minY="131" width="309" height="29"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.23137254900000001" green="0.16078431369999999" blue="0.20784313730000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="清水足浴" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yuh-zw-Vju">
+                        <constraints>
+                            <constraint firstAttribute="width" constant="200" id="j8B-XS-962"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="0.23137254900000001" green="0.16078431369999999" blue="0.20784313730000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -100,25 +93,20 @@
                             </mask>
                         </variation>
                         <connections>
-                            <action selector="gotoCompleteBtnClicked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="7gc-Y2-0Dj"/>
+                            <action selector="gotoCompleteBtnClicked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="a9Q-84-RAy"/>
                         </connections>
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Mxy-Xc-Wor" firstAttribute="top" secondItem="yG2-In-Gfb" secondAttribute="bottom" constant="1" id="2iQ-Np-zJZ"/>
                     <constraint firstItem="Yuh-zw-Vju" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Agu-Nk-gZg"/>
                     <constraint firstItem="xLn-19-aRv" firstAttribute="leading" secondItem="Mxy-Xc-Wor" secondAttribute="trailing" constant="1" id="Bi9-Yo-CvV"/>
                     <constraint firstItem="R6P-dA-AK0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="E4f-98-fUj"/>
-                    <constraint firstItem="xLn-19-aRv" firstAttribute="top" secondItem="yG2-In-Gfb" secondAttribute="bottom" constant="5" id="EEw-Z7-Xe5"/>
                     <constraint firstItem="3gb-Ns-gPh" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Eh8-LY-JKf"/>
                     <constraint firstItem="xLn-19-aRv" firstAttribute="centerY" secondItem="Mxy-Xc-Wor" secondAttribute="centerY" id="FPj-Ub-89H"/>
-                    <constraint firstItem="yG2-In-Gfb" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="IlR-0p-feL"/>
-                    <constraint firstAttribute="trailing" secondItem="yG2-In-Gfb" secondAttribute="trailing" constant="10" id="Jpw-gr-j1N"/>
                     <constraint firstItem="dOM-oW-xa3" firstAttribute="leading" secondItem="Mxy-Xc-Wor" secondAttribute="trailing" constant="1" id="Lhu-FV-ovj"/>
                     <constraint firstAttribute="bottom" secondItem="Gfi-XD-ifr" secondAttribute="bottom" id="MhV-AC-OUW"/>
-                    <constraint firstItem="yG2-In-Gfb" firstAttribute="top" secondItem="k7F-F2-dGg" secondAttribute="bottom" constant="8" id="Qv5-Kj-QgY"/>
+                    <constraint firstItem="xLn-19-aRv" firstAttribute="centerY" secondItem="dOM-oW-xa3" secondAttribute="centerY" id="N1G-gm-oCk"/>
                     <constraint firstItem="Gfi-XD-ifr" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="SNa-Ya-xxC"/>
-                    <constraint firstItem="dOM-oW-xa3" firstAttribute="top" secondItem="yG2-In-Gfb" secondAttribute="bottom" constant="5" id="UKZ-xQ-h4O"/>
                     <constraint firstItem="Gfi-XD-ifr" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="XHR-Hn-w2q"/>
                     <constraint firstItem="Mxy-Xc-Wor" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Xcp-f1-VGf"/>
                     <constraint firstItem="k7F-F2-dGg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="ZDg-J9-lpf"/>
@@ -138,7 +126,7 @@
                 <variation key="default">
                     <mask key="constraints">
                         <exclude reference="Bi9-Yo-CvV"/>
-                        <exclude reference="EEw-Z7-Xe5"/>
+                        <exclude reference="FPj-Ub-89H"/>
                         <exclude reference="awK-ao-uXm"/>
                         <exclude reference="bmx-5f-hoM"/>
                     </mask>
@@ -154,7 +142,7 @@
                 <outlet property="price" destination="M71-x3-qUR" id="kYq-Uk-IWX"/>
                 <outlet property="status" destination="R6P-dA-AK0" id="Z4F-OM-99O"/>
             </connections>
-            <point key="canvasLocation" x="384" y="424"/>
+            <point key="canvasLocation" x="384" y="412.5"/>
         </tableViewCell>
     </objects>
     <resources>
