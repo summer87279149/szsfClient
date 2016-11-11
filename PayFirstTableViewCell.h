@@ -9,5 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface PayFirstTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *orderNumberLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *totalPriceLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *namesLabel;
+
 
 @end

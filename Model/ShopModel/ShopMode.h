@@ -16,7 +16,7 @@
 //商店id
 @property(nonatomic,strong)NSString *shopID;
 
-//图片
+//图片(遗弃)
 @property(nonatomic,strong)NSString *shopImagesURL;
 
 //店名

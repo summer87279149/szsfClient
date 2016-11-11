@@ -44,7 +44,7 @@
 -(void)setTabelCellModel:(TabelCellModel *)tabelCellModel{
     _tabelCellModel = tabelCellModel;
     _name.text = tabelCellModel.name;
-    NSString *str = [NSString stringWithFormat:@"附近%@个技师",tabelCellModel.distance];
+    NSString *str = [NSString stringWithFormat:@"附近%@个技师",tabelCellModel.number];
     _distance.text = str;
     
     _name.sd_layout.topEqualToView(self).bottomEqualToView(self).xIs(3).widthIs(self.frame.size.width/1.5);

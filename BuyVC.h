@@ -11,7 +11,7 @@
 @interface BuyVC : UIViewController
 //商品模型数组
 @property(nonatomic,copy)NSMutableArray *infoArr;
-//订单请求数组
+//订单请求数组，本页面发起请求使用
 @property(nonatomic,copy)NSMutableArray *requestArr;
 //商品总价
 @property(nonatomic,assign)float allPrice;

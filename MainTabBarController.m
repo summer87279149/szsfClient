@@ -11,13 +11,12 @@
 #import "MainTabBarController.h"
 #import "MainNavViewController.h"
 
-#import "HomeViewController.h"
 #import "MallViewController.h"
 #import "ToShopViewController.h"
 #import "MineViewController.h"
 #import "ToMyHomeViewController.h"
 
-@interface MainTabBarController ()
+@interface MainTabBarController ()<UITabBarDelegate>
 
 @end
 
@@ -95,6 +94,10 @@
     
     
 }
+
+
+
+
 - (void)xt_addViewController :(UIViewController *)viewContro withImage:(NSString *)imageName WithSelectImage:(NSString *)selectImage WithTitle:(NSString *)title {
     viewContro.title = title;
     

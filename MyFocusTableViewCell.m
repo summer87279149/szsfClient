@@ -25,7 +25,7 @@
         self.portrait = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 80, 80)];
         self.portrait.layer.cornerRadius = 40;
         self.portrait.layer.masksToBounds = YES;
-        self.portrait.backgroundColor = COLOR;
+        self.portrait.backgroundColor = [UIColor clearColor];
         [self.techView addSubview:self.portrait];
         //姓名
         self.techName = [[UILabel alloc]initWithFrame:CGRectMake(100, 10, 200, 15)];

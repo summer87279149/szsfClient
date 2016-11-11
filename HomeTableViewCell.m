@@ -20,6 +20,7 @@
     UILabel *numberLbl;             //人员选择
     UIImageView *backgroundImageView;
     UIImage *backgroundImage;
+    UILabel *addressLbl;            //地址
 }
 @end
 
@@ -43,10 +44,8 @@
         
         nameLbl = [[UILabel alloc]init];
         nameLbl.text = @"虹桥养生堂江平路店";
-        nameLbl.textAlignment = NSTextAlignmentRight;
-        
-        
-        nameLbl.font = [UIFont boldSystemFontOfSize:14];
+        nameLbl.textAlignment = NSTextAlignmentLeft;
+        nameLbl.font = [UIFont boldSystemFontOfSize:13];
         nameLbl.backgroundColor = [UIColor clearColor];
         [self addSubview:nameLbl];
         
@@ -58,11 +57,11 @@
         infoLbl.backgroundColor = [UIColor clearColor];
         [self addSubview:infoLbl];
         
-        consumptionLbl = [[UILabel alloc]init];
-        consumptionLbl.text = @"人均消费：70元";
-        consumptionLbl.textColor = [UIColor blackColor];
-        consumptionLbl.font = [UIFont systemFontOfSize:14];
-        consumptionLbl.backgroundColor = [UIColor clearColor];
+//        consumptionLbl = [[UILabel alloc]init];
+//        consumptionLbl.text = @"人均消费：70元";
+//        consumptionLbl.textColor = [UIColor blackColor];
+//        consumptionLbl.font = [UIFont systemFontOfSize:14];
+//        consumptionLbl.backgroundColor = [UIColor clearColor];
 //        [self addSubview:consumptionLbl];
         
         nearbyLbl = [[UILabel alloc]init];
@@ -73,14 +72,24 @@
         nearbyLbl.backgroundColor = [UIColor clearColor];
         [self addSubview:nearbyLbl];
         
-        numberLbl = [[UILabel alloc]init];
-        numberLbl.text = @"已有375人选择";
-        numberLbl.textColor = [UIColor blackColor];
-        numberLbl.textAlignment = 2;
-        numberLbl.font = [UIFont systemFontOfSize:14];
-        numberLbl.backgroundColor = [UIColor clearColor];
+//        numberLbl = [[UILabel alloc]init];
+//        numberLbl.text = @"已有375人选择";
+//        numberLbl.textColor = [UIColor blackColor];
+//        numberLbl.textAlignment = 2;
+//        numberLbl.font = [UIFont systemFontOfSize:14];
+//        numberLbl.backgroundColor = [UIColor clearColor];
 //        [self addSubview:numberLbl];
         
+        
+        //地址
+        addressLbl = [[UILabel alloc]init];
+        addressLbl.text = @"当前商家地址是";
+        addressLbl.textColor = [UIColor blackColor];
+        addressLbl.textAlignment = NSTextAlignmentLeft;
+        addressLbl.font = [UIFont systemFontOfSize:12];
+        addressLbl.numberOfLines = 0;
+        addressLbl.lineBreakMode = NSLineBreakByCharWrapping;
+        [self addSubview:addressLbl];
         
         UIImageView *topimageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"探号店"]];
         topimageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -98,32 +107,34 @@
         .rightSpaceToView(self,20)
         .heightIs(200);
         
-        consumptionLbl.sd_layout
-        .leftSpaceToView(self,20)
-        .topSpaceToView(infoLbl,5)
-        .rightSpaceToView(self,150)
-        .heightIs(20);
+//        consumptionLbl.sd_layout
+//        .leftSpaceToView(self,20)
+//        .topSpaceToView(infoLbl,5)
+//        .rightSpaceToView(self,150)
+//        .heightIs(20);
         
         nearbyLbl.sd_layout
         .rightSpaceToView(self,20)
-        .topSpaceToView(imgView,5)
+        .bottomSpaceToView(self,10)
         .heightIs(20);
         
+        
         nameLbl.sd_layout
-        .topSpaceToView(nearbyLbl,5)
-        .rightSpaceToView(self,20)
-        .heightIs(20);
+        .topSpaceToView(imgView,10)
+        .leftSpaceToView(self,95)
+        .heightIs(20)
+        .widthIs(200);
         
         infoLbl.sd_layout
         .topSpaceToView(nameLbl,5)
         .rightSpaceToView(self,20)
         .heightIs(20);
         
-        numberLbl.sd_layout
-        .rightSpaceToView(self,20)
-        .topSpaceToView(infoLbl,5)
-        .leftSpaceToView(consumptionLbl,10)
-        .heightIs(20);
+//        numberLbl.sd_layout
+//        .rightSpaceToView(self,20)
+//        .topSpaceToView(infoLbl,5)
+//        .leftSpaceToView(consumptionLbl,10)
+//        .heightIs(20);
         
         
         topimageView.sd_layout
@@ -131,6 +142,12 @@
         .heightIs(80)
         .widthIs(80)
         .bottomSpaceToView(self,0);
+        
+        addressLbl.sd_layout
+        .leftSpaceToView(topimageView,5)
+        .bottomSpaceToView(self,20)
+        .heightIs(30)
+        .widthIs(200);
     }
     return self;
 }
@@ -140,6 +157,7 @@
     [imgView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",homeCellModel.image]]];
     nearbyLbl.text =[NSString stringWithFormat:@"距离:%@km",homeCellModel.distance];
     nameLbl.text = homeCellModel.name;
+    addressLbl.text = homeCellModel.shopAddress;
 }
 
 

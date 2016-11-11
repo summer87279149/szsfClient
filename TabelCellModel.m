@@ -6,7 +6,7 @@
 //  Copyright © 2016年 Admin. All rights reserved.
 //
 #define XXJname         @"projectname"
-#define XXJdistance     @"technum"
+#define XXJnumber     @"technum"
 #define XXJPID          @"pid"
 #import "TabelCellModel.h"
 
@@ -22,13 +22,13 @@
         self.name = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJname]];
     }
     // ming zi
-    if ([dic objectForKey:XXJdistance]==nil||[dic objectForKey:XXJdistance] == [NSNull null])
+    if ([dic objectForKey:XXJnumber]==nil||[dic objectForKey:XXJnumber] == [NSNull null])
     {
-        self.distance = @"0";
+        self.number = @"0";
     }
     else
     {
-        self.distance = [NSString stringWithFormat:@"%d",(int)[dic objectForKey:XXJdistance]];
+        self.number = [NSString stringWithFormat:@"%d",[[dic objectForKey:XXJnumber] intValue]];
     }
     
     if ([dic objectForKey:XXJPID]==nil||[dic objectForKey:XXJPID] == [NSNull null])
@@ -37,7 +37,7 @@
     }
     else
     {
-        self.pid = [NSString stringWithFormat:@"%d",(int)[dic objectForKey:XXJPID]];
+        self.pid = [NSString stringWithFormat:@"%d",[[dic objectForKey:XXJPID] intValue]];
     }
     
     

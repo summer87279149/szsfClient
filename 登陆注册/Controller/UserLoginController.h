@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface UserLoginController : UIViewController
-
+//@property(nonatomic,assign) int isLoginOut;
 @end

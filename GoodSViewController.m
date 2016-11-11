@@ -35,9 +35,10 @@
     [self GetRequestData];
 }
 -(void)GetRequestData{
+    SHOWHUD
     WS(weakSelf)
     [SomeOtherRequest GetShopProductDetailWithProductID:self.productID success:^(id response) {
-//        NSLog(@"商品详情的返回结果是:%@",response[@"images"]);
+        NSLog(@"商品详情的返回结果是:%@",response);
         imageArr = response[@"images"];
         [weakSelf setscrollview];
         weakSelf.name.text = response[@"prodname"];
@@ -50,10 +51,9 @@
         weakSelf.scrollview.contentSize = CGSizeMake(kScreenWidth,CGRectGetMaxY(self.projectView.frame));
         [weakSelf applyHttpData];
     } error:^(id response) {
-        
+        HIDEHUDWeakSelf
     }];
 }
-
 
 -(void)createBottomOrder{
     orderBtn = [[UIButton alloc]init];
@@ -64,12 +64,21 @@
     [self.view addSubview:orderBtn];
 }
 -(void)orderBtnClicked{
-    [SomeOtherRequest AddProductToCarWithUserId:[YCUserModel userId] andProductID:self.productID success:^(id response) {
-        NSLog(@"加入购物车 %@",response);
-        [MBProgressHUD showSuccess:@"已加入购物车"];
-    } error:^(id response) {
-        
-    }];
+    if ([YCUserModel userId]) {
+        SHOWHUD
+        [SomeOtherRequest AddProductToCarWithUserId:[YCUserModel userId] andProductID:self.productID success:^(id response) {
+            NSLog(@"加入购物车 %@",response);
+            HIDEHUD
+            [MBProgressHUD showSuccess:@"已加入购物车"];
+        } error:^(id response) {
+            HIDEHUD
+            [MBProgressHUD showError:@"操作失败，请重试"];
+        }];
+    }else{
+        UserLoginController *a = [[UserLoginController alloc]init];
+        MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
+        [self.navigationController presentViewController:naVC animated:YES completion:nil];
+    }
     
 }
 -(void)setprojectview{
@@ -111,7 +120,7 @@
 
 
 -(void)applyHttpData{
-    
+    HIDEHUD
 }
 
 -(void)setscrollview{
@@ -120,12 +129,11 @@
     /** 设置滚动延时*/
     WYNetScrollView.AutoScrollDelay = 3;
     /** 设置占位图*/
-    WYNetScrollView.placeholderImage = [UIImage imageNamed:@"placeholder"];;
+//    WYNetScrollView.placeholderImage = [UIImage imageNamed:@"placeholder"];;
     /** 获取网络图片的index*/
     WYNetScrollView.netDelagate = self;
     /** 添加到当前View上*/
     [self.scrollview addSubview:WYNetScrollView];
-    
 }
 /** 点中网络滚动视图后触发*/
 -(void)didSelectedNetImageAtIndex:(NSInteger)index{

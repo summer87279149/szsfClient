@@ -27,6 +27,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *goodCommentNumber;
 //显示更多评论按钮
 @property (weak, nonatomic) IBOutlet UIButton *moreCommentButton;
+//收藏按钮
+@property (weak, nonatomic) IBOutlet UIButton *collectButton;
 
 //本店铺的shopID
 @property(nonatomic,copy)NSString *shopID;

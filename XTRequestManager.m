@@ -36,6 +36,8 @@ responseSeializerType:(NHResponseSeializerType)type
     success:(void (^)(id))success
     failure:(void (^)(NSError *))failure {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager sharedManager];
+//    manager.requestSerializer.cachePolicy= NSURLRequestReturnCacheDataElseLoad;
+    
     manager.requestSerializer.timeoutInterval=30.f;
        // 如果不是JSON 或者 不是Default 才设置解析器类型
     if (type != NHResponseSeializerTypeJSON && type != NHResponseSeializerTypeDefault) {
@@ -56,7 +58,7 @@ responseSeializerType:(NHResponseSeializerType)type
         
         // 失败
         if (failure) {
-            [MBProgressHUD showError:@"请求超时，请检查网络状况"];
+//            [MBProgressHUD showError:@"请求超时，请检查网络状况"];
             NSLog(@"请求失败统一返回错误信息:%@",error);
             failure(error);
         }
@@ -100,7 +102,7 @@ responseSeializerType:(NHResponseSeializerType)type
         // 失败
         if (failure) {
             failure(error);
-            [MBProgressHUD showError:@"post请求超时，请检查网络状况"];
+//            [MBProgressHUD showError:@"post请求超时，请检查网络状况"];
             NSLog(@"post请求失败统一返回错误信息:%@",error);
         }
     }];

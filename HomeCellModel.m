@@ -9,6 +9,7 @@
 #define XXJname                                    @"shopname"
 #define XXJShopID                                    @"sid"
 #define XXJShopImage                                    @"images"
+#define XXJShopAddress                                    @"address"
 #import "HomeCellModel.h"
 
 @implementation HomeCellModel
@@ -21,7 +22,7 @@
     }
     else
     {
-        self.distance = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJdistance]];
+        self.distance = [NSString stringWithFormat:@"%.1f",[[dic objectForKey:XXJdistance]floatValue]];
     }
     
     
@@ -60,6 +61,17 @@
     {
         self.image = dic[XXJShopImage];
     }
+    
+    
+    if ([dic objectForKey:XXJShopAddress]==nil||[dic objectForKey:XXJShopAddress] == [NSNull null])
+    {
+        self.shopAddress = @"";
+    }
+    else
+    {
+        self.shopAddress = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJShopAddress]];
+    }
+    
     
 }
 @end

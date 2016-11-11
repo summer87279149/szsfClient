@@ -5,9 +5,9 @@
 //  Created by Admin on 16/9/28.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
+#import "TLCityPickerController.h"
 #import "AddViewController.h"
 #import "KeyInputView.h"
-#import "SearchViewController.h"
 #import "SearchResualtViewController.h"
 #import "HomeVController.h"
 #import "SDCycleScrollView.h"
@@ -23,7 +23,7 @@
 #import "UMSocial.h"
 #import "HomeCellModel.h"
 #import "CCLocationManager.h"
-@interface HomeVController ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,UISearchControllerDelegate,UITextViewDelegate,UMSocialUIDelegate,SDCycleScrollViewDelegate>
+@interface HomeVController ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,UISearchControllerDelegate,UITextViewDelegate,UMSocialUIDelegate,SDCycleScrollViewDelegate,TLCityPickerDelegate>
 {
     SDCycleScrollView *topScrollView;
     UIView *headerView;
@@ -58,17 +58,27 @@
 @synthesize m_searchBa,homeTable;
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-//       [jingWeiDu getCity:^(NSString *addressString) {
-//           currentCity = addressString;
-//            NSDictionary *dict = [NSDictionary dictionaryWithObject:currentCity forKey:@"city"];
-//            [[NSNotificationCenter defaultCenter]postNotificationName:@"chooseCity" object:nil userInfo:dict];
-//        }];
+    //进入主页面后，开始定位获取当前城市，获取到城市后，设置NSUserDefaults里面的城市名和代码，并且修改button的title，刷新一次
+       [jingWeiDu getCity:^(NSString *addressString) {
+           currentCity = addressString;
+           [self locationFinished:addressString];
+        }];
     [self createBackgroundAndNavigation];
     [self createArray];
     [self createHeaderView];
     [self createTableView];
     [self createKeyInputView];
+    
+}
+-(void)locationFinished:(NSString *)cityName{
+    if (StringNonNull(cityName)) {
+        NSLog(@"定位城市是:%@",cityName);
+        NSString *cityCode = [self getCityCodeByCityName];
+        [[NSUserDefaults standardUserDefaults]setObject:cityCode forKey:CITYCODE];
+        [[NSUserDefaults standardUserDefaults]setObject:cityName forKey:CITYNAME];
+        [cityBtn setTitle:cityName forState:UIControlStateNormal];
+        [homeTable headerBeginRefreshing];
+    }
 }
 -(void)createKeyInputView{
     KeyInputView *keyView = [KeyInputView keyInputView];
@@ -81,7 +91,6 @@
     m_searchBa.inputAccessoryView = keyView;
 }
 -(void)createBackgroundAndNavigation{
-    
     backgroundImage = [UIImage imageNamed:@"homeVCBackgroundImage"];
     backgroundImageView = [[UIImageView alloc]initWithImage:backgroundImage];
     backgroundImageView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
@@ -95,7 +104,8 @@
     //设置bar的frame
     m_searchBa.searchBarStyle =UISearchBarStyleDefault;
     m_searchBa.delegate = self;
-    m_searchBa.backgroundColor = [UIColor clearColor];
+    m_searchBa.backgroundImage = [self createImageWithColor:[UIColor clearColor]];
+//    m_searchBa.backgroundColor = [UIColor clearColor];
     m_searchBa.frame=CGRectMake(10, 160, viewWidth-20, 20);
     //添加导航栏三个按钮
     NSArray * arrBtn = @[[self shareButton],[self phoneButton]];
@@ -103,6 +113,18 @@
     self.navigationItem.leftBarButtonItem = [self cityButton];
     self.navigationItem.rightBarButtonItems = arrBtn;
 //    self.navigationController.automaticallyAdjustsScrollViewInsets=NO;
+}
+//去除searchBar的背景阴影框
+- (UIImage *)createImageWithColor: (UIColor *) color
+{
+    CGRect rect=CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
 }
 -(void)createArray{
     NetImageArray = [[NSMutableArray alloc]initWithCapacity:0];
@@ -163,21 +185,17 @@
     [self.view addSubview:headerView];
 }
 -(void)resignfirstre{
-   
     [m_searchBa resignFirstResponder];
 }
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    
     [m_searchBa resignFirstResponder];
 }
 -(void)createTableView{
-    
     homeTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64-44) style:UITableViewStylePlain];
     [self.view addSubview:homeTable];
 //    homeTable.contentOffset=CGPointMake(0, 64);
     homeTable.dataSource = self;
     homeTable.delegate = self;
-    
 //    homeTable.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
     homeTable.backgroundColor = [UIColor clearColor];
     homeTable.separatorColor = [UIColor getColor:@"3b2935"];
@@ -185,16 +203,11 @@
     //请求数据
     // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
     [homeTable addHeaderWithTarget:self action:@selector(headerRereshing)];
-    // 自动刷新(一进入程序就下拉刷新)
-    [homeTable headerBeginRefreshing];
-   [homeTable headerEndRefreshing];
+//    // 自动刷新(一进入程序就下拉刷新)
+//    [homeTable headerBeginRefreshing];
+ 
     [self performSelector:@selector(resetText) withObject:nil afterDelay:2.0f];
-
-  
 }
-
-
-
 
 #pragma mark - 请求数据(上传经纬度)
 -(void)uploadLatAndLon{
@@ -210,15 +223,18 @@
         [alvertView show];
        [homeTable headerEndRefreshing]; 
     }
-    
 }
 -(void)startUploadLatAndLon{
     NSString *cityCode = [[NSUserDefaults standardUserDefaults]objectForKey:CITYCODE];
     NSDictionary *prama = @{@"lng":lon,@"lat":lat,@"city":cityCode};
-    NSLog(@"首页上传的参数是:%@",prama);
+    NSLog(@"首页上传的参数是:%@，城市名:%@",prama,[[NSUserDefaults standardUserDefaults]objectForKey:CITYNAME]);
     WS(weakSelf)
     [XTRequestManager GET:XTUploadLinAndLon parameters:prama responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
-//                NSLog(@"====%@",responseObject);
+        [NetImageArray removeAllObjects];
+        [NetImageShopID removeAllObjects];
+        [cellModelArray removeAllObjects];
+        
+                NSLog(@"首页%@",responseObject);
         NSArray *arr = responseObject[@"homebanner"];
         for (int i=0; i<arr.count; ++i) {
             NSDictionary * dictionary = arr[i];
@@ -233,21 +249,22 @@
             //        NSLog(@"cellModel.image=%@",cellModel.image);
             [cellModelArray addObject:cellModel];
         }
-        
         [weakSelf applyDataFromResponseObject];
     } failure:^(NSError *error) {
         [homeTable headerEndRefreshing];
     }];
-    
 }
 #pragma mark- 设置数据
 -(void)applyDataFromResponseObject{
     if (NetImageArray&&instruction&&NetImageShopID&&cellModelArray) {
-        [self createNetScrollView];
-        midText.text = instruction;
-        [homeTable reloadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self createNetScrollView];
+            midText.text = instruction;
+            [homeTable reloadData];
+            [homeTable headerEndRefreshing];
+            //回到主线程，执行UI刷新操作
+        });
     }
-    [homeTable headerEndRefreshing];
 }
 #pragma mark =====================================
 //分享
@@ -256,8 +273,8 @@
     
     [self  uploadLatAndLon];
     [UMSocialData defaultData].extConfig.title = @"神州师傅";
-    [UMSocialData defaultData].extConfig.wechatSessionData.url = @"http://www.baidu.com";
-    [UMSocialData defaultData].extConfig.wechatTimelineData.url = @"http://www.baidu.com";
+//    [UMSocialData defaultData].extConfig.wechatSessionData.url = @"http://www.baidu.com";
+//    [UMSocialData defaultData].extConfig.wechatTimelineData.url = @"http://www.baidu.com";
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:UmengAppkey
                                       shareText:@"欢迎使用神州师傅"
@@ -308,18 +325,11 @@
 
 #pragma mark ==========================
 -(void)viewWillAppear:(BOOL)animated{
- 
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(modifyCity:) name:@"chooseCity" object:nil];
+    [super viewWillAppear:animated];
+    
 }
 
--(void)modifyCity:(NSNotification *)note{
-    if (note.userInfo[@"city"]==nil) {
-        return;
-    }else{
-        [cityBtn setTitle:note.userInfo[@"city"] forState:UIControlStateNormal];
-        [homeTable headerBeginRefreshing];
-    }
-}
+
 //轮播图
 -(void)createNetScrollView{
    
@@ -385,12 +395,6 @@
     
     return item;
 }
-#pragma mark - AFNetworkServiceDelegate
-- (void)finishedLoadingView
-{
-    [self loadiewFinished];
-}
-#pragma mark MJRefresh
 
 
 -(void)footerRereshing{
@@ -406,10 +410,7 @@
 - (void)headerRereshing
 {
     [m_searchBa resignFirstResponder];
-    [NetImageArray removeAllObjects];
-    [NetImageShopID removeAllObjects];
-    [cellModelArray removeAllObjects];
-    
+  
     [self uploadLatAndLon];
 }
 
@@ -428,24 +429,37 @@
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:cityBtn];
     return item;
 }
+-(NSString *)getCityCodeByCityName{
+    NSArray *array = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"CityData" ofType:@"plist"]];
+    for (NSDictionary *groupDic in array) {
+        for (NSDictionary *dic in [groupDic objectForKey:@"citys"]) {
+            if([[dic objectForKey:@"city_name"] isEqualToString:currentCity]){
+                return [dic objectForKey:@"city_key"];
+            }
+        }
+    }
+    return @"700100000";
+}
+//点击选择地区按钮开始查询当前定位地区的code,查不到就默认用上海地区的code。然后进入选择页面
 - (void)cityView{
    [m_searchBa resignFirstResponder];
-    AddViewController *addressVC = [[AddViewController alloc]init];
-    MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:addressVC];
-    [self presentViewController:naVC animated:YES completion:nil];
+//    AddViewController *addressVC = [[AddViewController alloc]init];
+//    MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:addressVC];
+//    [self presentViewController:naVC animated:YES completion:nil];
+    
+    TLCityPickerController *cityPickerVC = [[TLCityPickerController alloc] init];    
+    [cityPickerVC setDelegate:self];
+    cityPickerVC.locationCityID = [self getCityCodeByCityName];
+    cityPickerVC.hotCitys = @[@"100010000", @"200010000", @"300210000", @"600010000", @"300110000"];
+    NSLog(@"%@",cityPickerVC.locationCityID);
+    UINavigationController *nav =[[UINavigationController alloc]initWithRootViewController:cityPickerVC];
+    [self presentViewController:nav animated:YES completion:^{
+    }];
 }
 
 
 #pragma mark - UItableView delegate
-//设置表头
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-//    return 300;
-//}
-//
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-//    
-//    return headerView;
-//}
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 0.01;
@@ -485,63 +499,41 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    HomeCellModel*model = cellModelArray[indexPath.row];
-    ShopDetailVC *push = [[ShopDetailVC alloc]init];
-    push.shopID =model.shopID;
-    push.title = @"商家";
-    [self.navigationController pushViewController:push animated:YES];
+    [self doThisIfUserInfoExist:^{
+        if (cellModelArray.count>0) {
+            HomeCellModel*model = cellModelArray[indexPath.row];
+            if (StringNonNull(model.shopID)) {
+                ShopDetailVC *push = [[ShopDetailVC alloc]init];
+                push.shopID =model.shopID;
+                push.title = @"商家";
+                [self.navigationController pushViewController:push animated:YES];
+            }
+        }else{
+            [MBProgressHUD showError:@"请等待加载完成"];
+        }
+    }];
+    
+    
 }
 
 #pragma mark============== SDScrollViewNetDelegate ===============
 
 /** 点击图片回调 */
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
+    
     [m_searchBa resignFirstResponder];
-    if (NetImageShopID.count>0) {
-//        HomeCellModel*model = ;
-        ShopDetailVC *push = [[ShopDetailVC alloc]init];
-        push.shopID =NetImageShopID[index];
-        push.title = @"商家";
-        [self.navigationController pushViewController:push animated:YES];
-    }
+    [self doThisIfUserInfoExist:^{
+        if (NetImageShopID.count>0) {
+            //        HomeCellModel*model = ;
+            ShopDetailVC *push = [[ShopDetailVC alloc]init];
+            push.shopID =NetImageShopID[index];
+            push.title = @"商家";
+            [self.navigationController pushViewController:push animated:YES];
+        }
+    }];
+   
    
 }
-#pragma mark - searchControllerDelegate
-//-(void)didDismissSearchController:(UISearchController *)searchController{
-//    m_searchBa.hidden = NO;
-//    self.view.hidden = NO;
-//}
-//-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
-//{
-//    m_searchBa.hidden = NO;
-//    self.view.hidden = NO;
-//}
-//- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
-//{
-//    NSLog(@"监听搜索的值：%@",searchController.searchBar.text);
-//}
-#pragma mark - UISearchBarDelegate
-//- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
-//    
-//    SearchResualtViewController *resualtCtr = [[SearchResualtViewController alloc]init];
-//    
-//    SearchViewController*aaa = [[SearchViewController alloc]init];
-//    self.searchController = [[UISearchController alloc] initWithSearchResultsController:aaa];
-//    
-//    // 搜索框检测代理
-//    //（这个需要遵守的协议是 <UISearchResultsUpdating> ，这个协议中只有一个方法，当搜索框中的值发生变化的时候，代理方法就会被调用）
-//    _searchController.searchResultsUpdater = self;
-//    _searchController.view.backgroundColor = [UIColor whiteColor];
-//    _searchController.delegate = self;
-//    _searchController.searchBar.placeholder = @"漫画名/作者/类型";
-//    //  _searchController.searchBar.delegate = self;
-//     MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:_searchController];
-//    [self presentViewController:naVC animated:YES completion:^{
-//        // 当模态推出这个searchController的时候,需要把之前的searchBar隐藏,如果希望搜索的时候看不到热门搜索什么的,可以把这个页面给隐藏
-////                m_searchBa.hidden = YES;
-//        self.homeTable.hidden = YES;
-//    }];
-//}
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
     return YES;
@@ -555,27 +547,36 @@
         resualtCtr.keyword = m_searchBa.text;
         [self.navigationController pushViewController:resualtCtr animated:YES];
     }
-  
+}
+
+#pragma mark - TLCityPickerDelegate
+//选择地区完成后设置NSUserDefaults，发送通知,然后修改button 的title 然后刷新,
+- (void) cityPickerController:(TLCityPickerController *)cityPickerViewController didSelectCity:(TLCity *)city
+{
+    [[NSUserDefaults standardUserDefaults]setObject:city.cityID forKey:CITYCODE];
+    [[NSUserDefaults standardUserDefaults]setObject:city.cityName forKey:CITYNAME];
+    NSLog(@"当前userDefault设置为:%@,%@",city.cityID,city.cityName);
+    //发送通知告诉到店页面
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"chooseCity" object:nil userInfo:nil];
+    [cityBtn setTitle:city.cityName  forState:UIControlStateNormal];
+    [homeTable headerBeginRefreshing];
+    [cityPickerViewController dismissViewControllerAnimated:YES completion:^{
+    }];
+}
+
+- (void) cityPickerControllerDidCancel:(TLCityPickerController *)cityPickerViewController
+{
+    [cityPickerViewController dismissViewControllerAnimated:YES completion:^{
+    }];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
     [m_searchBa resignFirstResponder];
 }
+
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
-
-
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

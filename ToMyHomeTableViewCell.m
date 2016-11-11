@@ -35,7 +35,7 @@
         _imageview = [[UIImageView alloc]init];
         _imageview.layer.cornerRadius = 30*k_scale;
         _imageview.layer.masksToBounds = YES;
-        _imageview.backgroundColor = COLOR;
+        _imageview.backgroundColor = [UIColor clearColor];
         [self addSubview:_imageview];
         _imageview.sd_layout.centerXEqualToView(self).topSpaceToView(self,10).widthIs(60*k_scale).heightIs(60*k_scale);
        
@@ -166,19 +166,23 @@
 
 -(void)setToMyHomeCellModel:(ToMyHomeCellModel *)toMyHomeCellModel{
     _toMyHomeCellModel = toMyHomeCellModel;
+   
+        [_imageview sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",toMyHomeCellModel.imageviewUrl]]];
+        self.name.text = toMyHomeCellModel.name;
     
-    [_imageview sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",toMyHomeCellModel.imageviewUrl]]];
-    self.name.text = toMyHomeCellModel.name;
-    self.grade.text = toMyHomeCellModel.grade;
-    self.orderNumber.text =[NSString stringWithFormat:@"%@单",toMyHomeCellModel.orderNumber];
-    self.distance.text = [NSString stringWithFormat:@"%@km",toMyHomeCellModel.distance];
-    self.text.text = toMyHomeCellModel.text;
-    self.project.text = toMyHomeCellModel.project;
-    self.belongTo.text = toMyHomeCellModel.belongTo;
-    
+        self.grade.text = toMyHomeCellModel.grade;
+        self.orderNumber.text =[NSString stringWithFormat:@"%@单",toMyHomeCellModel.orderNumber];
+        self.distance.text = [NSString stringWithFormat:@"%@km",toMyHomeCellModel.distance];
+        self.text.text = toMyHomeCellModel.text;
+        self.project.text = toMyHomeCellModel.project;
+        self.belongTo.text = toMyHomeCellModel.belongTo;
+        
         CGSize size = [self.text sizeThatFits:CGSizeMake(self.text.frame.size.width, 2000)];
         self.text.sd_layout.leftEqualToView(line3).rightEqualToView(line3).topSpaceToView(line3,5).heightIs(size.height);
         self.height = 120+144*k_scaleHeight+size.height;
+   
+    NSLog(@"名字是:%@，评分是:%@，单数是:%@，头像是:%@",self.name.text,self.grade.text,self.orderNumber.text,toMyHomeCellModel.imageviewUrl);
+    
     
     
 }

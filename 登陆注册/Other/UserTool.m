@@ -8,7 +8,7 @@
 
 #import "UserTool.h"
 #import "AppDelegate.h"
-
+#import <CommonCrypto/CommonDigest.h>
 @implementation UserTool
 
 #pragma mark 正则匹配手机号
@@ -30,6 +30,21 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(value * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [alert dismissWithClickedButtonIndex:[alert cancelButtonIndex] animated:YES];
     });
+}
+#pragma mark - 32位 大写
++(NSString *)MD5ForUpper32Bate:(NSString *)str{
+    
+    //要进行UTF8的转码
+    const char* input = [str UTF8String];
+    unsigned char result[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(input, (CC_LONG)strlen(input), result);
+    
+    NSMutableString *digest = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    for (NSInteger i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
+        [digest appendFormat:@"%02X", result[i]];
+    }
+    
+    return digest;
 }
 
 @end

@@ -37,22 +37,12 @@
         [self.testNumBtn setTitle:@"正在发送" forState:UIControlStateNormal];
         self.testNumBtn.enabled = NO;
         [self codeCountDown];
-        //        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-        //
-        //        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-        //
-        //        HttpBeanBase *listBean = [self bean5];
-        //
-        //        [manager POST:listBean.funcName parameters:[listBean createParameters] success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //            NSString *msg = [responseObject objectForKey:@"message"];
-        //            [MBProgressHUD showSuccess:msg];
-        //            [self codeCountDown];
-        //
-        //        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        //            [btn setTitle:@"重新发送" forState:UIControlStateNormal];
-        //            btn.enabled = YES;
-        //            [MBProgressHUD showError:@"请检查网络"];
-        //        }];
+        [SomeOtherRequest sendVerifyCodeWithPhoneNumber:self.phoneNumText.text success:^(id response) {
+            
+            NSLog(@"发送验证码返回是:%@",response);
+        } error:^(id response) {
+            
+        }];
         
     }else {
         // 手机号码格式错误
@@ -85,7 +75,6 @@
                 
             });
             timeout--;
-            
         }
     });
     dispatch_resume(_timer);
@@ -115,9 +104,9 @@
     self.passwordTwo.inputAccessoryView = keyView;
     
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+//    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 -(BOOL)checkPassWord:(NSString *)password
 {
@@ -164,11 +153,24 @@
         
         return;
     }
-    
+//   [UserTool MD5ForUpper32Bate:
     //下面输入修改密码步骤
     
-    
-    
+    SHOWHUD
+    WS(weakSelf)
+    [SomeOtherRequest resetPasswordWith:self.phoneNumText.text password:_passwordText.text smsCode:self.testNumText.text success:^(id response) {
+        NSLog(@"修改密码返回%@",response);
+        HIDEHUD
+        if ([response[@"status"] isEqualToString:@"success"]) {
+            [UserTool alertViewDisplayTitle:nil andMessage:response[@"msg"] andDisplayValue:1.];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        }else{
+            [UserTool alertViewDisplayTitle:nil andMessage:response[@"msg"] andDisplayValue:1.];
+        }
+    } error:^(id response) {
+        HIDEHUD
+        [UserTool alertViewDisplayTitle:nil andMessage:response[@"msg"] andDisplayValue:1.];
+    }];
     
     
     
@@ -223,42 +225,26 @@
             rect.origin.y -= height * 0.4;
             
             self.view.frame = rect;
-            
         }];
     }
-    
-    
-    
 }
 
 // 键盘退出时调用
 - (void)keyboardWillHide:(NSNotification *)aNotification {
-    
     NSDictionary *userInfo = [aNotification userInfo];
-    
     NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey];
-    
     CGRect keyboarRect = [aValue CGRectValue];
-    
     int height = keyboarRect.size.height;
-    
     if (self.isKey) {
-        
         self.isKey = NO;
-        
         [UIView animateWithDuration:1. animations:^{
-            
             CGRect rect = self.view.frame;
-            
             rect.origin.y += height * 0.4;
-            
             self.view.frame = rect;
-            
         }];
-        
     }
-    
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

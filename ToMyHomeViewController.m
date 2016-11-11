@@ -64,8 +64,9 @@
 @synthesize tabelCellModelArr = tabelCellModelArr;
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self createHeaderView];
-    [self uploadLatAndLonisHeaderRefresh:YES];
+//    [self uploadLatAndLonisHeaderRefresh:YES];
     [self createTableView];
 }
 #pragma mark 创建UI
@@ -134,7 +135,13 @@
             [btn setTitle:@"点击按项目查询" forState:UIControlStateNormal];
             btn.sd_layout.leftSpaceToView(lineView,10).widthIs(kScreenWidth/2).topSpaceToView(imageBrown,3).bottomSpaceToView(imageBrown,3);
             twoBtn = btn;
+            /**
+             把“按项目查询隐藏”
+             */
+//            twoBtn.hidden=YES;
         }
+        
+        
         [btn addTarget:self action:@selector(selectPress:) forControlEvents:UIControlEventTouchUpInside];
     }
     popoverTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, 180*k_scale, 100*k_scaleHeight) style:UITableViewStylePlain];
@@ -193,9 +200,9 @@
         cell=[[ToMyHomeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:IDD];
      }
         if ( toMyHomeCellModelArr.count>0) {
+            cell.toMyHomeCellModel = toMyHomeCellModelArr[indexPath.row];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.delegate =self;
-            cell.toMyHomeCellModel = toMyHomeCellModelArr[indexPath.row];
             cell.myCurrentRow = indexPath.row;
 //            NSLog(@"当前indexPath的行数是%ld",(long)indexPath.row);
         }
@@ -280,8 +287,14 @@
     NSLog(@"上门参数是:%@",prama);
     WS(weakSelf)
     [XTRequestManager GET:kToMyHome parameters:prama responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
-    NSLog(@"====%@",responseObject);
+    NSLog(@"上门页面返回:%@",responseObject);
         
+        if (isHeaderRefresh) {
+            //把数组全部清空，重新加载数据
+            [toMyHomeCellModelArr removeAllObjects];
+            [tabelCellModelArr removeAllObjects];
+            [distanceArr removeAllObjects];
+        }
             NSDictionary *dic = responseObject[@"instruction"];
             topTextstr = dic[@"inst"];
         if ([responseObject[@"overflow"] isEqualToString:@"0"]) {
@@ -309,12 +322,15 @@
 }
 #pragma mark- 设置数据
 -(void)applyDataFromResponseObject{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSLog(@"已经回到主线程，要做的事情");
+        topText.text = topTextstr;
+        [tableview reloadData];
+        [popoverTableView reloadData];
+        
+        [self loadFinished];
+    });
     
-    topText.text = topTextstr;
-    [tableview reloadData];
-    [popoverTableView reloadData];
-    
-    [self loadFinished];
 }
 
 
@@ -331,17 +347,12 @@
     // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
     [tableview addHeaderWithTarget:self action:@selector(headerRereshing)];
     // 自动刷新(一进入程序就下拉刷新)
-//    [tableview headerBeginRefreshing];
+    [tableview headerBeginRefreshing];
     
     //2.上拉加载更多(进入刷新状态就会调用self的footerRereshing)
     [tableview addFooterWithTarget:self action:@selector(footerRereshing)];
 }
 -(void)headerRereshing{
-   
-    //把数组全部清空，重新请求数据
-    [toMyHomeCellModelArr removeAllObjects];
-    [tabelCellModelArr removeAllObjects];
-    [distanceArr removeAllObjects];
     Page = 1;
     HasMore = NO;
     [self uploadLatAndLonisHeaderRefresh:YES];
@@ -361,17 +372,31 @@
 
 #pragma mark ======ToMyHomeTableViewCellDelegate=======
 -(void)cellOrderBtnClicked:(NSInteger)row{
-    ToMyHomeCellModel *model = toMyHomeCellModelArr[row];
-    NSLog(@"当前点击了第%lu个cell",row);
-    TechViewController * tech = [[TechViewController alloc]init];
-    tech.techID = model.techID;
-    NSLog(@"技师id是:%@  名字是:%@",model.techID,model.name);
-    [self.navigationController pushViewController:tech animated:YES];
+    
+    if ([YCUserModel userId]) {
+        if (toMyHomeCellModelArr.count>0) {
+            ToMyHomeCellModel *model = toMyHomeCellModelArr[row];
+            NSLog(@"当前点击了第%lu个cell",row);
+            if (StringNonNull(model.techID)) {
+                TechViewController * tech = [[TechViewController alloc]init];
+                tech.techID = model.techID;
+                NSLog(@"技师id是:%@  名字是:%@",model.techID,model.name);
+                [self.navigationController pushViewController:tech animated:YES];
+            }
+        }else{
+            [MBProgressHUD showError:@"请等待加载完成"];
+        }
+    }else{
+        UserLoginController *a = [[UserLoginController alloc]init];
+        MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
+        [self.navigationController presentViewController:naVC animated:YES completion:nil];
+    }
+ 
 }
 -(void)focusBtnClick:(UITableViewCell *)cell{
     NSIndexPath *index = [tableview indexPathForCell:cell];
     if (ArrayNonNull(distanceArr) && distanceArr.count >= index.row+1) {
-        ToMyHomeCellModel *model = distanceArr[index.row];
+//        ToMyHomeCellModel *model = distanceArr[index.row];
         
         
         /**
@@ -386,7 +411,7 @@
 -(void)cancelFocusBtnClick:(UITableViewCell *)cell {
     NSIndexPath *index = [tableview indexPathForCell:cell];
     if (ArrayNonNull(distanceArr) && distanceArr.count >= index.row+1) {
-        ToMyHomeCellModel *model = distanceArr[index.row];
+//        ToMyHomeCellModel *model = distanceArr[index.row];
         /**
          *  写取消关注
          *

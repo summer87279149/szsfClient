@@ -112,7 +112,8 @@
              CLPlacemark *placemark = [placemarks objectAtIndex:0];
              _lastCity = placemark.locality;
              [standard setObject:_lastCity forKey:CCLastCity];//省市地址
-//             NSLog(@"______%@",_lastCity);
+             
+//            NSLog(@"______%@",placemark.name);
              _lastAddress = placemark.name;
 //             NSLog(@"______%@",_lastAddress);
          }

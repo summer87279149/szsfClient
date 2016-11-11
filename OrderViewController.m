@@ -207,7 +207,7 @@
     yourPhoneNumber.frame = CGRectMake(10, 12, kScreenWidth-20, 20);
     [view2 addSubview:yourPhoneNumber];
     
-    yourPhoneNumber.text = @"您的电话号码:";
+    yourPhoneNumber.text = @"在下面输入您的手机号码:";
     yourPhoneNumber.textColor = COLOR;
     
     UIView *lineView = [UIView lineWithColor:[UIColor lightGrayColor]];
@@ -305,7 +305,7 @@
     
     UILabel *choose = [UILabel sharedWithFont:13 andColor:COLOR andAnligment:left andBackgroundColor:nil];
     [self.view3 addSubview:choose];
-    choose.text = @"点我选择服务时间";
+    choose.text = @"选择服务时间";
     choose.frame = CGRectMake(10, 12, kScreenWidth-20, 20);
     choose.userInteractionEnabled = YES;
     UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGestureEvent:)];
@@ -319,18 +319,29 @@
     [self.view3 addSubview:self.ToMyHomeTimeLabel];
     self.ToMyHomeTimeLabel.frame = CGRectMake(10, 44, kScreenWidth-20, 20);
     
+    UIButton *chooseTimeButton = [[UIButton alloc]init];
+    chooseTimeButton.backgroundColor = [UIColor clearColor];
+//    chooseTimeButton.alpha = 0.5;
+    [chooseTimeButton addTarget:self action:@selector(tapGestureEvent:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view3 addSubview:chooseTimeButton];
+    chooseTimeButton.frame = CGRectMake(10, 12, kScreenWidth-20, 52);
+    
+    
+    
     UIView *line2 = [UIView lineWithColor:[UIColor lightGrayColor]];
     [self.view3 addSubview:line2];
     line2.sd_layout.heightIs(1).xIs(10).widthIs(kScreenWidth-20).topSpaceToView(self.ToMyHomeTimeLabel,12);
     
     UILabel *choose2 = [UILabel sharedWithFont:13 andColor:COLOR andAnligment:left andBackgroundColor:nil];
     [self.view3 addSubview:choose2];
-    choose2.text = @"点我选择服务地址";
+    choose2.text = @"选择服务地址";
     choose2.sd_layout.topSpaceToView(line2,12).heightIs(20).xIs(10).widthIs(kScreenWidth-20);
     choose2.userInteractionEnabled = YES;
+    //选择地址手势
     UITapGestureRecognizer * tapGesture2 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapChooseAdd:)];
     [choose2 addGestureRecognizer:tapGesture2];
     
+ 
     UIView *line3 = [UIView lineWithColor:[UIColor lightGrayColor]];
 //    [self.view3 addSubview:line3];
     line3.sd_layout.heightIs(1).xIs(10).widthIs(kScreenWidth-20).topSpaceToView(choose2,0);
@@ -338,6 +349,15 @@
     self.ToMyHomeAddLabel = [UILabel sharedWithFont:13 andColor:COLOR andAnligment:left andBackgroundColor:nil];
     [self.view3 addSubview:self.ToMyHomeAddLabel];
     self.ToMyHomeAddLabel.sd_layout.topSpaceToView(choose2,12).xIs(10).widthIs(kScreenWidth-20).heightIs(20);
+    
+    //选择地址按钮
+    UIButton *chooseAddButton = [[UIButton alloc]init];
+    chooseAddButton.backgroundColor = [UIColor clearColor];
+//    chooseAddButton.alpha = 0.5;
+    [chooseAddButton addTarget:self action:@selector(tapChooseAdd:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view3 addSubview:chooseAddButton];
+    chooseAddButton.sd_layout.topSpaceToView(line2,12).xIs(10).widthIs(kScreenWidth-20).heightIs(50);
+    
     
     UIView *line4 = [UIView lineWithColor:[UIColor lightGrayColor]];
     [self.view3 addSubview:line4];
@@ -538,16 +558,17 @@
    
 }
 -(void)submitOrderWithPara:(id)para{
+    SHOWHUD
     NSLog(@"提交项目订单的参数%@",para);
     WS(weakSelf)
     [SomeOtherRequest submitOrderWithPara:para success:^(id response) {
         NSLog(@"提交项目订单的返回结果是:%@",response);
-        
+        HIDEHUD
         [weakSelf submitOrderSuccess];
         
         
     } error:^(id response) {
-        
+        HIDEHUD
     }];
 //    PayViewController *pay = [[PayViewController alloc]init];
 //    [self.navigationController pushViewController:pay animated:YES];
@@ -582,6 +603,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(modifyAdd:) name:@"chooseAdd" object:nil];
     
 }

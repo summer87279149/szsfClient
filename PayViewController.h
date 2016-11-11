@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface PayViewController : UIViewController
+//订单号
+@property(nonatomic,copy)NSString *orderNumber;
 
+//总价格
+@property(nonatomic,copy)NSString *totalPrice;
 @end

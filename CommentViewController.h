@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CommentViewController : UIViewController
-
+//评价的订单号
+@property(nonatomic,copy)NSString*orderNumber;
 @end

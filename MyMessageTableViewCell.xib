@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="MyMessageTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="422" height="129"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <frame key="frameInset" width="422" height="128"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="time 2016 - 9 -10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hQ2-Nh-ZWG">
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="IgO-Dy-Lhd"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fsM-fu-Dm9">
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="fsM-fu-Dm9" firstAttribute="top" secondItem="hQ2-Nh-ZWG" secondAttribute="bottom" constant="5" id="1nN-28-48f"/>
+                    <constraint firstAttribute="trailing" secondItem="fsM-fu-Dm9" secondAttribute="trailing" constant="10" id="5aI-iM-QeE"/>
+                    <constraint firstAttribute="bottom" secondItem="fsM-fu-Dm9" secondAttribute="bottom" constant="5" id="9L6-Ym-CBg"/>
+                    <constraint firstItem="hQ2-Nh-ZWG" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="NTF-Lf-JYX"/>
+                    <constraint firstItem="hQ2-Nh-ZWG" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="opC-Hh-zqP"/>
+                    <constraint firstAttribute="trailing" secondItem="hQ2-Nh-ZWG" secondAttribute="trailing" constant="10" id="q58-JR-1pf"/>
+                    <constraint firstItem="fsM-fu-Dm9" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="z4V-MC-Ila"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="contentLabel" destination="fsM-fu-Dm9" id="JCD-vM-eim"/>
+                <outlet property="timeLabel" destination="hQ2-Nh-ZWG" id="RtI-QG-P59"/>
+            </connections>
+            <point key="canvasLocation" x="529" y="397.5"/>
+        </tableViewCell>
+    </objects>
+</document>

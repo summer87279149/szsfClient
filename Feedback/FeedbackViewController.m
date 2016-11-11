@@ -83,12 +83,15 @@
     if(contenText.text.length==0||contenText.text==nil){
         [MBProgressHUD showError:@"请输入意见"];
     }else{
+        SHOWHUD
         WS(weakSelf)
         [SomeOtherRequest feedBackWithUserID:[YCUserModel userId] andSuggestion:contenText.text success:^(id response) {
             [MBProgressHUD showSuccess:@"提交成功，感谢反馈"];
+            HIDEHUDWeakSelf
             [weakSelf.navigationController popViewControllerAnimated:YES];
         } error:^(id response) {
-            
+            [MBProgressHUD showSuccess:@"提交失败，请检查网络"];
+            HIDEHUDWeakSelf
         }];
     }
     

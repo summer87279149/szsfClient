@@ -59,7 +59,10 @@
     }
     else
     {
-        self.grade = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJgrade]];
+        self.grade = [NSString stringWithFormat:@"%.1f",[[dic objectForKey:XXJgrade] floatValue]];
+        if ([[dic objectForKey:XXJgrade] floatValue] == 0.0) {
+            self.grade = @"0";
+        }
     }
     //danshu
     if ([dic objectForKey:XXJorderNumber]==nil||[dic objectForKey:XXJorderNumber] == [NSNull null])
@@ -68,7 +71,7 @@
     }
     else
     {
-        self.orderNumber = [NSString stringWithFormat:@"%d",(int)[dic objectForKey:XXJorderNumber]];
+        self.orderNumber = [NSString stringWithFormat:@"%d",[[dic objectForKey:XXJorderNumber]intValue]];
     }
     
     //ju li
@@ -79,7 +82,7 @@
     }
     else
     {
-        self.distance = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJdistance]];
+        self.distance = [NSString stringWithFormat:@"%.1f",[[dic objectForKey:XXJdistance]floatValue]];
     }
     
     if ([dic objectForKey:XXJtext]==nil||[dic objectForKey:XXJtext] == [NSNull null])

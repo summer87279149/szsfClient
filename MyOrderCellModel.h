@@ -21,4 +21,6 @@
 @property(nonatomic,copy) NSString *imageUrl;
 
 @property(nonatomic,copy) NSString *orderNnumber;
+//是否评价过
+@property(nonatomic,copy) NSString *isRemarked;
 @end

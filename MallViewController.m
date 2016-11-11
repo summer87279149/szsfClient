@@ -97,14 +97,22 @@
 //    NSLog(@"点击了第几张图片:%@",text.userInfo[@"index"]);
     NSString *indexStr = [NSString stringWithFormat:@"%@",text.userInfo[@"index"]];
     NSInteger index = [indexStr integerValue];
-    ImageModel *model = imageModelArr[index];
-    GoodSViewController *vc =[[GoodSViewController alloc]init];
-    vc.productID = model.imageID;
-    NSLog(@"商品id是：%@",vc.productID);
-    [self.navigationController pushViewController:vc animated:YES];
+    if (imageModelArr.count>0) {
+        ImageModel *model = imageModelArr[index];
+        if (StringNonNull(model.imageID)) {
+            GoodSViewController *vc =[[GoodSViewController alloc]init];
+            vc.productID = model.imageID;
+            NSLog(@"商品id是：%@",vc.productID);
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
+    
+   
     
 }
-
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
 -(void)createBottomThreeBtn{
     
     
@@ -145,20 +153,40 @@
 
 //购物车
 -(void)OrderCarBtnClicked{
-    CarViewController *CarVC = [[CarViewController alloc]init];
-    [self.navigationController pushViewController:CarVC animated:YES];
+    if ([YCUserModel userId]) {
+        CarViewController *CarVC = [[CarViewController alloc]init];
+        [self.navigationController pushViewController:CarVC animated:YES];
+    }else{
+        UserLoginController *a = [[UserLoginController alloc]init];
+        MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
+        [self.navigationController presentViewController:naVC animated:YES completion:nil];
+    }
+    
 }
 
 //未完成
 -(void)Uncomplish{
-    UnCompleteViewController *UnComplete = [[UnCompleteViewController alloc]init];
-    [self.navigationController pushViewController:UnComplete animated:YES];
+    if ([YCUserModel userId]) {
+        UnCompleteViewController *UnComplete = [[UnCompleteViewController alloc]init];
+        [self.navigationController pushViewController:UnComplete animated:YES];
+    }else{
+        UserLoginController *a = [[UserLoginController alloc]init];
+        MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
+        [self.navigationController presentViewController:naVC animated:YES completion:nil];
+    }
+    
 }
 
 //已完成
 -(void)complish{
-    CompleteViewController *complete = [[CompleteViewController alloc]init];
-    [self.navigationController pushViewController:complete animated:YES];
+    if ([YCUserModel userId]) {
+        CompleteViewController *complete = [[CompleteViewController alloc]init];
+        [self.navigationController pushViewController:complete animated:YES];
+    }else{
+        UserLoginController *a = [[UserLoginController alloc]init];
+        MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
+        [self.navigationController presentViewController:naVC animated:YES completion:nil];
+    }
 }
 
 
@@ -198,12 +226,15 @@
 
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-    CollectionViewCellModel *model = collectionViewCellModelArr[indexPath.row];
-    GoodSViewController *vc =[[GoodSViewController alloc]init];
-    vc.productID = model.cellID;
-    NSLog(@"商品id是：%@",vc.productID);
-    [self.navigationController pushViewController:vc animated:YES];
+    if (collectionViewCellModelArr.count>0) {
+        CollectionViewCellModel *model = collectionViewCellModelArr[indexPath.row];
+        if (StringNonNull(model.cellID)) {
+            GoodSViewController *vc =[[GoodSViewController alloc]init];
+            vc.productID = model.cellID;
+            NSLog(@"商品id是：%@",vc.productID);
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
 }
 
 
@@ -245,18 +276,7 @@
 #pragma mark - 请求数据(上传经纬度)
 -(void)uploadLatAndLonisHeaderRefresh:(BOOL)isHeaderRefresh{
     [self startUploadLatAndLonisHeaderRefresh:isHeaderRefresh];
-//    if([CLLocationManager locationServicesEnabled] && [CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied){
-//    WS(weakSelf);
-//    [[CCLocationManager shareLocation]  getLocationCoordinate:^(CLLocationCoordinate2D locationCorrrdinate) {
-//        lat = [NSNumber numberWithDouble:locationCorrrdinate.latitude];
-//        lon = [NSNumber numberWithDouble:locationCorrrdinate.longitude];
-//        [weakSelf startUploadLatAndLonisHeaderRefresh:isHeaderRefresh];
-//    }];}else{
-//        UIAlertView *alvertView=[[UIAlertView alloc]initWithTitle:@"提示" message:@"需要开启定位服务才能正常使用,请到设置->隐私,打开定位服务" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-//        [alvertView show];
-//        [self loadiewFinished];
-//
-//    }
+
 }
 -(void)startUploadLatAndLonisHeaderRefresh:(BOOL)isHeaderRefresh{
     
@@ -270,7 +290,11 @@
     //   NSLog(@"参数是:%@",prama);
     WS(weakSelf)
     [XTRequestManager GET:kShop parameters:prama responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
-        
+        if (isHeaderRefresh) {
+            [imageModelArr removeAllObjects];
+            [collectionViewCellModelArr removeAllObjects];
+        }
+
         if ([responseObject[@"overflow"] isEqualToString:@"0"]) {
             dataHasMore = YES;
         }else{
@@ -334,8 +358,7 @@
 
 
 - (void)headerRereshing
-{   [imageModelArr removeAllObjects];
-    [collectionViewCellModelArr removeAllObjects];
+{
     [self uploadLatAndLonisHeaderRefresh:YES];
     
 }

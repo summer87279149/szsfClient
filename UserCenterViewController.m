@@ -7,7 +7,7 @@
 //
 
 #import "UserCenterViewController.h"
-
+#import "UIImage+Mo.h"
 @interface UserCenterViewController ()<UINavigationControllerDelegate, UIImagePickerControllerDelegate,UITextFieldDelegate,UIScrollViewDelegate,UIActionSheetDelegate>
 
 
@@ -65,9 +65,12 @@
     
     // 头像
     _headerImage = [[UIImageView alloc] initWithFrame:CGRectMake(kScreenWidth/2 - 45 ,10, 90, 90)];
-    _headerImage.backgroundColor = COLOR;
+    _headerImage.backgroundColor = [UIColor clearColor];
     _headerImage.layer.cornerRadius = 45;
     _headerImage.layer.masksToBounds = YES;
+    _headerImage.layer.borderWidth=2;
+    _headerImage.layer.borderColor = [UIColor whiteColor].CGColor;
+    _headerImage.contentMode = UIViewContentModeScaleAspectFit;
     [self.scrollView1 addSubview:_headerImage];
     
     UIButton *userHeader=[[UIButton alloc]init];
@@ -90,13 +93,14 @@
     usernameField1.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     usernameField1.clearButtonMode=UITextFieldViewModeAlways;
     [self.scrollView1 addSubview:usernameField1];
-    usernameField1.font=[UIFont systemFontOfSize:14];
+    usernameField1.font=[UIFont systemFontOfSize:15];
     usernameField1.keyboardType=UIKeyboardTypeDefault;
     usernameField1.delegate=self;
     UILabel *left=[[UILabel alloc]init];
-    left.frame=CGRectMake(0, 0, 60, 50);
-    left.text=@"昵称 :";
-    left.textAlignment=NSTextAlignmentRight;
+    left.frame=CGRectMake(5, 0, 70, 50);
+    left.font = [UIFont systemFontOfSize:15.0];
+    left.text=@"用户名:";
+    left.textAlignment=NSTextAlignmentLeft;
     usernameField1.leftView=left;
     
     usernameField1.leftViewMode=UITextFieldViewModeAlways;
@@ -112,13 +116,14 @@
     phoneNumber.returnKeyType = UIReturnKeyDone;
     phoneNumber.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [self.scrollView1 addSubview:phoneNumber];
-    phoneNumber.font=[UIFont systemFontOfSize:14];
+    phoneNumber.font=[UIFont systemFontOfSize:15];
     phoneNumber.keyboardType=UIKeyboardTypeDefault;
     
     UILabel *left12=[[UILabel alloc]init];
-    left12.frame=CGRectMake(0, 0, 60, 50);
-    left12.text=@"手机 :";
-    left12.textAlignment=NSTextAlignmentRight;
+    left12.frame=CGRectMake(5, 0, 70, 50);
+    left12.text=@"手机 : ";
+    left12.font = [UIFont systemFontOfSize:15.0];
+    left12.textAlignment=NSTextAlignmentLeft;
     phoneNumber.leftView=left12;
     phoneNumber.leftViewMode=UITextFieldViewModeAlways;
     self.phoneNumber=phoneNumber;
@@ -133,7 +138,7 @@
     [modify addTarget:self action:@selector(modifyBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     modify.backgroundColor = COLOR;
     modify.layer.cornerRadius=15;
-    modify.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+    modify.titleLabel.font = [UIFont systemFontOfSize:15.0f];
     [modify setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [modify setTitleColor:[UIColor colorWithRed:220.0/255.0 green:225.0/255.0 blue:38.0/255.0 alpha:1.0] forState:UIControlStateHighlighted];
     [modify setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
@@ -151,6 +156,7 @@
 // 修改按钮点击事件
 - (void)modifyBtnClicked
 {
+    SHOWHUD
     if (_usernameField1.text.length>8) {
         [MBProgressHUD showError:@"姓名长度应小于10个字符"];
         return;
@@ -158,10 +164,12 @@
     WS(weakSelf)
     [SomeOtherRequest modifyNickNameWithUserID:[YCUserModel userId] andName:_usernameField1.text success:^(id response) {
         NSLog(@"修改昵称:%@",response);
+         HIDEHUDWeakSelf
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UserInfoChanged" object:nil];
        [MBProgressHUD showSuccess:@"修改成功"];
         [weakSelf.view endEditing:YES];
     } error:^(id response) {
-        
+        HIDEHUDWeakSelf
     }];
 }
 
@@ -216,15 +224,48 @@
     [rootVC presentViewController:ipc animated:YES completion:nil];
     _headerImage.layer.cornerRadius = 45;
 }
-
+/**
+ *根据给定的size的宽高比自动缩放原图片、自动判断截取位置,进行图片截取
+ * UIImage image 原始的图片
+ * CGSize size 截取图片的size
+ */
+-(UIImage *)clipImage:(UIImage *)image toRect:(CGSize)size{
+    
+    //被切图片宽比例比高比例小 或者相等，以图片宽进行放大
+    if (image.size.width*size.height <= image.size.height*size.width) {
+        
+        //以被剪裁图片的宽度为基准，得到剪切范围的大小
+        CGFloat width  = image.size.width;
+        CGFloat height = image.size.width * size.height / size.width;
+        
+        // 调用剪切方法
+        // 这里是以中心位置剪切，也可以通过改变rect的x、y值调整剪切位置
+        return [UIImage imageFromImage:image inRect:CGRectMake(0, (image.size.height -height)/2, width, height)];
+        
+    }else{ //被切图片宽比例比高比例大，以图片高进行剪裁
+        
+        // 以被剪切图片的高度为基准，得到剪切范围的大小
+        CGFloat width  = image.size.height * size.width / size.height;
+        CGFloat height = image.size.height;
+        
+        // 调用剪切方法
+        // 这里是以中心位置剪切，也可以通过改变rect的x、y值调整剪切位置
+        return [UIImage imageFromImage:image inRect:CGRectMake((image.size.width -width)/2, 0, width, height)];
+    }
+    return nil;
+}
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     
+//    NSValue *value = [info objectForKey:UIImagePickerControllerCropRect] ;
+//    CGRect  rect = value.CGRectValue;
+//    NSLog(@"选择完图片的info：%@,cgrect 是:%@",info,rect);
     [picker dismissViewControllerAnimated:YES completion:nil];
     
     // 1.取出选中的图片
-    UIImage *originalImage = info[UIImagePickerControllerOriginalImage];
+    UIImage *originalImage = info[UIImagePickerControllerEditedImage];
+//    UIImage * originalImage =  [UIImage imageFromImage:originalImageeee inRect:rect];
     NSData *mData =UIImageJPEGRepresentation(originalImage, 1);
     UIImage *needImage = nil;
     
@@ -233,35 +274,35 @@
     CGSize size = needImage.size;
     float height = 200.0f * size.height/size.width;
     needImage = [self imageWithImageSimple:needImage scaledToSize:CGSizeMake(200.0f, height)];
+    //上传图片
     [self saveImage:needImage];
    
     
 }
-//从document取得图片
-- (UIImage *)getImage:(NSString *)totalPath
-{
-    return [UIImage imageWithContentsOfFile:totalPath];
-}
-//保存图片
+
+//上传图片
 - (void)saveImage:(UIImage *)tempImage
 {
-
-    /**
-     *  上传图片
-     *
-     */
+    SHOWHUD
     WS(weakSelf)
     [SomeOtherRequest saveImage:tempImage userid:[YCUserModel userId] success:^(id response) {
         [weakSelf.headerImage sd_setImageWithURL:URLWITHSTRING(response[@"headimgurl"])];
         NSLog(@"上传图片成功返回：%@",response);
+        HIDEHUDWeakSelf
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"UserInfoChanged" object:nil];
     } error:^(id response) {
-        [MBProgressHUD showError:@"上传失败，请联系管理员"];
+        [MBProgressHUD showError:@"上传失败，请检查网络"];
+        HIDEHUDWeakSelf
     }];
 }
 
 
 
-
+//从document取得图片
+- (UIImage *)getImage:(NSString *)totalPath
+{
+    return [UIImage imageWithContentsOfFile:totalPath];
+}
 - (UIImage*)imageWithImageSimple:(UIImage*)image scaledToSize:(CGSize)newSize
 {
     // Create a graphics image context
@@ -316,10 +357,7 @@
 
 
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
+
 
 /**
  *  当键盘改变了frame(位置和尺寸)的时候调用
@@ -327,25 +365,18 @@
 - (void)keyboardWillChangeFrame:(NSNotification *)note
 {
     //NSLog(@"%@",note.userInfo);
-    
     // 设置窗口的颜色
     self.view.window.backgroundColor = self.view.backgroundColor;
-    
     // 0.取出键盘动画的时间
     CGFloat duration = [note.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    
     // 1.取得键盘最后的frame
     CGRect keyboardFrame = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    
     // 2.计算控制器的view需要平移的距离
     CGFloat transformY = keyboardFrame.origin.y - self.view.frame.size.height+170;
-    
     // 3.执行动画
     [UIView animateWithDuration:duration animations:^{
         self.view.transform = CGAffineTransformMakeTranslation(0, transformY);
     }];
-    
-    
 }
 
 

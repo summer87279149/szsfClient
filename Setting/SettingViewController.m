@@ -5,6 +5,7 @@
 //  Created by Admin on 16/4/22.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
+#import "MainTabBarController.h"
 #import "MainNavViewController.h"
 #import "UserLoginController.h"
 #import "SettingViewController.h"
@@ -21,7 +22,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     HaHaHaAddBackGroundImage
-    setArr = [[NSMutableArray alloc]initWithObjects:@"服务范围",@"关于我们", nil];
+    setArr = [[NSMutableArray alloc]initWithCapacity:0];
     
     
     UITableView *settingTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 0, 0) style:UITableViewStyleGrouped];
@@ -85,9 +86,11 @@
         case 1: //确定退出登录，写退出登入代码
         {
             [[YCUserModel shareManager] logOut];
-            UserLoginController *login =[[UserLoginController alloc]init];
-            MainNavViewController *nav = [[MainNavViewController alloc]initWithRootViewController:login];
-            [self presentViewController:nav animated:YES completion:nil];
+            
+            
+            [self.navigationController popToRootViewControllerAnimated:NO];
+            
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"loginOut" object:nil];
         }
             break;
     }

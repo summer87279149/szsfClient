@@ -44,15 +44,15 @@
     scrollView.backgroundColor = [UIColor clearColor];
     [self creatTopView];
     [self creatTableView];
-    //添加测试数据
-//    [self createTestData];
-
     [self getRequestDataAboutTech];
 }
 
 -(void)getRequestDataAboutTech{
+    SHOWHUD
     if (self.techID.length>0) {
+        
         NSString *str =[[NSUserDefaults standardUserDefaults]objectForKey:@"ud_user_id"];
+        WS(weakSelf)
         [SomeOtherRequest ShowTechWithTecID:self.techID AndUserID:str  success:^(id response) {
             NSLog(@"huidaio shi  %@",response);
             isFocus = [NSString stringWithFormat:@"%@",response[@"isfocus"]];
@@ -66,11 +66,12 @@
 //            NSLog(@"moxingshi %@",techCellArr);
             //数组刷新
             [tableview reloadData];
+            HIDEHUDWeakSelf
         } error:^(id response) {
-            
+            HIDEHUDWeakSelf
         }];
     }else{
-        
+        HIDEHUD
     }
     
 }
@@ -231,7 +232,7 @@
     }else{
         self.AuthenticationImage.hidden=NO;
     }
-    if ([isFocus isEqualToString:@"0"]) {
+    if ([isFocus isEqualToString:@"0"]){
         [self.focusButton setTitle:@"+关注" forState:UIControlStateNormal];
     }else{
         [self.focusButton setTitle:@"已关注" forState:UIControlStateNormal];
@@ -250,27 +251,26 @@
             [MBProgressHUD hideHUDForView:self.view];
             [MBProgressHUD showError:@"关注失败,请检查网络"];
         }];
-       
-    }else{
+    }else if([self.focusButton.titleLabel.text isEqualToString:@"已关注"]){
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [SomeOtherRequest UserCancelFocusWithTecID:self.techID UserID:[YCUserModel userId] success:^(id response) {
-//            NSLog(@"关注失败返回 %@",response);
-            
-            [MBProgressHUD hideHUDForView:self.view];
+//            NSLog(@"关注失败返回 %@",response);             [MBProgressHUD hideHUDForView:self.view];
             [MBProgressHUD showSuccess:@"取消关注成功"];
             [self.focusButton setTitle:@"+关注" forState:UIControlStateNormal];
         } error:^(id response) {
             [MBProgressHUD hideHUDForView:self.view];
             [MBProgressHUD showError:@"取消关注失败,请检查网络"];
         }];
-        
+    }else{
     }
 }
 -(void)moreBtnClicked:(UIButton *)button{
-    
-    TechCommentVController *VC = [[TechCommentVController alloc]init];
-    VC.para = @{@"tid":techModel.technicianID};
-    [self.navigationController pushViewController:VC animated:YES];
+    if (techModel.technicianID == nil||techModel.technicianID.length==0) {
+    }else{
+        TechCommentVController *VC = [[TechCommentVController alloc]init];
+        VC.para = @{@"tid":techModel.technicianID};
+        [self.navigationController pushViewController:VC animated:YES];
+    }
 }
 #pragma mark ＝＝＝＝＝＝＝tableView DataSource＝＝＝＝＝＝＝＝
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

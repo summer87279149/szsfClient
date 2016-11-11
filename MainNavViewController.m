@@ -9,7 +9,7 @@
 #import "MainNavViewController.h"
 
 
-@interface MainNavViewController ()<UISearchBarDelegate>
+@interface MainNavViewController ()
 
 @end
 
@@ -17,19 +17,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-//    self.navigationBar.barTintColor=[UIColor clearColor];
     UIColor *color = [UIColor whiteColor];
     NSDictionary *dict = [NSDictionary dictionaryWithObject:color forKey:NSForegroundColorAttributeName];
     self.navigationBar.titleTextAttributes = dict;
-
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     self.navigationBar.tintColor=[UIColor whiteColor];
-    UIImage *image = [UIImage imageNamed:@"navigationBackgroundImage"];
-    [self.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
-//     self.edgesForExtendedLayout = UIRectEdgeNone;
- 
-    
+    [self.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationBackgroundImage"] forBarMetrics:UIBarMetricsDefault];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,7 +53,6 @@
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
     if (self.viewControllers.count >= 1) {
         viewController.hidesBottomBarWhenPushed = YES;
-        
         // 将控制器中的返回按钮进行统一设置
 //        viewController.navigationItem.leftBarButtonItem = [self addBarItemWithImage:@"backW" WithHighImage:@"backW" WithTagetAction:@selector(backClick) WithTarger:self];
         

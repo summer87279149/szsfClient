@@ -25,7 +25,11 @@
 
 #define URLWITHSTRING(STRING)       [NSURL URLWithString:[NSString stringWithFormat:@"%@",STRING]]
 #define ArrayNonNull(array)         array != nil && ![array isKindOfClass:[NSNull class]] && array.count != 0
+#define StringNonNull(string)        string!=nil&& ![string isKindOfClass:[NSNull class]] && string.length != 0
 
+#define SHOWHUD      [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+#define HIDEHUD        [MBProgressHUD hideHUDForView:self.view animated:YES];
+#define HIDEHUDWeakSelf        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
 
 #define isPrintLog  1   // 仅当  isPrintLog 值是1的时候才输出日志
 #ifndef LogInfo
@@ -52,6 +56,9 @@ __LINE__,               \
 #define kSelfViewWidth      self.view.bounds.size.width
 #define kSelfViewHeight     self.view.bounds.size.height
 //颜色
+#define RGBA(r,g,b,a) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:a]
+#define RGB(r,g,b) RGBA(r,g,b,1.0f)
+
 #define kColorWhite         [UIColor whiteColor]
 #define kColorBlue          [UIColor hexColor:@"0000ff"]
 #define kColorBlack         [UIColor hexColor:@"000000"]
@@ -95,6 +102,9 @@ __LINE__,               \
 #import "XTRequestManager.h"
 #import "YCUserModel.h"
 #import "SomeOtherRequest.h"
+#import "MainNavViewController.h"
+#import "UserLoginController.h"
+#import "UIViewController+isUserInfoExist.h"
 #import <CoreLocation/CoreLocation.h>
 //#import "CommonDeal.h"
 //#import "AppContextManager.h"

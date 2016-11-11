@@ -65,7 +65,7 @@
 }
 - (void)headerRereshing
 {
-    [infoArr removeAllObjects];
+    
     [self getRequestDataisHeaderRefresh:YES];
  
 }
@@ -75,7 +75,6 @@
     }else{
         ++page;
     }
-    
     NSNumber *pageNum = [NSNumber numberWithInteger:page];
     NSMutableDictionary *paraDic = [NSMutableDictionary dictionaryWithObject:pageNum forKey:@"page"];
     [paraDic addEntriesFromDictionary:self.para];
@@ -83,6 +82,9 @@
     WS(weakSelf)
     [SomeOtherRequest GetCommentWith:paraDic success:^(id response) {
         NSLog(@"评价页面返回数据是:%@",response);
+        if (isHeaderRefresh) {
+            [infoArr removeAllObjects];
+        }
         if ([response[@"overflow"] isEqualToString:@"0"]) {
             dataHasMore = YES;
         }else{

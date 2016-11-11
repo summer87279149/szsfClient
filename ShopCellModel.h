@@ -21,4 +21,6 @@
 @property(nonatomic,copy) NSString *time;
 
 @property(nonatomic,copy) NSString *projectId;
+//是否收藏店铺
+@property(nonatomic,copy) NSString *isFocus;
 @end

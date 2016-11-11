@@ -65,7 +65,7 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    HaHaHaAddBackGroundImage
     ToShopCellModelArr = [[NSMutableArray alloc]initWithCapacity:0];
     sortNumber = 0;
     dataHasMore = YES;
@@ -84,7 +84,6 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
     NSDictionary *dict = [NSDictionary dictionaryWithObject:color forKey:NSForegroundColorAttributeName];
     self.navigationController.navigationBar.titleTextAttributes = dict;
     self.navigationController.navigationBar.tintColor=[UIColor whiteColor];
-    // Do any additional setup after loading the view.
     imageView0 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"homeVCBackgroundImage"]];
     imageView1 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"进店"]];
     imageView2 = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"客忙"]];
@@ -114,7 +113,6 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
         [btn setContentEdgeInsets:UIEdgeInsetsMake(0, -10, 0, 0)];
         btn.imageEdgeInsets = UIEdgeInsetsMake(0,viewWidth/3,0,20);
         btn.titleLabel.font = [UIFont systemFontOfSize:15];//title字体大小
-//        [btn setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
         
         if (i == 0) {
             [btn setTitle:@"距离排序" forState:UIControlStateNormal];
@@ -178,80 +176,39 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
     if (btn.tag == 300) {
         sortNumber = 0;
         NSLog(@"距离排序sortNumber = 0;");
-        isRecent = !isRecent;
-        if (isRecent) {
             isMost = 0;
             isLowest = 0;
             [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//            [btn setImage:[UIImage imageNamed:@"up.png"] forState:UIControlStateNormal];
             most = @"";
             floor = @"";
-            
-            
-            [self setupRefresh];
-        }
-        else
-        {
-            isRecent = 0;
-            [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//            [btn setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
-        }
-//        [twoBtn setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
-//        [threeBtn setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
+            [self reRefresh];
         [twoBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [threeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
     else if (btn.tag == 301)
     {   sortNumber = 1;
         NSLog(@"销量排序sortNumber = 1");
-        isMost = !isMost;
-        if (isMost) {
+ 
             isRecent = 0;
             isLowest = 0;
             [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//            [btn setImage:[UIImage imageNamed:@"up.png"] forState:UIControlStateNormal];
             most = @"1";
             floor = @"";
-            
-            [self setupRefresh];
-        }
-        else
-        {
-            isMost = 0;
-            [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//            [btn setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
-        }
-        //        [btn setTitleColor:[UIColor getColor:@"50B847"] forState:UIControlStateNormal];
-        //        [btn setImage:[UIImage imageNamed:@"up.png"] forState:UIControlStateNormal];
-//        [oneBtn setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
-//        [threeBtn setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
+            [self reRefresh];
         [oneBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [threeBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
     else
     {   sortNumber = 2;
         NSLog(@"价格排序 sortNumber = 2");
-        isLowest = !isLowest;
-        if (isLowest) {
             isRecent = 0;
             isMost = 0;
             [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//            [btn setImage:[UIImage imageNamed:@"up.png"] forState:UIControlStateNormal];
             most = @"";
             floor = @"1";
-            [self setupRefresh];
-        }
-        else
-        {
-            isLowest = 0;
-            [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//            [btn setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
-        }
+            [self reRefresh];
         NSLog(@"价格最贵");
-        //        [btn setTitleColor:[UIColor getColor:@"50B847"] forState:UIControlStateNormal];
-        //        [btn setImage:[UIImage imageNamed:@"up.png"] forState:UIControlStateNormal];
-//        [oneBtn setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
-//        [twoBtn setImage:[UIImage imageNamed:@"down.png"] forState:UIControlStateNormal];
+      
         [oneBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [twoBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
@@ -272,8 +229,6 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
     }
 }
 -(void)startUploadLatAndLonWith:(NSInteger)Type isHeaderRefresh:(BOOL)isHeaderRefresh{
-   
-    
     if (isHeaderRefresh) {
         page = 1;
     }else{
@@ -288,7 +243,9 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
     WS(weakSelf)
     [XTRequestManager GET:kXTGoToShop parameters:prama responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
         NSLog(@"到店页返回的数据是%@",responseObject);
-       
+        if (isHeaderRefresh) {
+            [ToShopCellModelArr removeAllObjects];
+        }
         if ([responseObject[@"overflow"] isEqualToString:@"0"]) {
             dataHasMore = YES;
         }else{
@@ -303,7 +260,7 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
         [weakSelf applyDataFromResponseObject];
     } failure:^(NSError *error) {
         
-        [self loadiewFinished];
+        [weakSelf loadiewFinished];
     }];
 }
 #pragma mark- 设置数据
@@ -337,24 +294,29 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
                                         reuseIdentifier:CellIdentifier1];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    if (ToShopCellModelArr.count>0) {
+    if (ToShopCellModelArr.count >0) {
         cell.toShopCellModel = ToShopCellModelArr[indexPath.row];
         cell.shopCel_delegate = self;
     }
-    
-    
         return cell;
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    ToShopCellModel*model = ToShopCellModelArr[indexPath.row];
-    ShopDetailVC *push = [[ShopDetailVC alloc]init];
-    push.shopID =model.shopID;
-    push.title = @"商家";
-    [self.navigationController pushViewController:push animated:YES];
+    [self doThisIfUserInfoExist:^{
+        if (ToShopCellModelArr.count>0) {
+            ToShopCellModel*model = ToShopCellModelArr[indexPath.row];
+            if (StringNonNull(model.shopID)) {
+                ShopDetailVC *push = [[ShopDetailVC alloc]init];
+                push.shopID =model.shopID;
+                push.title = @"商家";
+                [self.navigationController pushViewController:push animated:YES];
+            }
+        }else{
+            [MBProgressHUD showError:@"请等待刷新完成"];
+        } 
+    }];
     
 }
 - (void)didSelectCellRowFirstDo:(BOOL)firstDoInsert nextDo:(BOOL)nextDoInsert
@@ -402,6 +364,20 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
     //
 }
 #pragma mark 下拉刷新
+-(void)reRefresh{
+        [XTRequestManager cancelAllRequests];
+    
+    if ([toShopTable isHeaderRefreshing]||[toShopTable isFooterRefreshing]) {
+        [self loadiewFinished];
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [toShopTable headerBeginRefreshing];
+        });
+    }else{
+        [toShopTable headerBeginRefreshing];
+    }
+    
+}
 - (void)setupRefresh
 {
     // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
@@ -414,6 +390,7 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
 }
 - (void)loadiewFinished
 {
+//    [MBProgressHUD hideHUDForView:self.view animated:YES];
     [toShopTable headerEndRefreshing];
     [toShopTable footerEndRefreshing];
 }
@@ -433,21 +410,11 @@ static NSString *CellIdentifier1 = @"cellidentifer1";
 
 - (void)headerRereshing
 {
-    [ToShopCellModelArr removeAllObjects];
+    
     [self uploadLatAndLonWith:sortNumber isHeaderRefresh:YES];
-//    Lat = [jingWeiDu getLattitude];
-//    Lon = [jingWeiDu getLongitude];
-//    [shopArr removeAllObjects];
-//    [dataArr removeAllObjects];
-//    projectPage = 1;
-//    projectHasMore = NO;
-//    shopPage = 1;
-//    shopHasMore = NO;
+
 }
 #pragma mark - 接收到通知消息页面自动刷新
--(void)viewWillAppear:(BOOL)animated{
-    
-}
 
 
 -(void)dealloc{

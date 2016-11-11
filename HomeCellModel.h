@@ -13,4 +13,5 @@
 @property (nonatomic ,copy) NSString *distance;
 @property (nonatomic ,copy) NSString *name;
 @property (nonatomic ,copy) NSString *shopID;
+@property (nonatomic ,copy) NSString *shopAddress;
 @end

@@ -5,6 +5,9 @@
 //  Created by Admin on 16/4/13.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
+#import "MyCollectViewController.h"
+#import "OrderedViewController.h"
+#import "SlideViewController.h"
 #import "UserCenterViewController.h"
 #import "CZViewController.h"
 #import "MyOrderViewController.h"
@@ -13,6 +16,7 @@
 #import "SettingViewController.h"
 #import "FeedbackViewController.h"
 #import "MyFocusViewController.h"
+#import "AboutUsViewController.h"
 @interface MineViewController ()<UITableViewDelegate,UITableViewDataSource,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
     UITableView *m_mineTtabView;
@@ -34,11 +38,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.view.backgroundColor = [UIColor whiteColor];
     UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"homeVCBackgroundImage"]];
     imageView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     [self.view addSubview:imageView];
-    m_mineArr = [[NSMutableArray alloc]initWithObjects:@"个人信息"/*,@"充值"*/,@"我的关注",@"我的订单",@"我的消息",@"意见反馈",@"设置", nil];
+    m_mineArr = [[NSMutableArray alloc]initWithObjects:@"个人信息"/*,@"充值"*/,@"我的关注",@"我的收藏",@"服务订单",/*@"我的消息",*/@"意见反馈",@"关于我们",@"设置", nil];
     
 //    self.navigationItem.rightBarButtonItem = [self phoneButton];
     
@@ -58,13 +63,13 @@
     headerView.backgroundColor = [UIColor clearColor];
     
     self.avatarImage = [[UIImageView alloc]init];
-    self.avatarImage.backgroundColor = [UIColor getColor:@"3b2935"];
+    self.avatarImage.backgroundColor = [UIColor clearColor];
     self.avatarImage.layer.cornerRadius = self.avatarImage.bounds.size.width/2.0;
     self.avatarImage.layer.cornerRadius = 45;
     self.avatarImage.layer.borderColor = [[UIColor whiteColor] colorWithAlphaComponent:0.75].CGColor;
     self.avatarImage.layer.borderWidth = 2.0;
     self.avatarImage.clipsToBounds = YES;
-    self.avatarImage.contentMode = UIViewContentModeScaleAspectFit;
+    self.avatarImage.contentMode = UIViewContentModeScaleToFill;
     [headerView addSubview:self.avatarImage];
     
     UIImageView *topimageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"我的"]];
@@ -183,7 +188,7 @@
     .bottomSpaceToView(lineView,1)
     .heightIs(1)
     .widthIs(kScreenWidth);
-    
+  
     lineView3.sd_layout
     .topSpaceToView(lineView,1)
     .heightIs(1)
@@ -208,10 +213,27 @@
     .widthIs(90);
    */
     
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(someInfoChanged) name:@"UserInfoChanged" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginOutNotification) name:@"loginOut" object:nil];
+    if ([YCUserModel userId]) {
+        [self getRequestData];
+    }else{
+        UserLoginController *a = [[UserLoginController alloc]init];
+        MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
+        [self.navigationController presentViewController:naVC animated:YES completion:nil];
+    }
+    
 }
-
--(void)viewWillAppear:(BOOL)animated{
+-(void)loginOutNotification{
+    [MBProgressHUD showSuccess:@"退出成功"];
+    self.tabBarController.selectedIndex = 0;
+}
+-(void)someInfoChanged{
     [self getRequestData];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+       
 }
 
 
@@ -241,15 +263,42 @@
 }
 #pragma mark - http
 -(void)getRequestData{
+    
+
+    
     WS(weakSelf)
     [SomeOtherRequest GetMineInfoWithUserID:[YCUserModel userId] success:^(id response) {
         NSLog(@"‘我的’页面返回数据:%@",response);
-        weakSelf.imageUrl = [NSString stringWithFormat:@"%@",response[@"headimgurl"]];
-        weakSelf.nickName = [NSString stringWithFormat:@"%@",response[@"nickname"]];
-        weakSelf.telNum = [NSString stringWithFormat:@"%@",response[@"tel"]];
+        if (response[@"headimgurl"]==nil||response[@"headimgurl"] == [NSNull null])
+        {
+            weakSelf.imageUrl = @"";
+        }
+        else
+        {
+            weakSelf.imageUrl = [NSString stringWithFormat:@"%@",response[@"headimgurl"]];
+        }
+        //
+        if (response[@"nickname"]==nil||response[@"nickname"] == [NSNull null])
+        {
+            weakSelf.nickName = @"";
+        }
+        else
+        {
+            weakSelf.nickName = [NSString stringWithFormat:@"%@",response[@"nickname"]];
+        }
+        //
+        if (response[@"tel"]==nil||response[@"tel"] == [NSNull null])
+        {
+            weakSelf.telNum = @"";
+        }
+        else
+        {
+            weakSelf.telNum = [NSString stringWithFormat:@"%@",response[@"tel"]];
+        }
         
-        [weakSelf.avatarImage sd_setImageWithURL:URLWITHSTRING(response[@"headimgurl"])];
-        weakSelf.nameLbel.text = response[@"nickname"];
+        //applyData
+        [weakSelf.avatarImage sd_setImageWithURL:URLWITHSTRING(weakSelf.imageUrl)];
+        weakSelf.nameLbel.text = weakSelf.nickName;
     } error:^(id response) {
         
     }];
@@ -318,38 +367,68 @@
     }
     else if([[m_mineArr objectAtIndex:indexPath.row] isEqualToString:@"意见反馈"])
     {
-        FeedbackViewController *feedbackCtr = [[FeedbackViewController alloc]init];
-        feedbackCtr.title = @"意见反馈";
-        [self.navigationController pushViewController:feedbackCtr animated:YES];
+        WS(weakSelf)
+        [self doThisIfUserInfoExist:^{
+            FeedbackViewController *feedbackCtr = [[FeedbackViewController alloc]init];
+            feedbackCtr.title = @"意见反馈";
+            [weakSelf.navigationController pushViewController:feedbackCtr animated:YES];
+        }];
     }
     else if([[m_mineArr objectAtIndex:indexPath.row] isEqualToString:@"设置"])
     {
-        SettingViewController *setCtr = [[SettingViewController alloc]init];
-        setCtr.title = @"设置";
-        [self.navigationController pushViewController:setCtr animated:YES];
+        WS(weakSelf)
+        [self doThisIfUserInfoExist:^{
+            SettingViewController *setCtr = [[SettingViewController alloc]init];
+            setCtr.title = @"设置";
+            [weakSelf.navigationController pushViewController:setCtr animated:YES];
+        }];
     }
     else if([[m_mineArr objectAtIndex:indexPath.row] isEqualToString:@"我的关注"])
     {
-        MyFocusViewController *fucu = [[MyFocusViewController alloc]init];
-        [self.navigationController pushViewController:fucu animated:YES];
+        WS(weakSelf)
+        [self doThisIfUserInfoExist:^{
+            MyFocusViewController *fucu = [[MyFocusViewController alloc]init];
+            [weakSelf.navigationController pushViewController:fucu animated:YES];
+        }];
     }
-    else if([[m_mineArr objectAtIndex:indexPath.row] isEqualToString:@"我的订单"])
+    else if([[m_mineArr objectAtIndex:indexPath.row] isEqualToString:@"我的收藏"])
     {
-        MyOrderViewController *orderVC = [[MyOrderViewController alloc]init];
-        [self.navigationController pushViewController:orderVC animated:YES];
+        WS(weakSelf)
+        [self doThisIfUserInfoExist:^{
+            MyCollectViewController *fucu = [[MyCollectViewController alloc]init];
+            [weakSelf.navigationController pushViewController:fucu animated:YES];
+        }];
+    }
+    else if([[m_mineArr objectAtIndex:indexPath.row] isEqualToString:@"服务订单"])
+    {
+        WS(weakSelf)
+        [self doThisIfUserInfoExist:^{
+            OrderedViewController *orderVC = [[OrderedViewController alloc]init];
+            [weakSelf.navigationController pushViewController:orderVC animated:YES];
+        }];
     }
     else if([[m_mineArr objectAtIndex:indexPath.row] isEqualToString:@"个人信息"])
     {
-        UserCenterViewController *orderVC = [[UserCenterViewController alloc]init];
-        orderVC.imageUrl = self.imageUrl;
-        orderVC.nickName = self.nickName;
-        orderVC.telNum = self.telNum;
-        [self.navigationController pushViewController:orderVC animated:YES];
+        WS(weakSelf)
+        [self doThisIfUserInfoExist:^{
+            UserCenterViewController *orderVC = [[UserCenterViewController alloc]init];
+            orderVC.imageUrl = self.imageUrl;
+            orderVC.nickName = self.nickName;
+            orderVC.telNum = self.telNum;
+            [weakSelf.navigationController pushViewController:orderVC animated:YES];
+        }];
     }
-
+    else if([[m_mineArr objectAtIndex:indexPath.row] isEqualToString:@"关于我们"])
+    {
+        AboutUsViewController *aboutUs = [[AboutUsViewController alloc]init];
+        [self.navigationController pushViewController:aboutUs animated:YES];
+    }
 }
 
-
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }

@@ -5,11 +5,14 @@
 //  Created by Admin on 16/8/15.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
-
+#import "MainTabBarController.h"
+#import "WXApiObject.h"
+#import "Order.h"
 #import "PayViewController.h"
 #import "PayFirstTableViewCell.h"
 #import "PayCell.h"
-
+#import "WXHander.h"
+#import "WXApi.h"
 @interface PayViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView *tableView;
 @property(nonatomic,strong) UIButton *payCommit;
@@ -45,21 +48,49 @@
  *
  */
 -(void)payCommitBtnClicked:(UIButton *)button{
-    
+    WS(weakSelf)
+    SHOWHUD
     if (self.count ==0) {
+//        BOOL isInstallWX = [WXApi isWXAppInstalled]&&[WXApi isWXAppSupportApi];
+//        if (!isInstallWX) {
+//            [MBProgressHUD showError:@"发起支付失败"];
+//            return;
+//        }
+        /**
+         *  微信支付
+         */
+        [SomeOtherRequest getPayParameterWithOrderNumber:self.orderNumber andPayTape:PayTypeWX success:^(id response) {
+            NSLog(@"微信请求返回的结果是:%@",response);
+            HIDEHUDWeakSelf
+            NSString *res = [WXHander jumpToBizPay:response];
+            if( ![@"" isEqual:res] ){
+                UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"支付失败" message:res delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alter show];
+            }else{
+//                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                MainTabBarController *tabBarVC=[[MainTabBarController alloc]init];
+                [UIApplication sharedApplication].keyWindow.rootViewController=tabBarVC;
+                tabBarVC.selectedIndex = 3;
+            }
+        } error:^(id response) {
+            HIDEHUDWeakSelf
+        }];
+        
+    }else if (self.count == 1){
+//        [MBProgressHUD showSuccess:@"发起微信支付请求"];
         [MBProgressHUD showSuccess:@"发起支付宝支付请求"];
         /**
          *  支付宝支付
-         *
          */
-    }else if (self.count == 1){
-        [MBProgressHUD showSuccess:@"发起微信支付请求"];
-        /**
-         *  微信支付
-         *
-         */
+        [SomeOtherRequest getPayParameterWithOrderNumber:self.orderNumber andPayTape:PayTypeAlipay success:^(id response) {
+            NSLog(@"支付宝请求返回的结果是:%@",response);
+            HIDEHUDWeakSelf
+        } error:^(id response) {
+            HIDEHUDWeakSelf
+        }];
     }else{
-        [MBProgressHUD showError:@"请选择一种支付方式"];
+        HIDEHUD
+        [MBProgressHUD showError:@"请选择支付方式"];
         return;
     }
 }
@@ -77,7 +108,7 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return section == 0?1:2;
+    return section == 0?1:1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -92,6 +123,10 @@
         PayFirstTableViewCell *cell = (PayFirstTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.userInteractionEnabled = NO;
+        cell.orderNumberLabel.text = [NSString stringWithFormat:@"订单号:%@",self.orderNumber];
+        cell.totalPriceLabel.text =  [NSString stringWithFormat:@"%@元",self.totalPrice];
+        cell.namesLabel.text = @"总价";
+        
         return cell;
     }
     else
@@ -107,15 +142,13 @@
         cell.view.layer.cornerRadius = 10;
         cell.view.layer.borderWidth = 1;
         if(indexPath.row==0){
-            cell.name.text = @"支付宝支付";
-            cell.content.text = @"推荐有支付宝账号的用户使用";
-            //            cell.image.image = [UIImage imageNamed:@"UMS_alipay_off"];
+            cell.name.text = @"微信支付";
+            cell.content.text = @"推荐安装微信5.0及以上版本的用户使用";
             
         }else
         {
-            cell.name.text = @"微信支付";
-            cell.content.text = @"推荐安装微信5.0及以上版本的用户使用";
-            //            cell.image.image = [UIImage imageNamed:@"UMS_wechat_icon"];
+            cell.name.text = @"支付宝支付";
+            cell.content.text = @"推荐有支付宝账号的用户使用";
         }
         
         
@@ -128,6 +161,13 @@
     PayCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     cell.view.backgroundColor = COLOR;
     if (indexPath.row == 0) {
+        if (![WXApi isWXAppInstalled]) {
+            [MBProgressHUD showError:@"无法选择此方式支付"];
+            return;
+        }else if (![WXApi isWXAppSupportApi]){
+            [MBProgressHUD showError:@"无法选择此方式支付"];
+            return;
+        }
         self.count = 0;
     }
     else if (indexPath.row ==1 ){

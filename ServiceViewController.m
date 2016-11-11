@@ -52,17 +52,20 @@
 }
 #pragma mark - 网络请求
 -(void)getRequestData{
-    NSLog(@"项目页面请求的参数pid=:%@",self.projectID);
+    SHOWHUD
+    NSLog(@"项目页面请求的参数id=:%@",self.projectID);
+    WS(weakSelf)
     [XTRequestManager GET:kXTCommonAPIConstantProject parameters:@{@"id":self.projectID} responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
        NSLog(@"项目页面请求的response = %@",responseObject);
        arr = responseObject[@"projbanner"];
         
         _projectModel = [[ProjectModal alloc]initFromDictionary:responseObject[@"project"]];
+        HIDEHUDWeakSelf
         [self setscrollview];
         [self applyData];
         [self setserviceintroduceView];
    } failure:^(NSError *error) {
-       
+       HIDEHUDWeakSelf
    }];
 }
 
@@ -104,16 +107,11 @@
 }
 
 -(void)setscrollview{
-    
-    
     topScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200) imageNamesGroup:arr];
     /** 设置占位图*/
     topScrollView.placeholderImage = [UIImage imageNamed:@"placeholderImage"];
     /** 添加到当前View上*/
     [self.scrollview addSubview:topScrollView];
-    
-    
-    
 }
 
 -(void)setcommentsView{
@@ -137,21 +135,28 @@
 
 -(void)moreBtnClicked:(UIButton *)button{
     
-    
-    TechCommentVController *techComment = [[TechCommentVController alloc]init];
-    techComment.para = @{@"tid":_projectModel.technicianID};
-    [self.navigationController pushViewController:techComment animated:YES];
+    if (StringNonNull(_projectModel.technicianID)) {
+        TechCommentVController *techComment = [[TechCommentVController alloc]init];
+        techComment.para = @{@"tid":_projectModel.technicianID};
+        [self.navigationController pushViewController:techComment animated:YES];
+    }else{
+        NSLog(@"数据还没加载完成");
+    }
     
 }
 
 
 
 -(void)techViewClicked{
+    if (StringNonNull(_projectModel.technicianID)) {
+        TechViewController *techVC = [[TechViewController alloc]init];
+        NSLog(@"技师ID是%@",_projectModel.technicianID);
+        techVC.techID = _projectModel.technicianID;
+        [self.navigationController pushViewController:techVC animated:YES];
+    }else{
+        NSLog(@"数据还没加载完成");
+    }
     
-    TechViewController *techVC = [[TechViewController alloc]init];
-    NSLog(@"技师ID是%@",_projectModel.technicianID);
-    techVC.techID = _projectModel.technicianID;
-    [self.navigationController pushViewController:techVC animated:YES];
 }
 -(void)settechnameView{
     self.techView = [[UIView alloc]initWithFrame:CGRectMake(0, 350, kScreenWidth, 100)];
@@ -291,10 +296,16 @@
     [self.view addSubview:orderBtn];
 }
 -(void)orderBtnClicked{
-    OrderViewController *yuyue = [[OrderViewController alloc]init];
-    yuyue.projectModal = [[ProjectModal alloc]init];
-    yuyue.projectModal = _projectModel;
-    [self.navigationController pushViewController:yuyue animated:YES];
+    
+    
+    
+    if (_projectModel!=nil&&_projectModel.projectID!=nil&&_projectModel.projectID.length!=0&&_projectModel.technicianID.length!=0&&_projectModel.technicianID!=nil) {
+        OrderViewController *yuyue = [[OrderViewController alloc]init];
+        yuyue.projectModal = [[ProjectModal alloc]init];
+        yuyue.projectModal = _projectModel;
+        [self.navigationController pushViewController:yuyue animated:YES];
+    }
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -152,7 +152,8 @@
     }
     else
     {
-        self.distance = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJDistance]];
+        
+        self.distance = [NSString stringWithFormat:@"%.1f",[[dic objectForKey:XXJDistance]floatValue]];
     }
    
     

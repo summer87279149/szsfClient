@@ -32,21 +32,23 @@
     //初始化数据
     allPrice = 0.0;
     infoArr = [[NSMutableArray alloc]initWithCapacity:0];
-    [self getRequestData];
-    /**
-     创建表格，并设置代理
-     */
-    _MyTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-64) style:UITableViewStylePlain];
-    _MyTableView.dataSource = self;
-    _MyTableView.delegate = self;
-    _MyTableView.showsVerticalScrollIndicator = NO;
-    //给表格添加一个尾部视图
-    _MyTableView.tableFooterView = [self creatFootView];
-    _MyTableView.backgroundColor = [UIColor clearColor];
-  
-    [self.view addSubview:_MyTableView];
+    
+//    [self getRequestData];
+    if ([YCUserModel userId]) {
+        SHOWHUD
+        [self getRequestData];
+    }else{
+        UserLoginController *a = [[UserLoginController alloc]init];
+        MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
+        [self.navigationController presentViewController:naVC animated:YES completion:nil];
+    }
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
 }
 -(void)getRequestData{
+    
     [SomeOtherRequest GetProductCarWithUserID:[YCUserModel userId] success:^(id response) {
         NSLog(@"购物车的返回结果是:%@,%@",response,[YCUserModel userId]);
         //封装数据模型
@@ -56,13 +58,30 @@
             GoodsInfoModel *goodsModel = [[GoodsInfoModel alloc]initWithDict:dic];
             [infoArr addObject:goodsModel];
         }
-        [_MyTableView reloadData];
+        [self createTableView];
+        
     } error:^(id response) {
+        HIDEHUD
     }];
+    
 }
 
 
-
+-(void)createTableView{
+    /**
+     创建表格，并设置代理
+     */
+    _MyTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
+    _MyTableView.dataSource = self;
+    _MyTableView.delegate = self;
+    _MyTableView.showsVerticalScrollIndicator = NO;
+    //给表格添加一个尾部视图
+    _MyTableView.tableFooterView = [self creatFootView];
+    _MyTableView.backgroundColor = [UIColor clearColor];
+    
+    [self.view addSubview:_MyTableView];
+    HIDEHUD
+}
 
 /**
  *  创建表格尾部视图
@@ -124,6 +143,10 @@
             [requestArr addObject:dic];
             [pushInfoArr addObject:goodsModel];
         }
+    }
+    if (requestArr.count == 0) {
+        [MBProgressHUD showError:@"没有已选择的商品"];
+        return;
     }
     BuyVC *buy = [[BuyVC alloc]init];
     buy.infoArr = [NSMutableArray arrayWithArray:pushInfoArr];
@@ -251,6 +274,7 @@
     switch (flag) {
         case 11:
         {
+            
             NSIndexPath *index = [_MyTableView indexPathForCell:cell];
             GoodsInfoModel *model = infoArr[index.row];
             //做减法
@@ -266,11 +290,12 @@
                     [_MyTableView reloadData];
                     //计算总价
                     [weakSelf totalPrice];
+                    [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
                 } error:^(id response) {
-                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                    [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
                 }];
                 
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                
             }
         }
             break;
@@ -287,14 +312,16 @@
                 [_MyTableView reloadData];
                 //计算总价
                 [weakSelf totalPrice];
+                [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
             } error:^(id response) {
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
             }];
             
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            
         }
             break;
         default:
+            
             break;
     }
     
@@ -310,7 +337,7 @@
         GoodsInfoModel *model = [infoArr objectAtIndex:i];
         if (model.selectState)
         {
-            allPrice = allPrice + model.goodsNum *[model.goodsPrice intValue];
+            allPrice = allPrice + model.goodsNum *[model.goodsPrice floatValue];
         }
     }
     

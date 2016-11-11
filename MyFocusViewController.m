@@ -32,12 +32,10 @@
     [_tableView addHeaderWithTarget:self action:@selector(headerRereshing)];
     // 自动刷新(一进入程序就下拉刷新)
     [_tableView headerBeginRefreshing];
-    [_tableView headerEndRefreshing];
     [self.view addSubview:_tableView];
     
 }
 -(void)headerRereshing{
-    [myFocusTableCellModelArr removeAllObjects];
     [self getRequestData];
 }
 
@@ -45,6 +43,8 @@
     NSLog(@"我的userid是:%@",[YCUserModel userId]);
     WS(weakSelf)
     [SomeOtherRequest GetMyFocusTecWithUserID:[YCUserModel userId] success:^(id response) {
+        NSLog(@"我的关注返回:%@",response);
+        [myFocusTableCellModelArr removeAllObjects];
         NSArray *arr = response;
         for(NSDictionary *dic in arr){
             myFocusCellModel = [[MyFocusCellModel alloc]initFromDictionary:dic];
@@ -53,26 +53,48 @@
         [weakSelf applyData];
         NSLog(@"我的关注的技师是 %@",response);
     } error:^(id response) {
-        
     }];
 }
+
 -(void)applyData{
-    
     [_tableView reloadData];
     [self loadFinished];
 }
+
 -(void)loadFinished{
     [_tableView headerEndRefreshing];
+}
+
+#pragma  mark tableViewDelegate and DataSource
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"取消关注";
+}
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    MyFocusCellModel *model = myFocusTableCellModelArr[indexPath.row];
+    [SomeOtherRequest UserCancelFocusWithTecID:model.technicianID UserID:[YCUserModel userId] success:^(id response) {
+        NSLog(@"取消关注的技师名字是:%@",model.techName);
+        // 从数据源中删除
+        [myFocusTableCellModelArr removeObjectAtIndex:indexPath.row];
+        // 从列表中删除
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    } error:^(id response) {
+         [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
     
 }
-#pragma  mark tableViewDelegate and DataSource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-
     return 100.0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
     return myFocusTableCellModelArr.count;
 }
 

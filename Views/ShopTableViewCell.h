@@ -17,9 +17,6 @@
 @end
 
 @interface ShopTableViewCell : UITableViewCell
-
-
-
 @property(nonatomic,strong)UIImageView *imageView;
 @property(nonatomic,strong)UILabel *titleLbl;
 @property(nonatomic,strong)UILabel *descriptionLbl;

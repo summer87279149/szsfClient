@@ -16,5 +16,6 @@
 
 // 显示提示框
 + (void)alertViewDisplayTitle:(NSString *)title andMessage:(NSString *)message andDisplayValue:(double)value;
-
+// md5加密
++(NSString *)MD5ForUpper32Bate:(NSString *)str;
 @end

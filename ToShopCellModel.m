@@ -79,7 +79,8 @@
     }
     else
     {
-        self.star = [dic[XXstar] floatValue];;
+        NSString *str = [NSString stringWithFormat:@"%.1f", [[dic objectForKey:XXstar]floatValue]];
+        self.star = [str floatValue];
     }
     
     //juli
@@ -89,7 +90,7 @@
     }
     else
     {
-        self.near = [NSString stringWithFormat:@"%@km",[dic objectForKey:XXnear]];
+        self.near = [NSString stringWithFormat:@"%.1f",[[dic objectForKey:XXnear]floatValue]];
     }
 
 }

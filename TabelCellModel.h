@@ -13,7 +13,7 @@
 @property(nonatomic,copy)NSString *name;
 
 //附近多少人可约
-@property(nonatomic,copy)NSString *distance;
+@property(nonatomic,copy)NSString *number;
 
 @property(nonatomic,copy)NSString *pid;
 @end

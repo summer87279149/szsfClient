@@ -56,12 +56,11 @@
     // 自动刷新(一进入程序就下拉刷新)
     [tableview headerBeginRefreshing];
     //2.上拉加载更多(进入刷新状态就会调用self的footerRereshing)
-    [tableview addFooterWithTarget:self action:@selector(footerRereshing)];
+//    [tableview addFooterWithTarget:self action:@selector(footerRereshing)];
 }
 -(void)headerRereshing{
-    //把数组全部清空，重新请求数据
-    [toMyHomeCellModelArr removeAllObjects];
-    [tabelCellModelArr removeAllObjects];
+    
+    
     Page = 1;
     HasMore = NO;
     [self uploadLatAndLonWithProjectID:self.projectID isHeaderRefresh:YES ];
@@ -93,15 +92,21 @@
 -(void)startUploadLatAndLon:(NSString *)projectID isHeaderRefresh:(BOOL)isHeaderRefresh{
     if (isHeaderRefresh) {
         Page = 1;
+        //把数组全部清空，重新请求数据
     }else{
         ++Page;
     }
     NSNumber *pageNum = [NSNumber numberWithInteger:Page];
-    NSDictionary *prama = @{@"lng":lon,@"lat":lat,@"techbyproj":projectID,@"page":pageNum};
+    NSDictionary *prama = @{@"lng":lon,@"lat":lat,@"pid":projectID,@"page":pageNum};
+    
     WS(weakSelf)
     [XTRequestManager GET:kToMyHome parameters:prama responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
-//        NSLog(@"====%@",responseObject);
-        NSArray *technician = responseObject[@"technician"];
+        NSLog(@"项目查询技师的参数是  %@,请求地址是:%@,返回数据是:  %@",prama,kToMyHome,responseObject);
+        if (isHeaderRefresh) {
+            [toMyHomeCellModelArr removeAllObjects];
+            [tabelCellModelArr removeAllObjects];
+        }
+        NSArray *technician = responseObject[@"techbyproj"];
         if ([responseObject[@"overflow"] isEqualToString:@"0"]) {
             HasMore = YES;
         }else{
@@ -120,6 +125,7 @@
 -(void)applyDataFromResponseObject{
     [tableview reloadData];
     [tableview headerEndRefreshing];
+    [tableview footerEndRefreshing];
 }
 #pragma mark - TableviewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -145,11 +151,17 @@
 }
 #pragma mark ======ToMyHomeTableViewCellDelegate=======
 -(void)cellOrderBtnClicked:(NSInteger)row{
-    ToMyHomeCellModel *model = toMyHomeCellModelArr[row];
-    NSLog(@"当前点击了第%lu个cell",row);
-    TechViewController * tech = [[TechViewController alloc]init];
-    tech.techID = model.techID;
-    [self.navigationController pushViewController:tech animated:YES];
+    if ([YCUserModel userId]) {
+        ToMyHomeCellModel *model = toMyHomeCellModelArr[row];
+        NSLog(@"当前点击了第%lu个cell",row);
+        TechViewController * tech = [[TechViewController alloc]init];
+        tech.techID = model.techID;
+        [self.navigationController pushViewController:tech animated:YES];
+    }else{
+        UserLoginController *a = [[UserLoginController alloc]init];
+        MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
+        [self.navigationController presentViewController:naVC animated:YES completion:nil];
+    }    
 }
 
 

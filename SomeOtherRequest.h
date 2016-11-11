@@ -7,9 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+
+typedef NS_ENUM(NSUInteger, PayType) {
+    PayTypeWX,
+    PayTypeAlipay,
+};
 typedef void(^Success)(id response);
 typedef void(^Error)(id response);
 @interface SomeOtherRequest : NSObject
+@property (nonatomic, strong) AFNetworkReachabilityManager *manager;
 /**
  *  关注某个技师
  *
@@ -32,10 +38,8 @@ typedef void(^Error)(id response);
  */
 +(void)GetMyFocusTecWithUserID:(NSString *)user success:(void (^)(id response))xt_success error:(Error)xt_error;
 
-
 /**
  *  用户建议
- *
  *  @param suggestion 建议内容
  *  @param user       用户id
  *  @param success    成功回调
@@ -43,20 +47,18 @@ typedef void(^Error)(id response);
 +(void)UserSuggestion:(NSString*)suggestion UserID:(NSString *)user success:(Success)xt_success error:(Error)xt_error;
 
 /**
- *  查询订单   我的订单
+ *  查询商品订单   我的商品订单
  *
  *  @param userID     用户id
  *  @param typeNumber 订单类型0/1
  *  @param xt_success 成功回调
  *  @param xt_error   失败回调
  */
-+(void)QueryOrderFormWithUserID:(NSString *)userID FormType:(NSInteger)typeNumber success:(Success)xt_success error:(Error)xt_error;
++(void)QueryOrderFormWithUserID:(NSString *)userID FormType:(NSInteger)typeNumber page:(NSInteger)page isHeaderRefresh:(BOOL)isHeaderRefresh success:(Success)xt_success error:(Error)xt_error;
 
 /**
  *  "我的"页面
- *
  *  @param userID 用户id
- 
  */
 +(void)GetMineInfoWithUserID:(NSString *)userID success:(Success)xt_success error:(Error)xt_error;
 /**
@@ -172,5 +174,102 @@ typedef void(^Error)(id response);
  *  @param xt_error   <#xt_error description#>
  */
 +(void)GetCommentWith:(id)para success:(Success)xt_success error:(Error)xt_error;
+/**
+ *  订单支付的支付类型选择
+ *
+ *  @param orderNumber 订单号
+ *  @param payType     支付类型
+ *  @param xt_success
+ *  @param xt_error
+ */
++(void)getPayParameterWithOrderNumber:(NSString*)orderNumber andPayTape:(PayType)payType success:(Success)xt_success error:(Error)xt_error;
+
+/**
+ *  查询我的服务订单
+ *  @param userID           user ID
+ *  @param isComplete       查询“已完成”还是“未完成”订单
+ *  @param page             page
+ *  @param isHeaderRefresh  是否是headerRefresh
+ *  @param xt_success
+ *  @param xt_error
+ */
+
++(void)queryMyOrderNumberWithUserID:(NSString *)userID isComplete:(NSString *)isComplete  page:(NSInteger)page isHeaderRefresh:(BOOL)isHeaderRefresh success:(Success)xt_success error:(Error)xt_error;
+
+/**
+ *  商品页面 发表评价
+ *
+ *  @param userid   用户id
+ *  @param orderNum 订单号
+ *  @param scores   评分 填写 0～5分
+ *  @param content  评价内容
+ */
++(void)commentWithUserid:(NSString *)userid orderNum:(NSString*)orderNum stars:(float)scores content:(NSString *)content success:(Success)xt_success error:(Error)xt_error;
+/**
+ *  注册
+ *
+ *  @param telNumber  手机号码
+ *  @param psw        密码
+ *  @param code       短信验证码
+ *  @param xt_success
+ *  @param xt_error
+ */
++(void)registWith:(NSString *)telNumber password:(NSString *)psw smsCode:(NSString *)code success:(Success)xt_success error:(Error)xt_error;
+
+/**
+ *  重置密码
+ *
+ *  @param telNumber   手机号
+ *  @param newPassword 新密码
+ *  @param code        验证码
+ *  @param xt_success
+ *  @param xt_error
+ */
++(void)resetPasswordWith:(NSString *)telNumber password:(NSString *)newPassword smsCode:(NSString *)code success:(Success)xt_success error:(Error)xt_error;
+/**
+ *  发送短信验证码
+ */
++(void)sendVerifyCodeWithPhoneNumber:(NSString *)tel success:(Success)xt_success error:(Error)xt_error;
+/**
+ *  登入
+ *
+ *  @param tel        手机号
+ *  @param psw        密码
+ *  @param xt_success
+ *  @param xt_error
+ */
++(void)loginWithPhoneNumber:(NSString *)tel password:(NSString *)psw success:(Success)xt_success error:(Error)xt_error;
+
+/**
+ 收藏商铺
+
+ @param shopID     商铺id
+ @param userID     用户id
+ @param xt_success <#xt_success description#>
+ @param xt_error   <#xt_error description#>
+ */
++(void)collectShopID:(NSString *)shopID userID:(NSString *)userID success:(Success)xt_success error:(Error)xt_error;
+
+/**
+ 取消收藏店铺
+
+ @param shopID     <#shopID description#>
+ @param userID     <#userID description#>
+ @param xt_success <#xt_success description#>
+ @param xt_error   <#xt_error description#>
+ */
++(void)cancelCollectShopID:(NSString *)shopID userID:(NSString *)userID success:(Success)xt_success error:(Error)xt_error;
+/**
+ 查询我的收藏店铺
+
+ @param userID     <#userID description#>
+ @param xt_success <#xt_success description#>
+ @param xt_error   <#xt_error description#>
+ */
++(void)getMyCollectionShopByUserID:(NSString *)userID page:(NSInteger)page success:(Success)xt_success error:(Error)xt_error;
+
+
+
+
 
 @end

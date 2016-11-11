@@ -9,7 +9,8 @@
 #import "UserRegisterController.h"
 #import "UserTool.h"
 #import "KeyInputView.h"
-
+#import "MainTabBarController.h"
+#import "YinSiViewController.h"
 @interface UserRegisterController ()<UITextFieldDelegate>
 
 // 手机号
@@ -32,6 +33,7 @@
 
 // 注册按钮
 @property (weak, nonatomic) IBOutlet UIButton *registerBtn;
+@property (weak, nonatomic) IBOutlet UIButton *yinSiButton;
 
 @end
 
@@ -40,7 +42,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
- 
+    self.navigationItem.title = @"手机号注册";
     [self initUserRegisterView];
 }
 
@@ -71,9 +73,9 @@
     
     self.testNumText.inputAccessoryView = keyView;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+//    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -90,24 +92,15 @@
         //    业务逻辑
         [self.pushTestNumBtn setTitle:@"正在发送" forState:UIControlStateNormal];
         self.pushTestNumBtn.enabled = NO;
-        [self codeCountDown];
-//        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//        
-//        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-//        
-//        HttpBeanBase *listBean = [self bean5];
-//        
-//        [manager POST:listBean.funcName parameters:[listBean createParameters] success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//            NSString *msg = [responseObject objectForKey:@"message"];
-//            [MBProgressHUD showSuccess:msg];
-//            [self codeCountDown];
-//            
-//        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//            [btn setTitle:@"重新发送" forState:UIControlStateNormal];
-//            btn.enabled = YES;
-//            [MBProgressHUD showError:@"请检查网络"];
-//        }];
         
+        [self codeCountDown];
+        [SomeOtherRequest sendVerifyCodeWithPhoneNumber:self.phoneNumText.text success:^(id response) {
+            
+          
+        } error:^(id response) {
+ 
+       
+}];
     }else { // 手机号码格式错误
         
         [UserTool alertViewDisplayTitle:nil andMessage:@"请输入正确手机号" andDisplayValue:1.];
@@ -156,26 +149,6 @@
 
 
 
-// 显示密码
-- (IBAction)showPasswordClick:(UIButton *)sender {
-    
-    self.showPasswordBtn.selected = !self.showPasswordBtn.selected;
-    
-    if (self.showPasswordBtn.selected) {
-        
-        [self.passwordText setSecureTextEntry:NO];
-        
-        [self.showPasswordBtn setTitle:@"隐藏密码" forState:UIControlStateNormal];
-        
-    }else {
-        
-        [self.passwordText setSecureTextEntry:YES];
-        
-        [self.showPasswordBtn setTitle:@"显示密码" forState:UIControlStateNormal];
-    
-    }
-    
-}
 
 // 显示协议
 - (IBAction)agreementClick:(UIButton *)sender {
@@ -199,6 +172,10 @@
     }else
         return NO;
 }
+- (IBAction)yinSiButtonClicked:(UIButton *)sender {
+    YinSiViewController *yinsi = [[ YinSiViewController alloc]init];
+    [self.navigationController pushViewController:yinsi animated:YES];
+}
 // 注册
 - (IBAction)registerBtnClick:(UIButton *)sender {
     
@@ -216,11 +193,21 @@
      [UserTool alertViewDisplayTitle:nil andMessage:@"请输入正确格式的密码" andDisplayValue:1.];
         return;
     }
-        
-    
-    
-    
-
+    SHOWHUD
+    WS(weakSelf)
+        [SomeOtherRequest registWith:self.phoneNumText.text password:_passwordText.text smsCode:_testNumText.text success:^(id response) {
+            HIDEHUD
+            if ([response[@"status"] isEqualToString:@"success"]) {
+               [UserTool alertViewDisplayTitle:nil andMessage:response[@"msg"] andDisplayValue:1.];
+                [weakSelf.navigationController popViewControllerAnimated:YES];
+            }else{
+                [UserTool alertViewDisplayTitle:nil andMessage:response[@"msg"] andDisplayValue:1.];
+            }
+            
+        } error:^(id response) {
+            HIDEHUD
+            [UserTool alertViewDisplayTitle:nil andMessage:response[@"msg"] andDisplayValue:1.];
+        }];
 }
 
 
@@ -264,16 +251,13 @@
         [UIView animateWithDuration:1. animations:^{
             
             CGRect rect = self.view.frame;
-            
+
             rect.origin.y -= height * 0.4;
             
             self.view.frame = rect;
             
         }];
     }
-
-   
-    
 }
 
 // 键盘退出时调用
@@ -290,7 +274,7 @@
     if (self.isKey) {
         
         self.isKey = NO;
-        
+
         [UIView animateWithDuration:1. animations:^{
             
             CGRect rect = self.view.frame;

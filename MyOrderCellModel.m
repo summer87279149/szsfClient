@@ -5,13 +5,13 @@
 //  Created by Admin on 16/8/18.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
-#define XXJname         @""
-#define XXJstatus         @""
-#define XXJcounts         @""
-#define XXJprice         @""
-#define XXJimageUrl         @""
-#define XXJorderNnumber         @""
-
+#define XXJname             @"projectname"
+#define XXJstatus           @"orderstate"
+#define XXJcounts           @"num"
+#define XXJprice            @"totalprice"
+#define XXJimageUrl         @"logo"
+#define XXJorderNnumber     @"zid"
+#define XXJIsRemarked       @"isremarked"
 #import "MyOrderCellModel.h"
 
 @implementation MyOrderCellModel
@@ -78,7 +78,16 @@
         self.orderNnumber = [NSString stringWithFormat:@"%@",[dic objectForKey:XXJorderNnumber]];
     }
 
-    
+    // 是否评价过
+    if ([dic objectForKey:XXJIsRemarked]==nil||[dic objectForKey:XXJIsRemarked] == [NSNull null])
+    {
+        self.isRemarked = @"0";
+    }
+    else
+    {
+        self.isRemarked = [NSString stringWithFormat:@"%d",[[dic objectForKey:XXJIsRemarked] intValue]];
+    }
+
     
 }
 @end

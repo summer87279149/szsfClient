@@ -40,15 +40,29 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+   
+       self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancel)];
+    
     self.view.backgroundColor = [UIColor whiteColor];
     self.QQBtn.hidden = YES;
     self.WXBtn.hidden = YES;
     [self initUserLoginView];
 }
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+}
+-(void)cancel{
+    [self dismissViewControllerAnimated:YES completion:^{
+    }];
+}
+//-(void)setIsLoginOut:(int)isLoginOut{
+//    [[self.navigationController.navigationBar.subviews objectAtIndex:1] setHidden:YES];
+//    self.isLoginOut = isLoginOut;
+//}
 // 初始化登录页面
 - (void)initUserLoginView {
-    
+    self.navigationItem.title = @"登入";
     self.passwordText.delegate = self;
     
     self.phoneNumText.delegate = self;
@@ -82,9 +96,9 @@
     
     self.navigationItem.rightBarButtonItem = registerBar;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+//    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 
 }
 
@@ -121,58 +135,48 @@
     BOOL res = [UserTool isValidateMobile:self.phoneNumText.text];
     NSString *phoneNumber = self.phoneNumText.text;
     NSString *password = self.passwordText.text;
-    NSDictionary *dic = @{@"tel":phoneNumber,@"password":password};
     if (res) {
-       
-        [XTRequestManager GET:kUserLogin parameters:dic responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
-            NSLog(@"%@",responseObject[@"msg"]);
-            if ([responseObject[@"status"] isEqualToString:@"success"]) {
-                YCUserModel *User = [YCUserModel shareManager];
-                User.userId = responseObject[@"userid"];
-                [User save];
-                [MBProgressHUD showSuccess:responseObject[@"msg"]];
-                MainTabBarController *tabBarVC=[[MainTabBarController alloc]init];
+        SHOWHUD
 
-//                [weakSelf presentViewController:tabBarVC animated:YES completion:nil];
+        [SomeOtherRequest loginWithPhoneNumber:phoneNumber password:password success:^(id response) {
+            HIDEHUD
+            NSLog(@"%@",response);
+            if ([response[@"status"] isEqualToString:@"success"]) {
+                YCUserModel *User = [YCUserModel shareManager];
+                User.userId = response[@"userid"];
+                [User save];
+                [MBProgressHUD showSuccess:response[@"msg"]];
                 
-//                UIApplication *app =[UIApplication sharedApplication];
-//                 AppDelegate *app2 = app.delegate;
-                [UIApplication sharedApplication].keyWindow.rootViewController=tabBarVC;
-//                  self.view.window.rootViewController = tabBarVC;
-                
+                  
+                    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+  
+              
             }else{
-                [MBProgressHUD showError:responseObject[@"msg"]];
+                [MBProgressHUD showError:response[@"msg"]];
             }
-            
-        } failure:^(NSError *error) {
+        } error:^(id response) {
+            HIDEHUD
+            [UserTool alertViewDisplayTitle:nil andMessage:@"登入失败，请检查网络连接" andDisplayValue:1.];
         }];
     }else {
-    
         [UserTool alertViewDisplayTitle:nil andMessage:@"请输入正确手机号" andDisplayValue:1.];
     }
 }
 
 // 找回密码
 - (IBAction)findPasswordClick:(UIButton *)sender {
-    
     FindPwdViewController *find = [[FindPwdViewController alloc]init];
     [self.navigationController pushViewController:find animated:YES];
-    
-    
-    
 }
 
 
 - (void)registerBtnClick:(UIButton *)btn {
-
     [self.view endEditing:YES];
     [self.view resignFirstResponder];
     [_passwordText endEditing:YES];
     [_passwordText resignFirstResponder];
     UserRegisterController *regVC = [[UserRegisterController alloc] init];
-    
     [self.navigationController pushViewController:regVC animated:YES];
-    
 }
 
 #pragma mark textField代理

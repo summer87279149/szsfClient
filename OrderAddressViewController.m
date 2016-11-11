@@ -12,6 +12,7 @@
 
 
 -(void)viewDidLoad{
+    [super viewDidLoad];
     HaHaHaAddBackGroundImage
     [self configureData];
     [self configureViews];

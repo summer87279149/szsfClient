@@ -80,9 +80,9 @@
         
         self.imageView.sd_layout
         .leftSpaceToView(self,10)
-        .topSpaceToView(self,10)
+        .topSpaceToView(self,5)
         .widthIs(120)
-        .bottomSpaceToView(self,20);
+        .bottomSpaceToView(self,5);
 
         self.titleLbl.sd_layout
         .topSpaceToView(self,10)
@@ -131,7 +131,7 @@
     priceLbl.text = [NSString stringWithFormat:@"均价¥:%@",toShopCellModel.price];
     rView.score = toShopCellModel.star;
     starLbl.text = [NSString stringWithFormat:@"%.1f分",toShopCellModel.star];
-    nearLbl.text = toShopCellModel.near;
+    nearLbl.text = [NSString stringWithFormat:@"%@km",toShopCellModel.near];
 }
 
 

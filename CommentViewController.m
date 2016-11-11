@@ -16,6 +16,7 @@
     UILabel *wordCount;
     UILabel *projectName;
 }
+@property(nonatomic,assign)float socre;
 @end
 
 @implementation CommentViewController
@@ -36,6 +37,8 @@
     
     star = [[TQStarRatingView alloc]initWithFrame:CGRectMake(10, 30, kScreenWidth-20, (kScreenWidth-20)/5) numberOfStar:5];
     [star setScore:0.5 withAnimation:NO];
+    star.delegate=self;
+    self.socre = 0.5;
     [self.view addSubview:star];
 }
 -(void)createTextView{
@@ -95,20 +98,39 @@
 
 - (void)submitBtnPress
 {
-    [MBProgressHUD showError:@"没服务器"];
+    if(textview.text.length == 0){
+        [MBProgressHUD showError:@"请输入评价内容"];
+        return;
+    }
+    SHOWHUD
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    [SomeOtherRequest commentWithUserid:[YCUserModel userId] orderNum:self.orderNumber stars:self.socre  content:textview.text success:^(id response) {
+        NSLog(@"提交评价结果是:%@",response);
+        HIDEHUD
+        [MBProgressHUD showSuccess:@"评价成功"];
+        //评价完成发送通知，刷新我的订单tableview
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"commentFinish" object:nil];
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+        [self.navigationController popViewControllerAnimated:YES];
+        
+    } error:^(id response) {
+        HIDEHUD
+        [MBProgressHUD showError:@"评价失败，请检查网络"];
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    }];
 }
 
 
 #pragma mark starDelegate
 -(void)starRatingView:(TQStarRatingView *)view score:(float)score{
-    
-//    NSLog(@"star == %f",score);
+    self.socre = score;
+   NSLog(@"star == %f",score);
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-    if(range.location > 100){
+    if(range.location > 60){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
-                                                        message:@"输入的自字符数不能超过100"
+                                                        message:@"输入的自字符数不能超过60"
                                                        delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil];
         [alert show];
         

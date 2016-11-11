@@ -33,7 +33,7 @@ UIKIT_EXTERN NSString *const kXTCommonAPIConstantShopDetail;
 UIKIT_EXTERN NSString *const kXTCommonAPIConstantShopProductDetail;
 //项目
 UIKIT_EXTERN NSString *const kXTCommonAPIConstantProject;
-//查询订单
+//查询商品订单
 UIKIT_EXTERN NSString *const kXTCommonAPIConstantQueryOrderForm;
 //购物车
 UIKIT_EXTERN NSString *const kXTCommonAPIConstantPruductCar;
@@ -41,9 +41,14 @@ UIKIT_EXTERN NSString *const kXTCommonAPIConstantPruductCar;
 UIKIT_EXTERN NSString *const kXTCommonAPIConstantAddPruductToCar;
 //更新购物车商品
 UIKIT_EXTERN NSString *const kXTCommonAPIConstantUpdata;
-
+//商品评价
+UIKIT_EXTERN NSString *const kXTCommonAPIConstantMallsComment;
 //从购物车结算
 UIKIT_EXTERN NSString *const kXTCommonAPIConstantPayPruductCar;
+//微信支付
+UIKIT_EXTERN NSString *const kXTCommonAPIConstantPayWX;
+//支付宝支付
+UIKIT_EXTERN NSString *const kXTCommonAPIConstantPayAlipay;
 //已完成／未完成订单
 UIKIT_EXTERN NSString *const kXTCommonAPIConstantCompleteOrUnCompleteOrderForm;
 //技师页面
@@ -54,8 +59,15 @@ UIKIT_EXTERN NSString *const kXTCommonAPIConstantTech;
 #pragma mark - USER / 用户
 //"我的"页面
 UIKIT_EXTERN NSString *const kMinePage;
-//登入 注册
+//登入 
 UIKIT_EXTERN NSString *const kUserLogin;
+//注册
+UIKIT_EXTERN NSString *const kUserRegister;
+//重置密码
+UIKIT_EXTERN NSString *const kUserReset;
+//短信验证码
+UIKIT_EXTERN NSString *const kUserSms;
+
 //我的关注
 UIKIT_EXTERN NSString *const kUserFocusTec;
 //添加关注
@@ -72,5 +84,12 @@ UIKIT_EXTERN NSString *const kUserSuggestion;
 UIKIT_EXTERN NSString *const kUserInfo;
 //注册页面
 UIKIT_EXTERN NSString *const kUserregist;
-
+//我的订单
+UIKIT_EXTERN NSString *const kUserrMyOrderNumber;
+//收藏商铺
+UIKIT_EXTERN NSString *const kUserrCollectShop;
+//取消收藏店铺
+UIKIT_EXTERN NSString *const kUserCancelCollectShop;
+//查询我的收藏商铺
+UIKIT_EXTERN NSString *const kUserGetMyCollectShop;
 @end

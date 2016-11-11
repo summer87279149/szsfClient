@@ -14,7 +14,6 @@ typedef NS_ENUM(NSUInteger, XTType) {
     XTTypeSaleNumbers = 1,
     /** 价格*/
     XTTypePrice = 2,
-    
 };
 @interface ToShopViewController : UIViewController
 

@@ -98,7 +98,7 @@
         UILabel *yourPhoneNumber = [UILabel sharedWithFont:13 andColor:[UIColor lightGrayColor] andAnligment:left andBackgroundColor:nil];
         yourPhoneNumber.frame = CGRectMake(10, 12, kScreenWidth-20, 20);
         [view2 addSubview:yourPhoneNumber];
-        yourPhoneNumber.text = @"您的手机号码";
+        yourPhoneNumber.text = @"在下面输入您的联系手机号";
         yourPhoneNumber.textColor = COLOR;
         
         UIView *lineView = [UIView lineWithColor:[UIColor lightGrayColor]];
@@ -131,7 +131,7 @@
         
         UILabel *choose2 = [UILabel sharedWithFont:13 andColor:COLOR andAnligment:left andBackgroundColor:nil];
         [self.view3 addSubview:choose2];
-        choose2.text = @"点我选择寄送地址";
+        choose2.text = @"选择寄送地址";
         choose2.sd_layout.topSpaceToView(self.view3,12).heightIs(20).xIs(10).widthIs(kScreenWidth-20);
         choose2.userInteractionEnabled = YES;
         UITapGestureRecognizer * tapGesture2 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapChooseAdd:)];
@@ -144,7 +144,12 @@
         self.ToMyHomeAddLabel = [UILabel sharedWithFont:13 andColor:COLOR andAnligment:left andBackgroundColor:nil];
         [self.view3 addSubview:self.ToMyHomeAddLabel];
         self.ToMyHomeAddLabel.sd_layout.topSpaceToView(choose2,12).xIs(10).widthIs(kScreenWidth-20).heightIs(20);
-        
+        UIButton *placeholderButton = [[UIButton alloc]init];
+        [self.view3 addSubview:placeholderButton];
+        [placeholderButton addTarget:self action:@selector(tapChooseAdd:) forControlEvents:UIControlEventTouchUpInside];
+        placeholderButton.backgroundColor = [UIColor clearColor];
+        placeholderButton.sd_layout.topSpaceToView(self.view3,12).widthIs(kScreenWidth-20).heightIs(50).xIs(10);
+    
         UIView *line4 = [UIView lineWithColor:[UIColor lightGrayColor]];
         [self.view3 addSubview:line4];
         line4.sd_layout.heightIs(1).xIs(10).widthIs(kScreenWidth-20).topSpaceToView(self.ToMyHomeAddLabel,12);
@@ -152,7 +157,7 @@
         
         UILabel *choose3 = [UILabel sharedWithFont:13 andColor:COLOR andAnligment:left andBackgroundColor:nil];
         [self.view3 addSubview:choose3];
-        choose3.text = @"请补充详细地址";
+        choose3.text = @"请补充寄送的详细地址";
         choose3.sd_layout.topSpaceToView(line4,12).heightIs(20).xIs(10).widthIs(kScreenWidth-20);
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(resignfirstReco)];
         [choose3 addGestureRecognizer:tap];
@@ -243,9 +248,9 @@
 }
 
 -(void)commitOrderBtnClicked{
-    if( ![UserTool isValidateMobile:self.phoneNumber.text])
+    if( self.phoneNumber.text.length == 0)
     {
-        [MBProgressHUD showError:@"请输入正确的手机号"];
+        [MBProgressHUD showError:@"请输入联系方式"];
         return;
     }
     if (self.ToMyHomeAddLabel.text.length==0) {
@@ -269,14 +274,25 @@
     
     NSDictionary *paraDic = @{@"postdata":jsonString,@"userid":[YCUserModel userId],@"tel":self.phoneNumber.text,@"address":encodeStr};
     NSLog(@"提交订单的参数是:%@",paraDic);
+    WS(weakSelf)
+    SHOWHUD
     [SomeOtherRequest checkoutWithPara:paraDic success:^(id response) {
+        NSLog(@"商品页面提交订单的返回结果应该是订单号和商品价格:%@，%@",response,response[@"msg"]);
+        HIDEHUDWeakSelf
+        PayViewController *pay = [[PayViewController alloc]init];
+        if ([response[@"status"] isEqualToString:@"success"]) {
+            pay.orderNumber = response[@"orderid"];
+            pay.totalPrice = response[@"totalprice"];
+            [weakSelf.navigationController pushViewController:pay animated:YES];
+        }
+        
     } error:^(id response) {
+        HIDEHUDWeakSelf
     }];
     
     
     
-    PayViewController *pay = [[PayViewController alloc]init];
-    [self.navigationController pushViewController:pay animated:YES];
+    
 }
 
 #pragma mark - 选择地址通知
@@ -294,6 +310,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(modifyAdd:) name:@"chooseAdd" object:nil];
     
 }
