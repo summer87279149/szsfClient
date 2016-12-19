@@ -60,6 +60,7 @@
 		840578EA1DAB43280083E745 /* CityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 840578E41DAB43280083E745 /* CityModel.m */; };
 		840578EC1DAB433B0083E745 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 840578EB1DAB433B0083E745 /* libsqlite3.0.tbd */; };
 		840578F81DAB837F0083E745 /* China.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 840578F71DAB837F0083E745 /* China.sqlite */; };
+		840B3A921DFFC10700F128E7 /* PayServiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 840B3A911DFFC10700F128E7 /* PayServiceViewController.m */; };
 		840BDC5D1D9A3A9800032EE2 /* XTCommonAPIConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 840BDC5C1D9A3A9800032EE2 /* XTCommonAPIConstant.m */; };
 		840D9A2A1DC6DE0D0030A8D3 /* UIViewController+isUserInfoExist.m in Sources */ = {isa = PBXBuildFile; fileRef = 840D9A291DC6DE0D0030A8D3 /* UIViewController+isUserInfoExist.m */; };
 		840D9A2E1DC6F4A10030A8D3 /* YinSiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 840D9A2C1DC6F4A10030A8D3 /* YinSiViewController.m */; };
@@ -96,7 +97,6 @@
 		841EE0A61D642D0900BC4C53 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 841EE0A51D642D0900BC4C53 /* libstdc++.tbd */; };
 		841EE0A81D642D1200BC4C53 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 841EE0A71D642D1200BC4C53 /* libz.tbd */; };
 		841F28151D6A819600F7661C /* GoodSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 841F28141D6A819600F7661C /* GoodSViewController.m */; };
-		841F28181D6A917300F7661C /* BuyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 841F28171D6A917300F7661C /* BuyViewController.m */; };
 		842203641DAF53FD00781D78 /* MallSectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 842203631DAF53FD00781D78 /* MallSectionModel.m */; };
 		843013D61D65495F0003453F /* HomeCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 843013D51D65495F0003453F /* HomeCellModel.m */; };
 		843013DB1D6554F50003453F /* ToShopCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 843013DA1D6554F50003453F /* ToShopCellModel.m */; };
@@ -363,6 +363,8 @@
 		840578E41DAB43280083E745 /* CityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityModel.m; sourceTree = "<group>"; };
 		840578EB1DAB433B0083E745 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		840578F71DAB837F0083E745 /* China.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = China.sqlite; sourceTree = "<group>"; };
+		840B3A901DFFC10700F128E7 /* PayServiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayServiceViewController.h; sourceTree = "<group>"; };
+		840B3A911DFFC10700F128E7 /* PayServiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayServiceViewController.m; sourceTree = "<group>"; };
 		840BDC5B1D9A3A9800032EE2 /* XTCommonAPIConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XTCommonAPIConstant.h; sourceTree = "<group>"; };
 		840BDC5C1D9A3A9800032EE2 /* XTCommonAPIConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XTCommonAPIConstant.m; sourceTree = "<group>"; };
 		840D9A281DC6DE0D0030A8D3 /* UIViewController+isUserInfoExist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+isUserInfoExist.h"; path = "CCLocation/UIViewController+isUserInfoExist.h"; sourceTree = "<group>"; };
@@ -427,8 +429,6 @@
 		841EE0A71D642D1200BC4C53 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		841F28131D6A819600F7661C /* GoodSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodSViewController.h; sourceTree = "<group>"; };
 		841F28141D6A819600F7661C /* GoodSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GoodSViewController.m; sourceTree = "<group>"; };
-		841F28161D6A917300F7661C /* BuyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyViewController.h; sourceTree = "<group>"; };
-		841F28171D6A917300F7661C /* BuyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyViewController.m; sourceTree = "<group>"; };
 		842203621DAF53FD00781D78 /* MallSectionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MallSectionModel.h; sourceTree = "<group>"; };
 		842203631DAF53FD00781D78 /* MallSectionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MallSectionModel.m; sourceTree = "<group>"; };
 		843013D41D65495F0003453F /* HomeCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeCellModel.h; sourceTree = "<group>"; };
@@ -1097,6 +1097,44 @@
 			name = "遗弃的城市选择页面";
 			sourceTree = "<group>";
 		};
+		840B3A8D1DFFC0D100F128E7 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
+		840B3A8E1DFFC0D600F128E7 /* 商品支付 */ = {
+			isa = PBXGroup;
+			children = (
+				8474465B1D616B550087C291 /* PayViewController.h */,
+				8474465C1D616B550087C291 /* PayViewController.m */,
+			);
+			name = "商品支付";
+			sourceTree = "<group>";
+		};
+		840B3A8F1DFFC0E000F128E7 /* 服务支付 */ = {
+			isa = PBXGroup;
+			children = (
+				840B3A901DFFC10700F128E7 /* PayServiceViewController.h */,
+				840B3A911DFFC10700F128E7 /* PayServiceViewController.m */,
+			);
+			name = "服务支付";
+			sourceTree = "<group>";
+		};
+		840B3AB61DFFD5DB00F128E7 /* 未使用 */ = {
+			isa = PBXGroup;
+			children = (
+				84468B731DAE17E800D05769 /* SlideViewController.h */,
+				84468B741DAE17E800D05769 /* SlideViewController.m */,
+				84468B761DAE18E600D05769 /* CompletePayViewController.h */,
+				84468B771DAE18E600D05769 /* CompletePayViewController.m */,
+				84468B791DAE18F600D05769 /* UnCompletePayViewController.h */,
+				84468B7A1DAE18F600D05769 /* UnCompletePayViewController.m */,
+			);
+			name = "未使用";
+			sourceTree = "<group>";
+		};
 		841353A91D600CD500BDA97D /* 预约、提交订单 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1365,8 +1403,6 @@
 				843832071D6827D900DA1D34 /* CompleteViewController.m */,
 				841F28131D6A819600F7661C /* GoodSViewController.h */,
 				841F28141D6A819600F7661C /* GoodSViewController.m */,
-				841F28161D6A917300F7661C /* BuyViewController.h */,
-				841F28171D6A917300F7661C /* BuyViewController.m */,
 				8452D07C1DA8B79D0010EACD /* BuyVC.h */,
 				8452D07D1DA8B79D0010EACD /* BuyVC.m */,
 			);
@@ -1439,14 +1475,9 @@
 		843013F71D6567B40003453F /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				840B3AB61DFFD5DB00F128E7 /* 未使用 */,
 				84468B7C1DAE227F00D05769 /* 遗弃的VC */,
 				84468B7D1DAE231000D05769 /* 预约过的订单(先用这个) */,
-				84468B731DAE17E800D05769 /* SlideViewController.h */,
-				84468B741DAE17E800D05769 /* SlideViewController.m */,
-				84468B761DAE18E600D05769 /* CompletePayViewController.h */,
-				84468B771DAE18E600D05769 /* CompletePayViewController.m */,
-				84468B791DAE18F600D05769 /* UnCompletePayViewController.h */,
-				84468B7A1DAE18F600D05769 /* UnCompletePayViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -1656,6 +1687,7 @@
 		8444B6181DACB8A80071F7DB /* 微信支付 */ = {
 			isa = PBXGroup;
 			children = (
+				840B3A8D1DFFC0D100F128E7 /* New Group */,
 				8444B61C1DACBA4A0071F7DB /* WXApiManager.h */,
 				8444B61D1DACBA4A0071F7DB /* WXApiManager.m */,
 				8444B6191DACB8C00071F7DB /* WXHander.h */,
@@ -2078,9 +2110,9 @@
 		847446501D61695D0087C291 /* 支付订单 */ = {
 			isa = PBXGroup;
 			children = (
+				840B3A8F1DFFC0E000F128E7 /* 服务支付 */,
+				840B3A8E1DFFC0D600F128E7 /* 商品支付 */,
 				8444B6181DACB8A80071F7DB /* 微信支付 */,
-				8474465B1D616B550087C291 /* PayViewController.h */,
-				8474465C1D616B550087C291 /* PayViewController.m */,
 				8474465E1D616B9A0087C291 /* PayCell.h */,
 				8474465F1D616B9A0087C291 /* PayCell.m */,
 				847446601D616B9A0087C291 /* PayCell.xib */,
@@ -2471,7 +2503,6 @@
 				840208201D59AFFC003B7B80 /* TechnicianTableViewCell.m in Sources */,
 				8460356F1D5DCE68007F5995 /* HZPhotoBrowser.m in Sources */,
 				8452D07E1DA8B79D0010EACD /* BuyVC.m in Sources */,
-				841F28181D6A917300F7661C /* BuyViewController.m in Sources */,
 				8414D9521DB07B1900E8D740 /* MyMessageViewController.m in Sources */,
 				8402080B1D59AD00003B7B80 /* ShopMode.m in Sources */,
 				8469973A1D5AD25B00579C90 /* TableViewCell.m in Sources */,
@@ -2580,6 +2611,7 @@
 				847446B01D61E2B70087C291 /* ProjectModal.m in Sources */,
 				849586171D9B73B200935643 /* ImageModel.m in Sources */,
 				846029F71D65A6F300E139C3 /* CarViewController.m in Sources */,
+				840B3A921DFFC10700F128E7 /* PayServiceViewController.m in Sources */,
 				840D9A2E1DC6F4A10030A8D3 /* YinSiViewController.m in Sources */,
 				841353C31D605D4900BDA97D /* OrderAddressViewController.m in Sources */,
 				8460A54A1D597E7E00D79721 /* LHRatingView.m in Sources */,

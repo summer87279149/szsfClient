@@ -10,11 +10,18 @@
 
 typedef NS_ENUM(NSUInteger, PayType) {
     PayTypeWX,
+    PayTypeYuE,
     PayTypeAlipay,
+};
+typedef NS_ENUM(NSUInteger, PayServiceType) {
+    PayServiceTypeService,
+    PayServiceTypeShopItems,
 };
 typedef void(^Success)(id response);
 typedef void(^Error)(id response);
+
 @interface SomeOtherRequest : NSObject
+
 @property (nonatomic, strong) AFNetworkReachabilityManager *manager;
 /**
  *  关注某个技师
@@ -175,7 +182,7 @@ typedef void(^Error)(id response);
  */
 +(void)GetCommentWith:(id)para success:(Success)xt_success error:(Error)xt_error;
 /**
- *  订单支付的支付类型选择
+ *  订单支付的支付类型选择,不包含余额支付
  *
  *  @param orderNumber 订单号
  *  @param payType     支付类型
@@ -183,7 +190,8 @@ typedef void(^Error)(id response);
  *  @param xt_error
  */
 +(void)getPayParameterWithOrderNumber:(NSString*)orderNumber andPayTape:(PayType)payType success:(Success)xt_success error:(Error)xt_error;
-
+//微信支付服务
++(void)getPayServiceParameterWithOrderNumber:(NSString*)orderNumber andPayTape:(PayType)payType success:(Success)xt_success error:(Error)xt_error;
 /**
  *  查询我的服务订单
  *  @param userID           user ID
@@ -205,6 +213,16 @@ typedef void(^Error)(id response);
  *  @param content  评价内容
  */
 +(void)commentWithUserid:(NSString *)userid orderNum:(NSString*)orderNum stars:(float)scores content:(NSString *)content success:(Success)xt_success error:(Error)xt_error;
+
+/**
+ 用户确认订单已经完成
+
+ @param orderID <#orderID description#>
+ @param userID <#userID description#>
+ @param xt_success <#xt_success description#>
+ @param xt_error <#xt_error description#>
+ */
++(void)makeSureOrderHasCompleted:(NSString *)orderID status:(NSString *)status success:(Success)xt_success error:(Error)xt_error;
 /**
  *  注册
  *
@@ -268,8 +286,33 @@ typedef void(^Error)(id response);
  */
 +(void)getMyCollectionShopByUserID:(NSString *)userID page:(NSInteger)page success:(Success)xt_success error:(Error)xt_error;
 
+/**
+ 充值
 
+ @param orderID <#orderID description#>
+ @param xt_success <#xt_success description#>
+ @param xt_error <#xt_error description#>
+ */
++(void)userChargeWithOID:(NSString *)orderID success:(Success)xt_success error:(Error)xt_error;
 
+/**
+ 根据充值金额获取订单id
 
+ @param money <#money description#>
+ @param userid <#userid description#>
+ @param xt_success <#xt_success description#>
+ @param xt_error <#xt_error description#>
+ */
++(void)userGetOrderIdBy:(int)money andUserId:(NSString*)userid success:(Success)xt_success error:(Error)xt_error;
+
+/**
+ 余额支付
+
+ @param uid <#uid description#>
+ @param success <#success description#>
+ @param xt_success <#xt_success description#>
+ @param xt_error <#xt_error description#>
+ */
++(void)payByListMoney:(NSString *)uid oid:(NSString *)oid payServiceType:(PayServiceType)type success:(Success)xt_success error:(Error)xt_error;
 
 @end

@@ -11,7 +11,8 @@
 #import "GoodsNumber.h"
 #import "OrderAddressViewController.h"
 #import "UserTool.h"
-#import "PayViewController.h"
+#import "PayServiceViewController.h"
+
 @interface OrderViewController ()<GoodsNumberDelegate,UITextFieldDelegate>
 {
     UIScrollView * scrollView;
@@ -485,15 +486,7 @@
 
 -(void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
-    //    if (self.ToMyHomeBtn.isSelected) {
-    //        CGFloat height = CGRectGetMaxY(self.view3.frame);
-    //        scrollView.contentSize = CGSizeMake(kScreenWidth,height+280);
-    //    }
-    //    if (self.toShopBtn.isSelected) {
-    //        CGFloat height = CGRectGetMaxY(viewThird.frame);
-    //        scrollView.contentSize = CGSizeMake(kScreenWidth,height+280);
-    //    }
-//    scrollView.contentSize = CGSizeMake(kScreenWidth,kScreenHeight*1.1);
+
 }
 
 
@@ -564,9 +557,13 @@
     [SomeOtherRequest submitOrderWithPara:para success:^(id response) {
         NSLog(@"提交项目订单的返回结果是:%@",response);
         HIDEHUD
-        [weakSelf submitOrderSuccess];
-        
-        
+//        [weakSelf submitOrderSuccess];
+        PayServiceViewController *pay = [[PayServiceViewController alloc]init];
+        if ([response[@"status"] isEqualToString:@"success"]) {
+            pay.orderNumber = response[@"orderID"];
+            pay.totalPrice = response[@"totalPrice"];
+            [weakSelf.navigationController pushViewController:pay animated:YES];
+        }
     } error:^(id response) {
         HIDEHUD
     }];

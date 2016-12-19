@@ -51,19 +51,23 @@
     WS(weakSelf)
     SHOWHUD
     if (self.count ==0) {
-//        BOOL isInstallWX = [WXApi isWXAppInstalled]&&[WXApi isWXAppSupportApi];
-//        if (!isInstallWX) {
-//            [MBProgressHUD showError:@"发起支付失败"];
-//            return;
-//        }
+        BOOL isInstallWX = [WXApi isWXAppInstalled]&&[WXApi isWXAppSupportApi];
+        if (!isInstallWX) {
+            [MBProgressHUD showError:@"发起支付失败"];
+            return;
+        }
         /**
          *  微信支付
          */
+        YCUserModel *payType = [YCUserModel shareManager];
+        payType.payInfo = @"2";
+        [payType save];
         [SomeOtherRequest getPayParameterWithOrderNumber:self.orderNumber andPayTape:PayTypeWX success:^(id response) {
             NSLog(@"微信请求返回的结果是:%@",response);
             HIDEHUDWeakSelf
             NSString *res = [WXHander jumpToBizPay:response];
             if( ![@"" isEqual:res] ){
+                
                 UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"支付失败" message:res delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [alter show];
             }else{
@@ -76,8 +80,27 @@
             HIDEHUDWeakSelf
         }];
         
-    }else if (self.count == 1){
-//        [MBProgressHUD showSuccess:@"发起微信支付请求"];
+    }else if (self.count == 1){//余额支付
+     [SomeOtherRequest payByListMoney:[YCUserModel userId] oid:self.orderNumber  payServiceType:PayServiceTypeShopItems success:^(id response) {
+         HIDEHUDWeakSelf
+         NSLog(@"余额支付返回:%@",response);
+         if ([response[@"status"] isEqualToString:@"success"]) {
+             //                [MBProgressHUD showSuccess:@"支付成功，请“服务订单”中查询本次订单"];
+             UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"支付成功" message:@"支付成功，请“已完成”中查询本次订单" delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:nil];
+             [alter show];
+             [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+         }else{
+             UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"" message:response[@"msg"] delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:nil];
+             [alter show];
+             [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+         }
+     } error:^(id response) {
+         HIDEHUDWeakSelf
+         UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"支付失败" message:response[@"msg"] delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
+         [alter show];
+     }];
+      
+    }else if (self.count == 2){
         [MBProgressHUD showSuccess:@"发起支付宝支付请求"];
         /**
          *  支付宝支付
@@ -108,7 +131,7 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return section == 0?1:1;
+    return section == 0?1:2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -145,8 +168,12 @@
             cell.name.text = @"微信支付";
             cell.content.text = @"推荐安装微信5.0及以上版本的用户使用";
             
-        }else
+        }else if(indexPath.row == 1)
         {
+            cell.name.text = @"余额支付";
+            cell.content.text = @"使用当前用户余额支付";
+        }
+        else{
             cell.name.text = @"支付宝支付";
             cell.content.text = @"推荐有支付宝账号的用户使用";
         }
@@ -170,9 +197,12 @@
         }
         self.count = 0;
     }
-    else if (indexPath.row ==1 ){
+    else if (indexPath.row ==1 ){//余额支付
         self.count = 1;
+    }else{
+        self.count = 2;//支付宝支付
     }
+    
     
     
 }

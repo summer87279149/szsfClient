@@ -138,7 +138,7 @@
             /**
              把“按项目查询隐藏”
              */
-//            twoBtn.hidden=YES;
+           twoBtn.hidden=YES;
         }
         
         
@@ -372,8 +372,7 @@
 
 #pragma mark ======ToMyHomeTableViewCellDelegate=======
 -(void)cellOrderBtnClicked:(NSInteger)row{
-    
-    if ([YCUserModel userId]) {
+    [self doThisIfUserInfoExist:^{
         if (toMyHomeCellModelArr.count>0) {
             ToMyHomeCellModel *model = toMyHomeCellModelArr[row];
             NSLog(@"当前点击了第%lu个cell",row);
@@ -386,13 +385,29 @@
         }else{
             [MBProgressHUD showError:@"请等待加载完成"];
         }
-    }else{
-        UserLoginController *a = [[UserLoginController alloc]init];
-        MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
-        [self.navigationController presentViewController:naVC animated:YES completion:nil];
-    }
+
+    }];
+//    if ([YCUserModel userId]) {
+//        if (toMyHomeCellModelArr.count>0) {
+//            ToMyHomeCellModel *model = toMyHomeCellModelArr[row];
+//            NSLog(@"当前点击了第%lu个cell",row);
+//            if (StringNonNull(model.techID)) {
+//                TechViewController * tech = [[TechViewController alloc]init];
+//                tech.techID = model.techID;
+//                NSLog(@"技师id是:%@  名字是:%@",model.techID,model.name);
+//                [self.navigationController pushViewController:tech animated:YES];
+//            }
+//        }else{
+//            [MBProgressHUD showError:@"请等待加载完成"];
+//        }
+//    }else{
+//        UserLoginController *a = [[UserLoginController alloc]init];
+//        MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
+//        [self.navigationController presentViewController:naVC animated:YES completion:nil];
+//    }
  
 }
+//下面2个方法没用
 -(void)focusBtnClick:(UITableViewCell *)cell{
     NSIndexPath *index = [tableview indexPathForCell:cell];
     if (ArrayNonNull(distanceArr) && distanceArr.count >= index.row+1) {

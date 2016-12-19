@@ -107,7 +107,7 @@
 }
 
 -(void)setscrollview{
-    topScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 200) imageNamesGroup:arr];
+    topScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width/2) imageNamesGroup:arr];
     /** 设置占位图*/
     topScrollView.placeholderImage = [UIImage imageNamed:@"placeholderImage"];
     /** 添加到当前View上*/

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,12 +23,17 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="homeVCBackgroundImage" translatesAutoresizingMaskIntoConstraints="NO" id="q4x-Ta-4Es"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginBackgroundImage" translatesAutoresizingMaskIntoConstraints="NO" id="q4x-Ta-4Es">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kYy-QG-gB6">
+                    <rect key="frame" x="0.0" y="90" width="375" height="133.5"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="upy-GF-xFd">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="65.5"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="    请输入用户名(如手机号)" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="hvX-v4-rhJ">
+                                    <rect key="frame" x="10" y="0.0" width="365" height="65.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                                     <userDefinedRuntimeAttributes>
@@ -49,8 +57,10 @@
                             </userDefinedRuntimeAttributes>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pGV-2T-j7a">
+                            <rect key="frame" x="0.0" y="66.5" width="375" height="66"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="    请输入密码" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="NyO-md-gaL">
+                                    <rect key="frame" x="10" y="0.0" width="365" height="66"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     <userDefinedRuntimeAttributes>
@@ -95,6 +105,7 @@
                     </variation>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HSE-IL-ogj">
+                    <rect key="frame" x="20" y="243.5" width="335" height="50"/>
                     <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90588235289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="GrA-wy-1xm"/>
@@ -112,8 +123,9 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fvB-vH-sfH">
+                    <rect key="frame" x="293" y="312.5" width="62" height="30"/>
                     <state key="normal" title="找回密码">
-                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="titleColor" red="0.23137254900000001" green="0.16078431369999999" blue="0.20784313730000001" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <connections>
                         <action selector="findPasswordClick:" destination="-1" eventType="touchUpInside" id="QSD-to-Kdk"/>
@@ -123,7 +135,7 @@
             <constraints>
                 <constraint firstItem="kYy-QG-gB6" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.2" id="00a-zc-7Mv"/>
                 <constraint firstItem="kYy-QG-gB6" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="1Wv-bL-zNg"/>
-                <constraint firstItem="HSE-IL-ogj" firstAttribute="top" secondItem="kYy-QG-gB6" secondAttribute="bottom" constant="30" id="1p3-EU-BsV"/>
+                <constraint firstItem="HSE-IL-ogj" firstAttribute="top" secondItem="kYy-QG-gB6" secondAttribute="bottom" constant="20" id="1p3-EU-BsV"/>
                 <constraint firstItem="kYy-QG-gB6" firstAttribute="top" secondItem="q4x-Ta-4Es" secondAttribute="bottom" id="51f-kR-jHw"/>
                 <constraint firstItem="fvB-vH-sfH" firstAttribute="top" secondItem="HSE-IL-ogj" secondAttribute="bottom" constant="19" id="Bg7-xd-d2i"/>
                 <constraint firstAttribute="bottom" secondItem="q4x-Ta-4Es" secondAttribute="bottom" id="DhF-TX-R62"/>
@@ -132,7 +144,7 @@
                 <constraint firstAttribute="trailing" secondItem="fvB-vH-sfH" secondAttribute="trailing" constant="20" id="bU7-5i-kpx"/>
                 <constraint firstItem="HSE-IL-ogj" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="h2w-5D-c2c"/>
                 <constraint firstItem="q4x-Ta-4Es" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="mDU-tn-Fgr"/>
-                <constraint firstItem="kYy-QG-gB6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="mK6-2J-1F0"/>
+                <constraint firstItem="kYy-QG-gB6" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="90" id="mK6-2J-1F0"/>
                 <constraint firstAttribute="trailing" secondItem="q4x-Ta-4Es" secondAttribute="trailing" id="nEN-7x-3CH"/>
                 <constraint firstItem="q4x-Ta-4Es" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="rSc-zK-ygN"/>
                 <constraint firstAttribute="trailing" secondItem="HSE-IL-ogj" secondAttribute="trailing" constant="20" id="z7P-v4-5GY"/>
@@ -143,10 +155,10 @@
                     <exclude reference="YPc-h9-MzG"/>
                 </mask>
             </variation>
-            <point key="canvasLocation" x="408.5" y="384.5"/>
+            <point key="canvasLocation" x="-1" y="251"/>
         </view>
     </objects>
     <resources>
-        <image name="homeVCBackgroundImage" width="477" height="848"/>
+        <image name="loginBackgroundImage" width="504" height="891"/>
     </resources>
 </document>

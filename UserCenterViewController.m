@@ -26,6 +26,7 @@
 
 @property(nonatomic,weak)UIScrollView *scrollView1;
 
+
 @end
 
 @implementation UserCenterViewController
@@ -44,7 +45,6 @@
     [super viewDidLoad];
     self.title = @"个人资料";
     HaHaHaAddBackGroundImage
-    
     UIScrollView *scrollView1=[[UIScrollView alloc]init];
     scrollView1.frame=CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width,[UIScreen mainScreen].bounds.size.height);
     [self.view addSubview:scrollView1];
@@ -52,10 +52,7 @@
     scrollView1.delegate=self;
     scrollView1.contentSize=CGSizeMake(0, [UIScreen mainScreen].bounds.size.height+80);
     self.scrollView1=scrollView1;
-    
-    
     [self settingUI];
-    
     [self setUpData];
 }
 
@@ -276,8 +273,6 @@
     needImage = [self imageWithImageSimple:needImage scaledToSize:CGSizeMake(200.0f, height)];
     //上传图片
     [self saveImage:needImage];
-   
-    
 }
 
 //上传图片
@@ -295,8 +290,6 @@
         HIDEHUDWeakSelf
     }];
 }
-
-
 
 //从document取得图片
 - (UIImage *)getImage:(NSString *)totalPath
@@ -331,7 +324,6 @@
     return (UIViewController *)responder;
 }
 
-
 #pragma mark - 键盘
 
 - (void)keyboardWillShow:(NSNotification *)notification
@@ -353,12 +345,6 @@
     [textField endEditing:YES];
     
 }
-
-
-
-
-
-
 /**
  *  当键盘改变了frame(位置和尺寸)的时候调用
  */
@@ -390,14 +376,5 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

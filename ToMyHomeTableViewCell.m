@@ -181,7 +181,7 @@
         self.text.sd_layout.leftEqualToView(line3).rightEqualToView(line3).topSpaceToView(line3,5).heightIs(size.height);
         self.height = 120+144*k_scaleHeight+size.height;
    
-    NSLog(@"名字是:%@，评分是:%@，单数是:%@，头像是:%@",self.name.text,self.grade.text,self.orderNumber.text,toMyHomeCellModel.imageviewUrl);
+        NSLog(@"名字是:%@，评分是:%@，单数是:%@，头像是:%@",self.name.text,self.grade.text,self.orderNumber.text,toMyHomeCellModel.imageviewUrl);
     
     
     

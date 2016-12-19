@@ -10,7 +10,8 @@
 #import <UIKit/UIKit.h>
 
 @interface UserTool : NSObject
-
+//正则判断纯数字
++ (BOOL)validateNumber:(NSString *) textString;
 // 匹配手机号
 + (BOOL) isValidateMobile:(NSString *)mobile;
 

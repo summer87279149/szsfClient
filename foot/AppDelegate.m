@@ -34,11 +34,7 @@
     
     [UMSocialWechatHandler setWXAppId:@"wx981099fb2508da9a" appSecret:@"d599611fc41bd1bfd27bfd070a1cc8fd" url:@"http://www.yzldwl.com/"];
     [UMSocialConfig hiddenNotInstallPlatforms:@[UMShareToWechatSession, UMShareToWechatTimeline]];
-    //百度地图
-//    _mapManager = [[BMKMapManager alloc]init];
-//    
-//    [_mapManager start:@"zpBFNy0kFlGOZ1UrUTcI1oyNRcFqrGCV" generalDelegate:self];
- 
+  
     if (![[NSUserDefaults standardUserDefaults]objectForKey:CITYCODE]||![[NSUserDefaults standardUserDefaults]objectForKey:CITYNAME]) {
         [[NSUserDefaults standardUserDefaults]setObject:@"700100000" forKey:CITYCODE];
         [[NSUserDefaults standardUserDefaults]setObject:@"上海市" forKey:CITYNAME];
@@ -106,7 +102,8 @@
             return YES;
         }else{
             UserLoginController *a = [[UserLoginController alloc]init];
-            MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
+            UINavigationController *naVC = [[UINavigationController alloc]initWithRootViewController:a];
+            naVC.navigationBar.translucent = NO;
             [self.window.rootViewController presentViewController:naVC animated:YES completion:nil];
             return NO;
         }
@@ -120,7 +117,7 @@
 {
     BOOL result = [UMSocialSnsService handleOpenURL:url];
     if (result == NO) {
-        
+        NSLog(@"打印支付成功url:%@",url);
         if ([url.host isEqualToString:@"pay"]) {
             return [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
         }

@@ -243,13 +243,54 @@
             }];
         }
             break;
+        case PayTypeYuE:
+        {
+            [XTRequestManager GET:kXTCommonAPIConstantPayYuE parameters:para responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
+                xt_success(responseObject);
+            } failure:^(NSError *error) {
+                xt_error(error);
+            }];
+        }
+            break;
+    }
+}
++(void)getPayServiceParameterWithOrderNumber:(NSString*)orderNumber andPayTape:(PayType)payType success:(Success)xt_success error:(Error)xt_error{
+    
+    NSDictionary *para = @{@"oid":orderNumber,@"type":@"1"};
+    switch (payType) {
+        case PayTypeWX:
+        {
+            [XTRequestManager GET:kXTCommonAPIConstantPayWX parameters:para responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
+                xt_success(responseObject);
+            } failure:^(NSError *error) {
+                xt_error(error);
+            }];
+        }
+            break;
+        case PayTypeAlipay:
+        {
+            [XTRequestManager GET:kXTCommonAPIConstantPayWX parameters:para responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
+                xt_success(responseObject);
+            } failure:^(NSError *error) {
+                xt_error(error);
+            }];
+        }
+            break;
+        case PayTypeYuE:
+        {
+            [XTRequestManager GET:kXTCommonAPIConstantPayWX parameters:para responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
+                xt_success(responseObject);
+            } failure:^(NSError *error) {
+                xt_error(error);
+            }];
+        }
+            break;
     }
 }
 
-
 +(void)queryMyOrderNumberWithUserID:(NSString *)userID isComplete:(NSString *)isComplete page:(NSInteger)page isHeaderRefresh:(BOOL)isHeaderRefresh success:(Success)xt_success error:(Error)xt_error{
     NSNumber *pageNum = [NSNumber numberWithInteger:page];
-    NSDictionary *dic = @{@"userid":userID,@"state":isComplete,@"page":pageNum};
+    NSDictionary *dic = @{@"userid":userID,@"page":pageNum};
     NSLog(@"我的服务订单参数是：%@",dic);
     [XTRequestManager GET:kUserrMyOrderNumber parameters:dic responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
         xt_success(responseObject);
@@ -267,6 +308,15 @@
     } failure:^(NSError *error) {
         xt_error(error);
     }];
+}
++(void)makeSureOrderHasCompleted:(NSString *)orderID status:(NSString *)status success:(Success)xt_success error:(Error)xt_error{
+    NSDictionary *dic  = @{@"status":status,
+                           @"id":orderID};
+    [XTRequestManager GET:kMakeSureOrderComplete parameters:dic responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
+        xt_success(responseObject);
+    } failure:^(NSError *error) {
+         xt_error(error);
+    }];  
 }
 +(void)registWith:(NSString *)telNumber password:(NSString *)psw smsCode:(NSString *)code success:(Success)xt_success error:(Error)xt_error{
 //    NSNumber *codeNum = [NSNumber numberWithInteger:[code integerValue]];
@@ -334,10 +384,48 @@
     }];
 }
 
++(void)userChargeWithOID:(NSString *)orderID success:(Success)xt_success error:(Error)xt_error{
+    NSDictionary *dic =@{@"oid":orderID,
+                         @"type":@"2"};
+    [XTRequestManager GET:kUserCharge parameters:dic responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
+        xt_success(responseObject);
+    } failure:^(NSError *error) {
+        xt_error(error);
+    }];
+}
 
++(void)userGetOrderIdBy:(int)money andUserId:(NSString*)userid success:(Success)xt_success error:(Error)xt_error{
+    NSNumber *moneyNum = [NSNumber numberWithInt:money];
+    NSDictionary *dic = @{@"userid":userid,
+                          @"money":moneyNum
+                          };
+    [XTRequestManager GET:kGetOrderIDByChargeNum parameters:dic responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
+        xt_success(responseObject);
+    } failure:^(NSError *error) {
+        xt_error(error);
+    }];
+}
 
++(void)payByListMoney:(NSString *)uid oid:(NSString *)oid payServiceType:(PayServiceType)type success:(Success)xt_success error:(Error)xt_error{
+    NSDictionary *dic ;
+    switch (type) {
+        case PayServiceTypeService:
+            dic = @{@"uid":uid,@"oid":oid,@"type":@"1"};
+            break;
+        case PayServiceTypeShopItems:
+            dic = @{@"uid":uid,@"oid":oid};
+            break;
+        default:
+            break;
+    }
+    NSLog(@"余额支付的参数:%@",dic);
+    [XTRequestManager POST:kXTCommonAPIConstantPayYuE parameters:dic responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
+         xt_success(responseObject);
+    } failure:^(NSError *error) {
+        xt_error(error);
+    }];
 
-
+}
 // 判断网络
 - (void)judgeNet
 {

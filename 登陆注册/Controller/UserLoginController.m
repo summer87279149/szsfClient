@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "FindPwdViewController.h"
 #import "MainTabBarController.h"
+#import "JPUSHService.h"
 @interface UserLoginController ()<UITextFieldDelegate>
 
 // 手机号
@@ -80,7 +81,7 @@
     
     self.phoneNumText.inputAccessoryView = keyView;
     
-    UIButton *registerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIButton *registerBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     
     [registerBtn setTitle:@"注册" forState:UIControlStateNormal];
     
@@ -89,11 +90,6 @@
     [registerBtn addTarget:self action:@selector(registerBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem *registerBar = [[UIBarButtonItem alloc] initWithCustomView:registerBtn];
-    
-    
-    
-    
-    
     self.navigationItem.rightBarButtonItem = registerBar;
     
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -146,8 +142,8 @@
                 User.userId = response[@"userid"];
                 [User save];
                 [MBProgressHUD showSuccess:response[@"msg"]];
-                
-                  
+                 [[NSNotificationCenter defaultCenter] postNotificationName:@"UserInfoChanged" object:nil];
+                [JPUSHService setTags:nil alias:User.userId callbackSelector:nil object:nil];
                     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
   
               

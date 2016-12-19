@@ -32,6 +32,7 @@
 @property(nonatomic,copy)NSString *nickName;
 
 @property(nonatomic,copy)NSString *telNum;
+@property(nonatomic,strong)UILabel *moneyLabel;
 @end
 
 @implementation MineViewController
@@ -43,7 +44,7 @@
     UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"homeVCBackgroundImage"]];
     imageView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     [self.view addSubview:imageView];
-    m_mineArr = [[NSMutableArray alloc]initWithObjects:@"个人信息"/*,@"充值"*/,@"我的关注",@"我的收藏",@"服务订单",/*@"我的消息",*/@"意见反馈",@"关于我们",@"设置", nil];
+    m_mineArr = [[NSMutableArray alloc]initWithObjects:@"个人信息",@"余额充值",@"我的关注",@"我的收藏",@"服务订单",/*@"我的消息",*/@"反馈投诉",@"关于我们",@"设置", nil];
     
 //    self.navigationItem.rightBarButtonItem = [self phoneButton];
     
@@ -87,30 +88,28 @@
     _nameLbel.text = @"";
     _nameLbel.textAlignment = 1;
     [headerView addSubview:_nameLbel];
-  /*
+  
     UIView *priceView = [[UIView alloc]init];
     priceView.backgroundColor = [UIColor clearColor];
     [headerView addSubview:priceView];
     
     UILabel *priceLbl = [[UILabel alloc]init];
     priceLbl.backgroundColor = [UIColor clearColor];
-    priceLbl.backgroundColor = [UIColor clearColor];
-    priceLbl.text = @"金额";
+    priceLbl.text = @"我的余额";
     priceLbl.textAlignment = 0;
-    priceLbl.font = [UIFont boldSystemFontOfSize:16];
+    priceLbl.font = [UIFont systemFontOfSize:16];
     [priceView addSubview:priceLbl];
     
     UILabel *priceNumLbl = [[UILabel alloc]init];
     priceNumLbl.backgroundColor = [UIColor clearColor];
     priceNumLbl.textColor = [UIColor getColor:@"3b2935"];
-    priceNumLbl.text = @"0元";
-    priceNumLbl.font = [UIFont boldSystemFontOfSize:16];
+    priceNumLbl.text = @"**元";
+    priceNumLbl.font = [UIFont systemFontOfSize:16];
     priceNumLbl.textAlignment = 2;
-    [priceView addSubview:priceNumLbl];
+    _moneyLabel = priceNumLbl;
+    [priceView addSubview:_moneyLabel];
     
-    UIImageView *lineView = [[UIImageView alloc]init];
-    lineView.backgroundColor = [UIColor getColor:@"3b2935"];
-    [priceView addSubview:lineView];
+    
     
     UIImageView *lineView2 = [[UIImageView alloc]init];
     lineView2.backgroundColor = [UIColor getColor:@"3b2935"];
@@ -119,6 +118,10 @@
     UIImageView *lineView3 = [[UIImageView alloc]init];
     lineView3.backgroundColor = [UIColor getColor:@"3b2935"];
     [priceView addSubview:lineView3];
+    /*
+    UIImageView *lineView = [[UIImageView alloc]init];
+    lineView.backgroundColor = [UIColor getColor:@"3b2935"];
+    [priceView addSubview:lineView];
     
     UILabel *couponLbl = [[UILabel alloc]init];
     couponLbl.backgroundColor = [UIColor clearColor];
@@ -134,13 +137,13 @@
     couponNumLbl.font = [UIFont boldSystemFontOfSize:16];
     couponNumLbl.textAlignment = 2;
     [priceView addSubview:couponNumLbl];
+    */
+   
     
-   */
     
-     //如果需要显示金额和充值的话头部视图170改为200
     headerView.sd_layout
     .widthIs(m_mineTtabView.frame.size.width)
-    .heightIs(200);
+    .heightIs(230);
     
     self.avatarImage.sd_layout
     .centerXEqualToView(headerView)
@@ -165,7 +168,7 @@
     .topSpaceToView(self.avatarImage,10)
     .widthIs(viewWidth)
     .heightIs(30);
- /*
+ 
     priceView.sd_layout
     .leftSpaceToView(headerView,0)
     .rightSpaceToView(headerView,0)
@@ -173,17 +176,18 @@
     .bottomSpaceToView(headerView,0);
     
     priceLbl.sd_layout
-    .leftSpaceToView(priceView,20)
+    .leftSpaceToView(priceView,15)
     .centerYEqualToView(priceView)
     .heightIs(30)
     .widthIs(80);
     
-    lineView.sd_layout
-    .leftSpaceToView(priceView,viewWidth/2)
+    priceNumLbl.sd_layout
+    .rightEqualToView(headerView).offset(-10)
     .centerYEqualToView(priceLbl)
-    .heightIs(40)
-    .widthIs(1);
+    .heightIs(30)
+    .widthIs(90);
     
+    /*
     lineView2.sd_layout
     .bottomSpaceToView(lineView,1)
     .heightIs(1)
@@ -193,12 +197,15 @@
     .topSpaceToView(lineView,1)
     .heightIs(1)
     .widthIs(kScreenWidth);
+  
+    lineView.sd_layout
+    .leftSpaceToView(priceView,viewWidth/2)
+    .centerYEqualToView(priceLbl)
+    .heightIs(40)
+    .widthIs(1);
     
-    priceNumLbl.sd_layout
-    .rightSpaceToView(lineView,10)
-    .centerYEqualToView(priceView)
-    .heightIs(30)
-    .widthIs(90);
+    
+   
     
     couponLbl.sd_layout
     .leftSpaceToView(lineView,10)
@@ -215,13 +222,11 @@
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(someInfoChanged) name:@"UserInfoChanged" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(loginOutNotification) name:@"loginOut" object:nil];
-    if ([YCUserModel userId]) {
-        [self getRequestData];
-    }else{
-        UserLoginController *a = [[UserLoginController alloc]init];
-        MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
-        [self.navigationController presentViewController:naVC animated:YES completion:nil];
-    }
+    WS(weakSelf)
+    [self doThisIfUserInfoExist:^{
+        [weakSelf getRequestData];
+    }];
+   
     
 }
 -(void)loginOutNotification{
@@ -233,6 +238,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self getRequestData];
        
 }
 
@@ -296,6 +302,12 @@
             weakSelf.telNum = [NSString stringWithFormat:@"%@",response[@"tel"]];
         }
         
+        if (response[@"money"]==nil||response[@"money"] == [NSNull null]) {
+           weakSelf.moneyLabel.text = [NSString stringWithFormat:@"%@元",@"**"];
+        }else{
+            weakSelf.moneyLabel.text = [NSString stringWithFormat:@"%@元",response[@"money"]];
+        }
+        
         //applyData
         [weakSelf.avatarImage sd_setImageWithURL:URLWITHSTRING(weakSelf.imageUrl)];
         weakSelf.nameLbel.text = weakSelf.nickName;
@@ -307,7 +319,7 @@
 //设置表头
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 250;
+    return 270;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -359,18 +371,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([[m_mineArr objectAtIndex:indexPath.row] isEqualToString:@"充值"])
+    if([[m_mineArr objectAtIndex:indexPath.row] isEqualToString:@"余额充值"])
     {
         CZViewController *rechargeCtr = [[CZViewController alloc]init];
         rechargeCtr.title = @"充值";
         [self.navigationController pushViewController:rechargeCtr animated:YES];
     }
-    else if([[m_mineArr objectAtIndex:indexPath.row] isEqualToString:@"意见反馈"])
+    else if([[m_mineArr objectAtIndex:indexPath.row] isEqualToString:@"反馈投诉"])
     {
         WS(weakSelf)
         [self doThisIfUserInfoExist:^{
             FeedbackViewController *feedbackCtr = [[FeedbackViewController alloc]init];
-            feedbackCtr.title = @"意见反馈";
+            feedbackCtr.title = @"反馈投诉";
             [weakSelf.navigationController pushViewController:feedbackCtr animated:YES];
         }];
     }

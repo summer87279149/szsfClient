@@ -66,17 +66,13 @@
             MyOrderCellModel *model = [[MyOrderCellModel alloc]initFromDictionary:dic];
             [cellCompleteArr addObject:model];
         }
-        
         [weakSelf applyDataFromResponseObject];
     } error:^(id response) {
         [weakSelf loadiewFinished];
-        
     }];
-    
 }
 //刷新 tableView
 -(void)applyDataFromResponseObject{
-    
     [_tableView reloadData];
     [self loadiewFinished];
 }
@@ -111,7 +107,6 @@
 - (void)headerRereshing
 {
     [self GetRequestisComplete:_isCompleteOrder isHeaderRefresh:YES];
-    
 }
 
 #pragma mark MyOrderTableViewCellDelegate
@@ -126,12 +121,25 @@
         comment.orderNumber = model.orderNnumber;
         [self.navigationController pushViewController:comment animated:YES];
     }
-   
-    
 }
-//去完成delegate
+//用户确认订单完成
 -(void)MyOrderCellBtnClicked:(UITableViewCell *)cell{
     
+    NSIndexPath *index = [_tableView indexPathForCell:cell];
+    if (ArrayNonNull(cellCompleteArr)){
+        MyOrderCellModel *model = cellCompleteArr[index.section];
+        NSLog(@"当前点击的订单的订单号是:%@",model.orderNnumber);
+        WS(weakSelf)
+        SHOWHUD
+        [SomeOtherRequest makeSureOrderHasCompleted:model.orderNnumber status:@"2" success:^(id response) {
+            HIDEHUDWeakSelf
+            [MBProgressHUD showSuccess:@"操作成功"];
+            [weakSelf.tableView headerBeginRefreshing];
+        } error:^(id response) {
+            HIDEHUDWeakSelf
+            [MBProgressHUD showError:@"操作失败，请检查网络"];
+        }];
+    }
 }
 #pragma  mark tableViewDelegate and DataSource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPat{

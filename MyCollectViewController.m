@@ -27,7 +27,6 @@
     HaHaHaAddBackGroundImage
     dataHasMore = YES;
     [self createTableview];
-
 }
 
 -(void)createTableview{
@@ -46,12 +45,8 @@
 }
 - (void)setupRefresh
 {
-    // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
     [_tableView addHeaderWithTarget:self action:@selector(headerRereshing)];
-    // 自动刷新(一进入程序就下拉刷新)
     [_tableView headerBeginRefreshing];
-    
-    //2.上拉加载更多(进入刷新状态就会调用self的footerRereshing)
     [_tableView addFooterWithTarget:self action:@selector(footerRereshing)];
 }
 

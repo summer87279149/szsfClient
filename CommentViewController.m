@@ -102,25 +102,44 @@
         [MBProgressHUD showError:@"请输入评价内容"];
         return;
     }
+    WS(weakSelf)
     SHOWHUD
     self.navigationItem.rightBarButtonItem.enabled = NO;
     [SomeOtherRequest commentWithUserid:[YCUserModel userId] orderNum:self.orderNumber stars:self.socre  content:textview.text success:^(id response) {
         NSLog(@"提交评价结果是:%@",response);
-        HIDEHUD
-        [MBProgressHUD showSuccess:@"评价成功"];
-        //评价完成发送通知，刷新我的订单tableview
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"commentFinish" object:nil];
-        self.navigationItem.rightBarButtonItem.enabled = YES;
-        [self.navigationController popViewControllerAnimated:YES];
+        NSDictionary *res = response;
+        if ([res[@"status"] isEqualToString:@"success"]) {
+            [MBProgressHUD showSuccess:@"评价成功"];
+            [SomeOtherRequest makeSureOrderHasCompleted:weakSelf.orderNumber status:@"3" success:^(id response) {
+                HIDEHUDWeakSelf
+                //评价完成发送通知，刷新我的订单tableview
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"commentFinish" object:nil];
+                weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+                [weakSelf.navigationController popViewControllerAnimated:YES];
+            } error:^(id response) {
+            }];
+            
+
+        }else{
+        HIDEHUDWeakSelf
+            [MBProgressHUD showError:response[@"msg"]];
+            [SomeOtherRequest makeSureOrderHasCompleted:weakSelf.orderNumber status:@"3" success:^(id response) {
+            } error:^(id response) {
+            }];
+            NSLog(@"评价失败:%@",response[@"msg"]);
+        }
+        
         
     } error:^(id response) {
-        HIDEHUD
+        HIDEHUDWeakSelf
         [MBProgressHUD showError:@"评价失败，请检查网络"];
         self.navigationItem.rightBarButtonItem.enabled = YES;
     }];
 }
 
-
+-(void)changeOrderStatus{
+    
+}
 #pragma mark starDelegate
 -(void)starRatingView:(TQStarRatingView *)view score:(float)score{
     self.socre = score;

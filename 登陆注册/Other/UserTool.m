@@ -11,6 +11,13 @@
 #import <CommonCrypto/CommonDigest.h>
 @implementation UserTool
 
+
++ (BOOL)validateNumber:(NSString *) textString
+{
+    NSString* number=@"^[0-9]+$";
+    NSPredicate *numberPre = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",number];
+    return [numberPre evaluateWithObject:textString];
+}
 #pragma mark 正则匹配手机号
 + (BOOL) isValidateMobile:(NSString *)mobile
 {

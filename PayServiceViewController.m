@@ -5,33 +5,233 @@
 //  Created by Admin on 16/12/13.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
-
+#import "MainTabBarController.h"
+#import "WXApiObject.h"
+#import "Order.h"
+#import "PayViewController.h"
+#import "PayFirstTableViewCell.h"
+#import "PayCell.h"
+#import "WXHander.h"
+#import "WXApi.h"
 #import "PayServiceViewController.h"
 
-@interface PayServiceViewController ()
-
+@interface PayServiceViewController ()<UITableViewDelegate,UITableViewDataSource>
+@property(nonatomic,strong)UITableView *tableView;
+@property(nonatomic,strong) UIButton *payCommit;
+//判断支付宝Or微信支付
+@property(nonatomic,assign) int count;
 @end
 
 @implementation PayServiceViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.navigationItem.title = @"支付订单";
+    HaHaHaAddBackGroundImage
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+    _tableView.delegate=self;
+    _tableView.dataSource=self;
+    _tableView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:_tableView];
+    self.count = 10;
+    [self createPayCommitBtn];
 }
+-(void)createPayCommitBtn{
+    self.payCommit = [[UIButton alloc]init];
+    [_tableView addSubview:self.payCommit];
+    self.payCommit.frame = CGRectMake(10, 300, kScreenWidth-20, 44);
+    self.payCommit.layer.cornerRadius = 5;
+    self.payCommit.backgroundColor = COLOR;
+    [self.payCommit setTitle:@"确认支付" forState:UIControlStateNormal];
+    [self.payCommit addTarget:self action:@selector(payCommitBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+}
+/**
+ *  确认付款
+ *
+ */
+-(void)payCommitBtnClicked:(UIButton *)button{
+    WS(weakSelf)
+    SHOWHUD
+    if (self.count ==0) {
+        //        BOOL isInstallWX = [WXApi isWXAppInstalled]&&[WXApi isWXAppSupportApi];
+        //        if (!isInstallWX) {
+        //            [MBProgressHUD showError:@"发起支付失败"];
+        //            return;
+        //        }
+        /**
+         *  微信支付
+         */
+        YCUserModel *payType = [YCUserModel shareManager];
+        payType.payInfo = @"1";
+        [payType save];
+        [SomeOtherRequest getPayServiceParameterWithOrderNumber:self.orderNumber andPayTape:PayTypeWX success:^(id response) {
+            
+            NSLog(@"微信支付服务 返回的结果是:%@",response);
+            
+            HIDEHUDWeakSelf
+//            UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"返回信息:" message:response delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//            [alter show];
+            NSString *res = [WXHander jumpToBizPay:response];
+            if( ![@"" isEqual:res] ){
+                UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"支付失败" message:res delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alter show];
+            }else{
+                //                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                MainTabBarController *tabBarVC=[[MainTabBarController alloc]init];
+                [UIApplication sharedApplication].keyWindow.rootViewController=tabBarVC;
+                tabBarVC.selectedIndex = 0;
+            }
+        } error:^(id response) {
+            HIDEHUDWeakSelf
+        }];
+        
+    }else if (self.count == 1){//余额支付
+        WS(weakSelf)
+        [SomeOtherRequest payByListMoney:[YCUserModel userId] oid:self.orderNumber  payServiceType:PayServiceTypeService success:^(id response) {
+            HIDEHUDWeakSelf
+            NSLog(@"余额支付返回:%@",response);
+            if ([response[@"status"] isEqualToString:@"success"]) {
+//                [MBProgressHUD showSuccess:@"支付成功，请“服务订单”中查询本次订单"];
+                UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"支付成功" message:@"支付成功，在“服务订单”中查询本次订单" delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:nil];
+                [alter show];
+                [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+            }else{
+                UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"" message:response[@"msg"] delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:nil];
+                [alter show];
+                [weakSelf.navigationController popToRootViewControllerAnimated:YES];
+            }
+        } error:^(id response) {
+            HIDEHUDWeakSelf
+//            [MBProgressHUD showError:@"支付失败"];
+            UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"支付失败" message:response[@"msg"] delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil];
+            [alter show];
+        }];
+        
+    }else if (self.count == 2){
+        [MBProgressHUD showSuccess:@"发起支付宝支付请求"];
+        /**
+         *  支付宝支付
+         */
+        [SomeOtherRequest getPayParameterWithOrderNumber:self.orderNumber andPayTape:PayTypeAlipay success:^(id response) {
+            NSLog(@"支付宝请求返回的结果是:%@",response);
+            HIDEHUDWeakSelf
+        } error:^(id response) {
+            HIDEHUDWeakSelf
+        }];
+    }else{
+        HIDEHUD
+        [MBProgressHUD showError:@"请选择支付方式"];
+        return;
+    }
+}
+
+
+#pragma  mark tableViewDelegate and DataSource
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section==0) {
+        return 80;
+    }
+    return 50.0;
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 2;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    return section == 0?1:2;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section==0) {
+        static NSString *CellIdentifier = @"FirstCell";
+        BOOL nibsRegistered = NO;
+        if (!nibsRegistered) {
+            UINib *nib = [UINib nibWithNibName:NSStringFromClass([PayFirstTableViewCell class]) bundle:nil];
+            [tableView registerNib:nib forCellReuseIdentifier:CellIdentifier];
+            nibsRegistered = YES;
+        }
+        PayFirstTableViewCell *cell = (PayFirstTableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.userInteractionEnabled = NO;
+        cell.orderNumberLabel.text = [NSString stringWithFormat:@"订单号:%@",self.orderNumber];
+        cell.totalPriceLabel.text =  [NSString stringWithFormat:@"%@元",self.totalPrice];
+        cell.namesLabel.text = @"总价";
+        
+        return cell;
+    }
+    else
+    {
+        static NSString *CellIdentifier = @"Cell";
+        BOOL nibsRegistered = NO;
+        if (!nibsRegistered) {
+            UINib *nib = [UINib nibWithNibName:NSStringFromClass([PayCell class]) bundle:nil];
+            [tableView registerNib:nib forCellReuseIdentifier:CellIdentifier];
+            nibsRegistered = YES;
+        }
+        PayCell *cell = (PayCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        cell.view.layer.cornerRadius = 10;
+        cell.view.layer.borderWidth = 1;
+        if(indexPath.row==0){
+            cell.name.text = @"微信支付";
+            cell.content.text = @"推荐安装微信5.0及以上版本的用户使用";
+            
+        }else if(indexPath.row == 1)
+        {
+            cell.name.text = @"余额支付";
+            cell.content.text = @"使用当前用户余额支付";
+        }
+        else{
+            cell.name.text = @"支付宝支付";
+            cell.content.text = @"推荐有支付宝账号的用户使用";
+        }
+        
+        
+        return cell;
+    }
+    
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    PayCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.view.backgroundColor = COLOR;
+    if (indexPath.row == 0) {
+        if (![WXApi isWXAppInstalled]) {
+            [MBProgressHUD showError:@"无法选择此方式支付"];
+            return;
+        }else if (![WXApi isWXAppSupportApi]){
+            [MBProgressHUD showError:@"无法选择此方式支付"];
+            return;
+        }
+        self.count = 0;
+    }
+    else if (indexPath.row ==1 ){//余额支付
+        self.count = 1;
+    }else{
+        self.count = 2;//支付宝支付
+    }
+    
+    
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

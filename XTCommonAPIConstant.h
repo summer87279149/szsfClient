@@ -45,8 +45,11 @@ UIKIT_EXTERN NSString *const kXTCommonAPIConstantUpdata;
 UIKIT_EXTERN NSString *const kXTCommonAPIConstantMallsComment;
 //从购物车结算
 UIKIT_EXTERN NSString *const kXTCommonAPIConstantPayPruductCar;
-//微信支付
+//微信支付商品
 UIKIT_EXTERN NSString *const kXTCommonAPIConstantPayWX;
+
+//余额支付
+UIKIT_EXTERN NSString *const kXTCommonAPIConstantPayYuE;
 //支付宝支付
 UIKIT_EXTERN NSString *const kXTCommonAPIConstantPayAlipay;
 //已完成／未完成订单
@@ -74,6 +77,9 @@ UIKIT_EXTERN NSString *const kUserFocusTec;
 UIKIT_EXTERN NSString *const kUserAddFocusTec;
 //取消关注
 UIKIT_EXTERN NSString *const kUserCancelFocusTec;
+//确认订单已完成
+UIKIT_EXTERN NSString *const kMakeSureOrderComplete;
+
 //nickName
 UIKIT_EXTERN NSString *const kUserModifyNickName;
 //上传图片
@@ -86,6 +92,10 @@ UIKIT_EXTERN NSString *const kUserInfo;
 UIKIT_EXTERN NSString *const kUserregist;
 //我的订单
 UIKIT_EXTERN NSString *const kUserrMyOrderNumber;
+//根据充值金额获取充值订单号
+UIKIT_EXTERN NSString *const kGetOrderIDByChargeNum;
+//充值
+UIKIT_EXTERN NSString *const kUserCharge;
 //收藏商铺
 UIKIT_EXTERN NSString *const kUserrCollectShop;
 //取消收藏店铺

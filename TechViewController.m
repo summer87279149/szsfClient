@@ -54,7 +54,7 @@
         NSString *str =[[NSUserDefaults standardUserDefaults]objectForKey:@"ud_user_id"];
         WS(weakSelf)
         [SomeOtherRequest ShowTechWithTecID:self.techID AndUserID:str  success:^(id response) {
-            NSLog(@"huidaio shi  %@",response);
+            NSLog(@"huidiao shi  %@",response);
             isFocus = [NSString stringWithFormat:@"%@",response[@"isfocus"]];
             techModel = [[TechnicianMode alloc]initFromDictionary:response[@"tech"]];
             [self applyNetData];
@@ -189,7 +189,7 @@
     [button addTarget:self action:@selector(moreBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     button.backgroundColor = [UIColor clearColor];
     [button showsTouchWhenHighlighted];
-    [button setTitle:@"更多 >" forState:UIControlStateNormal];
+    [button setTitle:@"  >" forState:UIControlStateNormal];
     
   
     
@@ -226,7 +226,8 @@
     self.skill.text = [NSString stringWithFormat:@"%@ %@年经验",techModel.skill,techModel.years];
     self.serviceTimes.text =[NSString stringWithFormat:@"服务%@次",techModel.serviceTimes];
 //    NSLog(@"%@",techModel.serviceTimes);
-    self.comments.text = [NSString stringWithFormat:@"TA的评价(%@条)  %@好评",techModel.commentsNumber,techModel.goodCommentRare];
+    self.comments.text = @"TA的评价";
+//    self.comments.text = [NSString stringWithFormat:@"TA的评价(%@条)  %@好评",techModel.commentsNumber,techModel.goodCommentRare];
     if ([techModel.AuthenticationImage isEqualToString:@"0"]) {
         self.AuthenticationImage.hidden=YES;
     }else{
@@ -254,7 +255,8 @@
     }else if([self.focusButton.titleLabel.text isEqualToString:@"已关注"]){
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [SomeOtherRequest UserCancelFocusWithTecID:self.techID UserID:[YCUserModel userId] success:^(id response) {
-//            NSLog(@"关注失败返回 %@",response);             [MBProgressHUD hideHUDForView:self.view];
+//            NSLog(@"关注失败返回 %@",response);
+            [MBProgressHUD hideHUDForView:self.view];
             [MBProgressHUD showSuccess:@"取消关注成功"];
             [self.focusButton setTitle:@"+关注" forState:UIControlStateNormal];
         } error:^(id response) {

@@ -8,6 +8,7 @@
 
 #import "WXApiManager.h"
 #import "MainTabBarController.h"
+#import "YCUserModel.h"
 @implementation WXApiManager
 
 #pragma mark - LifeCycle
@@ -24,12 +25,21 @@
 #pragma mark - WXApiDelegate
 - (void)onResp:(BaseResp *)resp {
    if([resp isKindOfClass:[PayResp class]]){
+       NSString *payType = [YCUserModel getPayInfo];
+       NSLog(@"打印订单类型%@",payType);
         //支付返回结果，实际支付结果需要去微信服务器端查询
         NSString *strMsg,*strTitle = [NSString stringWithFormat:@"支付结果"];
         switch (resp.errCode) {
-            case WXSuccess:
-                strMsg = @"支付成功！我们会立刻为您运送！您可以在“已完成”中查看本次订单";
-                NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
+            case WXSuccess:{
+                if ([payType isEqualToString:@"2"]) {
+                    strMsg = @"支付成功！我们会立刻为您运送！您可以在“已完成”中查看本次订单";
+                    NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
+                }else if ([payType isEqualToString:@"1"]){
+                    strMsg = @"支付成功！您可以在“服务订单”中查看本次订单";
+                }else if([payType isEqualToString:@"3"]){
+                    strMsg = @"充值成功!充值金额将在1～3个工作日内到账";
+                }
+            }
                 break;
                 
             default:

@@ -9,7 +9,7 @@
 #import "CarViewController.h"
 #import "MyCustomCell.h"
 #import "GoodsInfoModel.h"
-#import "BuyViewController.h"
+
 #import "BuyVC.h"
 @interface CarViewController ()<UITableViewDataSource,UITableViewDelegate,MyCustomCellDelegate>
 {

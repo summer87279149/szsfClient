@@ -64,9 +64,10 @@
     [self.view addSubview:orderBtn];
 }
 -(void)orderBtnClicked{
-    if ([YCUserModel userId]) {
+    WS(weakSelf)
+    [self doThisIfUserInfoExist:^{
         SHOWHUD
-        [SomeOtherRequest AddProductToCarWithUserId:[YCUserModel userId] andProductID:self.productID success:^(id response) {
+        [SomeOtherRequest AddProductToCarWithUserId:[YCUserModel userId] andProductID:weakSelf.productID success:^(id response) {
             NSLog(@"加入购物车 %@",response);
             HIDEHUD
             [MBProgressHUD showSuccess:@"已加入购物车"];
@@ -74,11 +75,22 @@
             HIDEHUD
             [MBProgressHUD showError:@"操作失败，请重试"];
         }];
-    }else{
-        UserLoginController *a = [[UserLoginController alloc]init];
-        MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
-        [self.navigationController presentViewController:naVC animated:YES completion:nil];
-    }
+    }];
+//    if ([YCUserModel userId]) {
+//        SHOWHUD
+//        [SomeOtherRequest AddProductToCarWithUserId:[YCUserModel userId] andProductID:self.productID success:^(id response) {
+//            NSLog(@"加入购物车 %@",response);
+//            HIDEHUD
+//            [MBProgressHUD showSuccess:@"已加入购物车"];
+//        } error:^(id response) {
+//            HIDEHUD
+//            [MBProgressHUD showError:@"操作失败，请重试"];
+//        }];
+//    }else{
+//        UserLoginController *a = [[UserLoginController alloc]init];
+//        MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
+//        [self.navigationController presentViewController:naVC animated:YES completion:nil];
+//    }
     
 }
 -(void)setprojectview{

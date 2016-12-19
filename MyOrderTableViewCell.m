@@ -17,7 +17,7 @@
     self.button.layer.borderColor =[COLOR CGColor];
     self.button.layer.borderWidth = 1;
     
-    self.gotoCompleteButton.layer.cornerRadius=2;
+    self.gotoCompleteButton.layer.cornerRadius=1;
     self.gotoCompleteButton.layer.borderColor =[COLOR CGColor];
     self.gotoCompleteButton.layer.borderWidth = 1;
 }
@@ -50,7 +50,7 @@
     self.name.text = myOrderCellModel.name;
     //如果要该回头的话，把下面的3行删掉，再把 ／＊ ＊／里面的打开
     self.button.hidden = NO;
-    self.status.text = @"已预约过";
+//    self.status.text = @"等待服务";
     self.gotoCompleteButton.hidden = YES;
 
     /*
@@ -69,12 +69,19 @@
     self.price.text = [NSString stringWithFormat:@"总价:¥%@",myOrderCellModel.price];
     [self.image sd_setImageWithURL:URLWITHSTRING(myOrderCellModel.imageUrl)];
     self.orderNnumber.text = [NSString stringWithFormat:@"订单号:%@",myOrderCellModel.orderNnumber];
-    if ([myOrderCellModel.isRemarked isEqualToString:@"1"]) {
+    if([myOrderCellModel.isRemarked isEqualToString:@"1"]) {
+        self.status.text = @"等待服务";
+        self.gotoCompleteButton.hidden = NO;
+        self.button.hidden = YES;
+    }
+    if ([myOrderCellModel.isRemarked isEqualToString:@"3"]) {
+        self.status.text = @"已完成";
         [self.button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [self.button setTitle:@"已评价" forState:UIControlStateNormal];
         self.button.enabled = NO;
     }
-    if ([myOrderCellModel.isRemarked isEqualToString:@"0"]) {
+    if ([myOrderCellModel.isRemarked isEqualToString:@"2"]) {
+        self.status.text = @"待评价";
         [self.button setTitleColor:COLOR forState:UIControlStateNormal];
         [self.button setTitle:@"评价" forState:UIControlStateNormal];
         self.button.enabled = YES;

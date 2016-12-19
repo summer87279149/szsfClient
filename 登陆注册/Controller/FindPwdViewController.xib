@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,12 +26,17 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="homeVCBackgroundImage" translatesAutoresizingMaskIntoConstraints="NO" id="v02-zh-CqD"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginBackgroundImage" translatesAutoresizingMaskIntoConstraints="NO" id="v02-zh-CqD">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wEG-yv-l1W">
+                    <rect key="frame" x="0.0" y="66" width="375" height="199"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ASx-rX-Aha">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="手机号：" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="hbm-ac-Zuh">
+                                    <rect key="frame" x="10" y="0.0" width="365" height="49"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <textInputTraits key="textInputTraits" keyboardType="phonePad" enablesReturnKeyAutomatically="YES"/>
                                     <userDefinedRuntimeAttributes>
@@ -71,8 +79,10 @@
                             </variation>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hy8-x2-LTy">
+                            <rect key="frame" x="0.0" y="50" width="375" height="49"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dBc-Dh-5JX">
+                                    <rect key="frame" x="270" y="2" width="100" height="45"/>
                                     <color key="backgroundColor" red="0.23137254900000001" green="0.16078431369999999" blue="0.20784313730000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="100" id="wXk-Jy-kO8"/>
@@ -90,6 +100,7 @@
                                     </connections>
                                 </button>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="短信效验码：" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="xon-ZA-u5J">
+                                    <rect key="frame" x="10" y="0.0" width="260" height="49"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                                 </textField>
@@ -107,8 +118,10 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xtG-dV-gwY">
+                            <rect key="frame" x="0.0" y="100" width="375" height="49"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="新密码:6-16位数字或字母" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="EXU-gk-tjf">
+                                    <rect key="frame" x="10" y="0.0" width="365" height="49"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                 </textField>
@@ -123,8 +136,10 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4YH-Vf-v3F">
+                            <rect key="frame" x="0.0" y="150" width="375" height="49"/>
                             <subviews>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="确认新密码:" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="df4-yQ-J8A">
+                                    <rect key="frame" x="10" y="0.0" width="365" height="49"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                     <userDefinedRuntimeAttributes>
@@ -173,6 +188,7 @@
                     </userDefinedRuntimeAttributes>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W1m-NQ-xa6">
+                    <rect key="frame" x="20" y="295" width="335" height="50"/>
                     <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90588235289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="8Gu-G1-Fqd"/>
@@ -195,7 +211,7 @@
                 <constraint firstItem="v02-zh-CqD" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="9uv-R4-x4o"/>
                 <constraint firstItem="W1m-NQ-xa6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="Acp-Wi-baa"/>
                 <constraint firstItem="wEG-yv-l1W" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Arz-Jd-EKV"/>
-                <constraint firstItem="wEG-yv-l1W" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="GiR-CZ-XB5"/>
+                <constraint firstItem="wEG-yv-l1W" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="66" id="GiR-CZ-XB5"/>
                 <constraint firstItem="W1m-NQ-xa6" firstAttribute="top" secondItem="wEG-yv-l1W" secondAttribute="bottom" constant="30" id="I4y-n2-XyG"/>
                 <constraint firstItem="v02-zh-CqD" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="TRA-M3-bNi"/>
                 <constraint firstAttribute="trailing" secondItem="W1m-NQ-xa6" secondAttribute="trailing" constant="20" id="c0h-NB-DxT"/>
@@ -213,6 +229,6 @@
         </view>
     </objects>
     <resources>
-        <image name="homeVCBackgroundImage" width="477" height="848"/>
+        <image name="loginBackgroundImage" width="504" height="891"/>
     </resources>
 </document>

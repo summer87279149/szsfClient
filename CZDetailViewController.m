@@ -8,6 +8,7 @@
 
 #import "CZDetailViewController.h"
 #import "PayCell.h"
+#import "WXHander.h"
 @interface CZDetailViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     UITableView *rechargeTable;
@@ -51,34 +52,80 @@
 
 }
 /**
- *  发起支付宝或者微信
+ *  发起支付宝或者微信，添加支付宝把numberofrow改为2就行
  *
  */
 -(void)BtnClicked:(UIButton *)button{
     if (self.count ==0) {
-        [MBProgressHUD showSuccess:@"发起支付宝支付请求"];
-        /**
-         *  支付宝支付
-         *
-         */
+            /**
+             *  微信支付
+             */
+//            [SomeOtherRequest getPayParameterWithOrderNumber:self.money andPayTape:PayTypeWX success:^(id response) {
+//                NSLog(@"微信请求返回的结果是:%@",response);
+//                HIDEHUDWeakSelf
+//                NSString *res = [WXHander jumpToBizPay:response];
+//                if( ![@"" isEqual:res] ){
+//                    UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"支付失败" message:res delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//                    [alter show];
+//                }else{
+//                    //                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+//                    MainTabBarController *tabBarVC=[[MainTabBarController alloc]init];
+//                    [UIApplication sharedApplication].keyWindow.rootViewController=tabBarVC;
+//                    tabBarVC.selectedIndex = 3;
+//                }
+//            } error:^(id response) {
+//                HIDEHUDWeakSelf
+//            }];
+        WS(weakSelf)
+        SHOWHUD
+        [SomeOtherRequest userGetOrderIdBy:self.money andUserId:[YCUserModel userId] success:^(id response) {
+             NSLog(@"微信请求返回的结果是:%@",response);
+            NSDictionary *dic = response;
+            [weakSelf WXPayWithOid:dic[@"oid"]];
+            
+            
+        } error:^(id response) {
+            
+        }];
     }else if (self.count == 1){
-        [MBProgressHUD showSuccess:@"发起微信支付请求"];
-        /**
-         *  微信支付
-         *
-         */
+        [MBProgressHUD showSuccess:@"发起支付宝支付请求"];
+        
+  
     }else{
         [MBProgressHUD showError:@"请选择一种支付方式"];
         return;
     }
 }
-
+-(void)WXPayWithOid:(NSString *)oid{
+    WS(weakSelf)
+    [SomeOtherRequest userChargeWithOID:oid success:^(id response) {
+        NSLog(@"微信请求返回的结果是:%@",response);
+        YCUserModel *payType = [YCUserModel shareManager];
+        payType.payInfo = @"3";
+        [payType save];
+        HIDEHUDWeakSelf
+        NSString *res = [WXHander jumpToBizPay:response];
+        if( ![@"" isEqual:res] ){
+            UIAlertView *alter = [[UIAlertView alloc] initWithTitle:@"支付失败" message:res delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alter show];
+        }else{
+//            //                [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+//            MainTabBarController *tabBarVC=[[MainTabBarController alloc]init];
+//            [UIApplication sharedApplication].keyWindow.rootViewController=tabBarVC;
+//            tabBarVC.selectedIndex = 3;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"UserInfoChanged" object:nil];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+    } error:^(id response) {
+        HIDEHUDWeakSelf
+    }];
+}
 #pragma mark - UItableView delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    return 2;
+    return 1;
     
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -99,12 +146,13 @@
     cell.view.layer.cornerRadius = 10;
     cell.view.layer.borderWidth = 1;
     if(indexPath.row==0){
-        cell.name.text = @"支付宝支付";
-        cell.content.text = @"推荐有支付宝账号的用户使用";
-    }else
-    {
         cell.name.text = @"微信支付";
         cell.content.text = @"推荐安装微信5.0及以上版本的用户使用";
+    }else
+    {
+        cell.name.text = @"支付宝支付";
+        cell.content.text = @"推荐有支付宝账号的用户使用";
+        
     }
     return cell;
 }

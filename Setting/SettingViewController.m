@@ -38,7 +38,7 @@
     
     UIButton *rechargeBtn = [[UIButton alloc]init];
     [rechargeBtn addTarget:self action:@selector(loginOutPress) forControlEvents:UIControlEventTouchUpInside];
-    rechargeBtn.backgroundColor = [UIColor getColor:@"D5393A"];
+    rechargeBtn.backgroundColor = COLOR;
     [rechargeBtn setTitle:@"退出登录" forState:UIControlStateNormal];
     [rechargeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [rechargeBtn addTarget:self action:@selector(loginOutPress) forControlEvents:UIControlEventTouchDragInside];

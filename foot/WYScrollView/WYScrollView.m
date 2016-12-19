@@ -210,6 +210,7 @@
 - (void)scorll
 {
     [_scrollView setContentOffset:CGPointMake(_scrollView.contentOffset.x +ScrollWidth, 0) animated:YES];
+    
 }
 
 #pragma mark - 给复用的imageView赋值

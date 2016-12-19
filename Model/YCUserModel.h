@@ -17,6 +17,7 @@
 #define USER_LO                             @"longitude"
 #define USER_Position                       @"position"
 #define USER_City                           @"city"
+#define USER_Info                           @"ud_pay_Info"
 /*!
  @class
  @abstract 用户数据类
@@ -40,6 +41,8 @@
 @property(nonatomic,copy) NSString *city;
 //位置
 @property(nonatomic,copy) NSString *position;
+//记录用户支付的是服务订单还是商品 1:服务订单，2商品订单,3充值订单
+@property(nonatomic,copy) NSString *payInfo;
 // 用户状态，0为待审核，1为审核通过，2为驳回，3为失败
 @property (strong, nonatomic) NSString *userStates;
 
@@ -69,5 +72,6 @@
 
 + (NSString *)position;
 
++ (NSString *)getPayInfo;
 
 @end

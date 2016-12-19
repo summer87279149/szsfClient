@@ -153,40 +153,54 @@
 
 //购物车
 -(void)OrderCarBtnClicked{
-    if ([YCUserModel userId]) {
+    WS(weakSelf)
+    [self doThisIfUserInfoExist:^{
         CarViewController *CarVC = [[CarViewController alloc]init];
-        [self.navigationController pushViewController:CarVC animated:YES];
-    }else{
-        UserLoginController *a = [[UserLoginController alloc]init];
-        MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
-        [self.navigationController presentViewController:naVC animated:YES completion:nil];
-    }
+        [weakSelf.navigationController pushViewController:CarVC animated:YES];
+    }];
+//    if ([YCUserModel userId]) {
+//        
+//    }else{
+//        UserLoginController *a = [[UserLoginController alloc]init];
+//        MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
+//        [self.navigationController presentViewController:naVC animated:YES completion:nil];
+//    }
     
 }
 
 //未完成
 -(void)Uncomplish{
-    if ([YCUserModel userId]) {
+    WS(weakSelf)
+    [self doThisIfUserInfoExist:^{
         UnCompleteViewController *UnComplete = [[UnCompleteViewController alloc]init];
-        [self.navigationController pushViewController:UnComplete animated:YES];
-    }else{
-        UserLoginController *a = [[UserLoginController alloc]init];
-        MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
-        [self.navigationController presentViewController:naVC animated:YES completion:nil];
-    }
+        [weakSelf.navigationController pushViewController:UnComplete animated:YES];
+    }];
+//    if ([YCUserModel userId]) {
+//        UnCompleteViewController *UnComplete = [[UnCompleteViewController alloc]init];
+//        [self.navigationController pushViewController:UnComplete animated:YES];
+//    }else{
+//        UserLoginController *a = [[UserLoginController alloc]init];
+//        MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
+//        [self.navigationController presentViewController:naVC animated:YES completion:nil];
+//    }
     
 }
 
 //已完成
 -(void)complish{
-    if ([YCUserModel userId]) {
+    WS(weakSelf)
+    [self doThisIfUserInfoExist:^{
         CompleteViewController *complete = [[CompleteViewController alloc]init];
         [self.navigationController pushViewController:complete animated:YES];
-    }else{
-        UserLoginController *a = [[UserLoginController alloc]init];
-        MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
-        [self.navigationController presentViewController:naVC animated:YES completion:nil];
-    }
+    }];
+//    if ([YCUserModel userId]) {
+//        CompleteViewController *complete = [[CompleteViewController alloc]init];
+//        [self.navigationController pushViewController:complete animated:YES];
+//    }else{
+//        UserLoginController *a = [[UserLoginController alloc]init];
+//        MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
+//        [self.navigationController presentViewController:naVC animated:YES completion:nil];
+//    }
 }
 
 

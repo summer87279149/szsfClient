@@ -39,7 +39,7 @@
     
     
     ToMyHomeViewController *visitViewController=[[ToMyHomeViewController alloc]init];
-    [self addViewController:visitViewController withImage:@"visit_off" WithSelectImage:@"visit" WithTitle:@"上门"];
+    [self addViewController:visitViewController withImage:@"visit_off" WithSelectImage:@"visit" WithTitle:@"名师"];
     
     MallViewController *mallViewController=[[MallViewController alloc]init];
     [self addViewController:mallViewController withImage:@"mall_off" WithSelectImage:@"mall" WithTitle:@"商城"];

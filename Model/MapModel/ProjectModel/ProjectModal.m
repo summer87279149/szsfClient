@@ -5,7 +5,7 @@
 //  Created by Admin on 16/8/15.
 //  Copyright © 2016年 Admin. All rights reserved.
 //
-#define XXJIsToMyHome                               @"isshangmen"
+#define XXJIsToMyHome                               @"isshangmen2"
 #define XXJprojectID                                @"pid"
 #define XXJimageURLArray                            @"projbanner"
 #define XXJprojectName                              @"projectname"

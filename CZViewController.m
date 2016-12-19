@@ -8,6 +8,7 @@
 
 #import "CZViewController.h"
 #import "CZDetailViewController.h"
+#import "UserTool.h"
 @interface CZViewController ()<UITextFieldDelegate>
 {
     UITextField *rechargeText;
@@ -32,7 +33,7 @@
     
     rechargeText = [[UITextField alloc]init];
     rechargeText.delegate = self;
-    rechargeText.placeholder = @"   请输入充值金额";
+    rechargeText.placeholder = @"   请输入充值金额(整数)";
     [rechargeText setValue:[UIColor blackColor] forKeyPath:@"_placeholderLabel.textColor"];
     [rechargeText setValue:[UIFont boldSystemFontOfSize:14] forKeyPath:@"_placeholderLabel.font"];
     rechargeText.layer.borderWidth = 1;
@@ -74,10 +75,17 @@
 //充值按钮
 - (void)rechargeBtnPress
 {
+    if (![UserTool validateNumber:rechargeText.text]) {
+        [MBProgressHUD showError:@"请输入正确的整数金额"];
+        return;
+    }
     if ([rechargeText.text intValue]) {
+        
         if ([rechargeText.text intValue]<=0) {
             [MBProgressHUD showError:@"请输入正确的整数金额"];
-        }
+            return ;
+            }
+        
         CZDetailViewController *CZD = [[CZDetailViewController alloc]init];
         CZD.money = [rechargeText.text intValue];
         [self.navigationController pushViewController:CZD animated:YES];

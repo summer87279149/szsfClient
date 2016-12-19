@@ -9,7 +9,7 @@
 #define XXJimageviewUrl                 @"headimgurl"
 #define XXJname                         @"tname"
 #define XXJgrade                        @"tscore"
-#define XXJorderNumber                  @"finishedorders"
+#define XXJorderNumber                  @"orderqty"
 #define XXJdistance                     @"distance"
 #define XXJtext                         @"instruction"
 #define XXJproject                      @"cate"

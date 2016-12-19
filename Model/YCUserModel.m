@@ -71,6 +71,9 @@
     if (self.city) {
         [ud setObject:self.city forKey:USER_City];
     }
+    if(self.payInfo){
+        [ud setObject:self.payInfo forKey:USER_Info];
+    }
     
     [ud synchronize];
 }
@@ -112,7 +115,13 @@
     
     return password;
 }
-
++ (NSString *)getPayInfo{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    
+    NSString *info = [ud objectForKey:USER_Info];
+    
+    return info;
+}
 + (NSString *)userId{
     
     NSString *userId = [[NSUserDefaults standardUserDefaults] objectForKey:USER_ID];
@@ -195,6 +204,7 @@
     return login;
 }
 
+
 - (void)logOut{
     
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
@@ -207,6 +217,7 @@
     [ud setObject:nil forKey:USER_LA];
     [ud setObject:nil forKey:USER_LO];
     [ud setObject:nil forKey:USER_Position];
+    [ud setObject:nil forKey:USER_Info];
     [ud synchronize];
 }
 

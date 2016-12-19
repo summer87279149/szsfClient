@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,9 +19,9 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="homeVCBackgroundImage" translatesAutoresizingMaskIntoConstraints="NO" id="tp1-2T-9yY"/>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="t5q-9W-tQL">
-                    <mutableString key="text">开发者扬州亮点网络尊重并保护所有使用服务用户的个人隐私权。为了给您提供更准确、更有个性化的服务，开发者扬州亮点网络会按照本隐私权政策的规定使用和披露您的个人信息。但开发者扬州亮点网络将以高度的勤勉、审慎义务对待这些信息。除本隐私权政策另有规定外，在未征得您事先许可的情况下，开发者扬州亮点网络不会将这些信息对外披露或向第三方提供。开发者扬州亮点网络会不时更新本隐私权政策。 您在同意开发者扬州亮点网络服务使用协议之时，即视为您已经同意本隐私权政策全部内容。本隐私权政策属于开发者扬州亮点网络服务使用协议不可分割的一部分。 
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <string key="text">开发者扬州亮点网络尊重并保护所有使用服务用户的个人隐私权。为了给您提供更准确、更有个性化的服务，开发者扬州亮点网络会按照本隐私权政策的规定使用和披露您的个人信息。但开发者扬州亮点网络将以高度的勤勉、审慎义务对待这些信息。除本隐私权政策另有规定外，在未征得您事先许可的情况下，开发者扬州亮点网络不会将这些信息对外披露或向第三方提供。开发者扬州亮点网络会不时更新本隐私权政策。 您在同意开发者扬州亮点网络服务使用协议之时，即视为您已经同意本隐私权政策全部内容。本隐私权政策属于开发者扬州亮点网络服务使用协议不可分割的一部分。 
 1. 适用范围 
 a) 在您使用开发者扬州亮点网络提供的网络服务，或访问开发者扬州亮点网络制作的网页时，开发者扬州亮点网络自动接收并记录的您的浏览器和计算机上的信息，包括但不限于您的IP地址、浏览器的类型、使用的语言、访问日期和时间、软硬件特征信息及您需求的网页记录等数据； 
 b) 开发者扬州亮点网络通过合法途径从商业伙伴处取得的用户个人数据。 
@@ -48,25 +51,18 @@ c) 通过开发者扬州亮点网络所设cookies所取得的有关信息，将�
 6. 信息安全  
 a) 开发者扬州亮点网络帐号均有安全保护功能，请妥善保管您的用户名及密码信息。开发者扬州亮点网络将通过对用户密码进行加密等安全措施确保您的信息不丢失，不被滥用和变造。尽管有前述安全措施，但同时也请您注意在信息网络上不存在“完善的安全措施”。  
 b) 在使用开发者扬州亮点网络发布的网络服务进行网上交易时，您不可避免的要向交易对方或潜在的交易对方披露自己的个人信息，如联络方式或者邮政地址。请您妥善保护自己的个人信息，仅在必要的情形下向他人提供。如您发现自己的个人信息泄密，尤其是开发者扬州亮点网络用户名及密码发生泄露，请您立即联络开发者扬州亮点网络，以便开发者扬州亮点网络采取相应措施。
-</mutableString>
+</string>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="tp1-2T-9yY" secondAttribute="trailing" id="PcM-m4-642"/>
                 <constraint firstItem="t5q-9W-tQL" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="VHX-Lz-dpf"/>
-                <constraint firstItem="tp1-2T-9yY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="WDP-Uj-Kmi"/>
                 <constraint firstItem="t5q-9W-tQL" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Xpp-YH-r2D"/>
-                <constraint firstItem="tp1-2T-9yY" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="djh-YC-RaM"/>
-                <constraint firstAttribute="bottom" secondItem="tp1-2T-9yY" secondAttribute="bottom" id="ndf-Gw-Nwv"/>
                 <constraint firstAttribute="trailing" secondItem="t5q-9W-tQL" secondAttribute="trailing" id="san-69-bQU"/>
                 <constraint firstAttribute="bottom" secondItem="t5q-9W-tQL" secondAttribute="bottom" id="ycV-MW-OAr"/>
             </constraints>
         </view>
     </objects>
-    <resources>
-        <image name="homeVCBackgroundImage" width="477" height="848"/>
-    </resources>
 </document>

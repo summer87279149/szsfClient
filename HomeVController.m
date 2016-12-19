@@ -273,8 +273,8 @@
     
     [self  uploadLatAndLon];
     [UMSocialData defaultData].extConfig.title = @"神州师傅";
-//    [UMSocialData defaultData].extConfig.wechatSessionData.url = @"http://www.baidu.com";
-//    [UMSocialData defaultData].extConfig.wechatTimelineData.url = @"http://www.baidu.com";
+    [UMSocialData defaultData].extConfig.wechatSessionData.url = @"https://appsto.re/cn/L4MPfb.i";
+    [UMSocialData defaultData].extConfig.wechatTimelineData.url = @"https://appsto.re/cn/L4MPfb.i";
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:UmengAppkey
                                       shareText:@"欢迎使用神州师傅"
@@ -524,15 +524,12 @@
     [m_searchBa resignFirstResponder];
     [self doThisIfUserInfoExist:^{
         if (NetImageShopID.count>0) {
-            //        HomeCellModel*model = ;
             ShopDetailVC *push = [[ShopDetailVC alloc]init];
             push.shopID =NetImageShopID[index];
             push.title = @"商家";
             [self.navigationController pushViewController:push animated:YES];
         }
     }];
-   
-   
 }
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
@@ -541,12 +538,15 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     [searchBar resignFirstResponder];
+    WS(weakSelf)
+    [self doThisIfUserInfoExist:^{
+        SearchResualtViewController *resualtCtr = [[SearchResualtViewController alloc]init];
+        if (m_searchBa.text.length>0) {
+            resualtCtr.keyword = m_searchBa.text;
+            [weakSelf.navigationController pushViewController:resualtCtr animated:YES];
+        }
+    }];
     
-    SearchResualtViewController *resualtCtr = [[SearchResualtViewController alloc]init];
-    if (m_searchBa.text.length>0) {
-        resualtCtr.keyword = m_searchBa.text;
-        [self.navigationController pushViewController:resualtCtr animated:YES];
-    }
 }
 
 #pragma mark - TLCityPickerDelegate

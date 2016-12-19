@@ -14,7 +14,8 @@
         hander();
     }else{
         UserLoginController *a = [[UserLoginController alloc]init];
-        MainNavViewController *naVC = [[MainNavViewController alloc]initWithRootViewController:a];
+        UINavigationController *naVC = [[UINavigationController alloc]initWithRootViewController:a];
+        naVC.navigationBar.translucent = NO;
         [self.navigationController presentViewController:naVC animated:YES completion:nil];
         
     }

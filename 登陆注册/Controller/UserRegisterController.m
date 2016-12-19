@@ -42,7 +42,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    self.navigationItem.title = @"手机号注册";
+    self.navigationItem.title = @"注册";
     [self initUserRegisterView];
 }
 
