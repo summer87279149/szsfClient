@@ -29,6 +29,8 @@
         self.backgroundColor = [UIColor clearColor];
         self.imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"ToShopCellBG"]];
         imageView.backgroundColor = [UIColor clearColor];
+        imageView.layer.cornerRadius = 2;
+        imageView.layer.masksToBounds = YES;
         [self addSubview:imageView];
         
         self.titleLbl = [[UILabel alloc]init];

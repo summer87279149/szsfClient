@@ -18,7 +18,7 @@
 #import "HeaderView.h"
 #import "bottonBtn.h"
 
-@interface MallViewController ()<WYScrollViewNetDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
+@interface MallViewController ()<WYScrollViewNetDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate>
 {
     WYScrollView *WYNetScrollView;
     NSMutableArray *NetImageArray;
@@ -83,7 +83,8 @@
     [self.collectionView registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:@"CELL"];
     [self.collectionView registerClass:[header class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeadView"];
     [self.view addSubview:self.collectionView];
-    self.collectionView.showsVerticalScrollIndicator = NO;
+    self.collectionView.alwaysBounceVertical = YES;
+//    self.collectionView.showsVerticalScrollIndicator = NO;
     [self setupRefresh];
     
 }

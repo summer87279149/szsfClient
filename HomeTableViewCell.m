@@ -41,6 +41,8 @@
         imgView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"placeholder"]];
         imgView.backgroundColor = [UIColor clearColor];
         [self addSubview:imgView];
+        imgView.layer.cornerRadius = 2;
+        imgView.layer.masksToBounds = YES;
         
         nameLbl = [[UILabel alloc]init];
         nameLbl.text = @"虹桥养生堂江平路店";

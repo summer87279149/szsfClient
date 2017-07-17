@@ -32,6 +32,7 @@
     tableview.dataSource = self;
     tableview.backgroundColor = [UIColor clearColor];
     tableview.separatorColor = COLOR;
+    tableview.tableFooterView = [UIView new];
     [self setupRefresh];
     [self.view addSubview: tableview];
 }

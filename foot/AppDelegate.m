@@ -91,7 +91,7 @@
     }];
 
    //　先调用友盟，然后才能调用微信注册信息
-    [WXApi registerApp:@"wx981099fb2508da9a" withDescription:@"神州师傅"];
+    [WXApi registerApp:@"wx981099fb2508da9a" withDescription:@"息息脚"];
 
     return YES;
 }

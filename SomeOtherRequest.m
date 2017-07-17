@@ -2,42 +2,34 @@
 
 #import "SomeOtherRequest.h"
 #import "UserTool.h"
+
 @implementation SomeOtherRequest{
     UIViewController *currentVC;
 }
+
 +(void)UserFocusTecWithTecID:(NSString *)TecID UserID:(NSString *)user success:(void (^)(id response))xt_success error:(Error)xt_error{
-    
     NSDictionary *prama = @{@"userid":user,@"tid":TecID};
     [XTRequestManager GET:kUserAddFocusTec parameters:prama responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
-
         xt_success(responseObject);
     } failure:^(NSError *error) {
-        
-
         xt_error(error);
     }];
 }
+
 +(void)UserCancelFocusWithTecID:(NSString *)TecID UserID:(NSString *)user success:(void (^)(id response))xt_success error:(Error)xt_error{
     NSDictionary *prama = @{@"userid":user,@"tid":TecID};
     [XTRequestManager GET:kUserCancelFocusTec parameters:prama responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
-        
         xt_success(responseObject);
     } failure:^(NSError *error) {
-        
-        
         xt_error(error);
     }];
-
 }
 
 +(void)GetMyFocusTecWithUserID:(NSString *)user success:(void (^)(id response))xt_success error:(Error)xt_error{
     NSDictionary *prama = @{@"userid":user};
     [XTRequestManager GET:kUserFocusTec parameters:prama responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {
-        
         xt_success(responseObject);
     } failure:^(NSError *error) {
-        
-        
         xt_error(error);
     }];
 }
@@ -62,6 +54,7 @@
         xt_error(error);
     }];
 }
+
 +(void)GetMineInfoWithUserID:(NSString *)userID success:(Success)xt_success error:(Error)xt_error{
       NSDictionary *prama = @{@"userid":userID};
     [XTRequestManager GET:kMinePage parameters:prama responseSeializerType:NHResponseSeializerTypeDefault success:^(id responseObject) {

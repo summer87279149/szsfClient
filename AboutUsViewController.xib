@@ -1,8 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -13,20 +16,25 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="homeVCBackgroundImage" translatesAutoresizingMaskIntoConstraints="NO" id="jmN-Nd-hVN"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="homeVCBackgroundImage" translatesAutoresizingMaskIntoConstraints="NO" id="jmN-Nd-hVN">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9JB-BE-HTx">
+                    <rect key="frame" x="46" y="98" width="280" height="251"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="height242" translatesAutoresizingMaskIntoConstraints="NO" id="FJe-p9-L1w">
+                            <rect key="frame" x="0.0" y="0.0" width="280" height="251"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                     <integer key="value" value="5"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                         </imageView>
-                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="关于我们：神州师傅由扬州亮点网络技术有限公司于2016年创建，是一款方便快捷的养生理疗类手机应用，我们竭诚为您提供最优质的服务，神州师傅致力于打造全民养生理疗平台，为您打造最贴心的私人理疗服务。" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="9VT-ZF-4Ze">
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="关于我们：息息脚由扬州亮点网络技术有限公司于2016年创建，是一款方便快捷的养生理疗类手机应用，我们竭诚为您提供最优质的服务，息息脚致力于打造全民养生理疗平台，为您打造最贴心的私人理疗服务。" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="9VT-ZF-4Ze">
+                            <rect key="frame" x="0.0" y="0.0" width="280" height="251"/>
                             <color key="textColor" red="0.23137254900000001" green="0.16078431369999999" blue="0.20784313730000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -50,13 +58,16 @@
                     </userDefinedRuntimeAttributes>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JwX-aV-rbG">
+                    <rect key="frame" x="67" y="533" width="241" height="114"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright©️2016 － 2023" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7zk-3i-aEO">
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <rect key="frame" x="12" y="33" width="217" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="扬州亮点网络技术有限公司" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dQ7-Y0-Aez">
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <rect key="frame" x="-2" y="63" width="245" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
@@ -64,6 +75,7 @@
                         <constraint firstItem="dQ7-Y0-Aez" firstAttribute="centerX" secondItem="JwX-aV-rbG" secondAttribute="centerX" id="ACQ-em-DSN"/>
                         <constraint firstItem="dQ7-Y0-Aez" firstAttribute="top" secondItem="7zk-3i-aEO" secondAttribute="bottom" constant="13" id="BXe-gp-MQi"/>
                         <constraint firstItem="7zk-3i-aEO" firstAttribute="top" secondItem="JwX-aV-rbG" secondAttribute="top" constant="33" id="R3i-cw-i1a"/>
+                        <constraint firstAttribute="bottom" secondItem="dQ7-Y0-Aez" secondAttribute="bottom" constant="34" id="eK6-wx-W00"/>
                         <constraint firstItem="7zk-3i-aEO" firstAttribute="centerX" secondItem="JwX-aV-rbG" secondAttribute="centerX" id="q1W-cs-f7x"/>
                         <constraint firstItem="dQ7-Y0-Aez" firstAttribute="leading" secondItem="JwX-aV-rbG" secondAttribute="leading" constant="-2" id="sJo-cU-xEF"/>
                         <constraint firstItem="7zk-3i-aEO" firstAttribute="leading" secondItem="JwX-aV-rbG" secondAttribute="leading" constant="12" id="sly-Nb-ZzZ"/>
@@ -83,14 +95,13 @@
                 <constraint firstItem="JwX-aV-rbG" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="YMh-m7-Fld"/>
                 <constraint firstItem="9JB-BE-HTx" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="98" id="bgR-7A-3XN"/>
                 <constraint firstItem="jmN-Nd-hVN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="bt6-oY-bq4"/>
-                <constraint firstAttribute="bottom" secondItem="JwX-aV-rbG" secondAttribute="bottom" constant="123" id="cgc-Wa-vng"/>
+                <constraint firstAttribute="bottom" secondItem="JwX-aV-rbG" secondAttribute="bottom" constant="20" id="cgc-Wa-vng"/>
                 <constraint firstAttribute="trailing" secondItem="9JB-BE-HTx" secondAttribute="trailing" constant="49" id="iKI-le-pAD"/>
                 <constraint firstAttribute="bottom" secondItem="jmN-Nd-hVN" secondAttribute="bottom" id="mY7-i6-LTf"/>
                 <constraint firstAttribute="bottom" secondItem="9JB-BE-HTx" secondAttribute="bottom" constant="318" id="phH-I1-fEy"/>
-                <constraint firstItem="JwX-aV-rbG" firstAttribute="top" secondItem="9JB-BE-HTx" secondAttribute="bottom" constant="67" id="qJK-5s-lV0"/>
                 <constraint firstItem="jmN-Nd-hVN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="wfz-sO-tjx"/>
             </constraints>
-            <point key="canvasLocation" x="226" y="101"/>
+            <point key="canvasLocation" x="225.5" y="100.5"/>
         </view>
     </objects>
     <resources>

@@ -272,12 +272,12 @@
     [m_searchBa resignFirstResponder];
     
     [self  uploadLatAndLon];
-    [UMSocialData defaultData].extConfig.title = @"神州师傅";
+    [UMSocialData defaultData].extConfig.title = @"息息脚";
     [UMSocialData defaultData].extConfig.wechatSessionData.url = @"https://appsto.re/cn/L4MPfb.i";
     [UMSocialData defaultData].extConfig.wechatTimelineData.url = @"https://appsto.re/cn/L4MPfb.i";
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:UmengAppkey
-                                      shareText:@"欢迎使用神州师傅"
+                                      shareText:@"欢迎使用息息脚"
                                      shareImage:[UIImage imageNamed:@"AppIcon"]
                                 shareToSnsNames:@[UMShareToWechatSession,UMShareToWechatTimeline]
                                        delegate:self];

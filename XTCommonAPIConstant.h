@@ -13,7 +13,6 @@
 /** 上传经纬度*/
 UIKIT_EXTERN NSString *const XTUploadLinAndLon;
 
-
 #pragma mark - DISCOVER / 到店
 UIKIT_EXTERN NSString *const kXTGoToShop;
 //提交项目订单

@@ -109,6 +109,7 @@
         NSLog(@"提交评价结果是:%@",response);
         NSDictionary *res = response;
         if ([res[@"status"] isEqualToString:@"success"]) {
+            HIDEHUDWeakSelf
             [MBProgressHUD showSuccess:@"评价成功"];
             [SomeOtherRequest makeSureOrderHasCompleted:weakSelf.orderNumber status:@"3" success:^(id response) {
                 HIDEHUDWeakSelf
